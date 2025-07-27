@@ -31,7 +31,7 @@ class Config with Logging {
 
   @override
   String toString() {
-    Type clazz = runtimeType;
+    String clazz = className;
     return '<$clazz url="$entrance">\n$_info\n</$clazz>';
   }
 

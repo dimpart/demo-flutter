@@ -160,7 +160,7 @@ abstract class Conversation with Logging implements lnc.Observer {
 
   @override
   String toString() {
-    Type clazz = runtimeType;
+    String clazz = className;
     return '<$clazz id="$identifier" type=$type name="$name" muted=$isMuted>\n'
         '\t<unread>$unread</unread>\n'
         '\t<msg>$subtitle</msg>\n'

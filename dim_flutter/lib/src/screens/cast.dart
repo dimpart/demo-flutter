@@ -92,7 +92,7 @@ class _CastScreenDevice extends ScreenDevice with Logging {
 
   @override
   String toString() {
-    Type clazz = runtimeType;
+    String clazz = className;
     return '<$clazz uuid="$uuid" type="$deviceType" name="$friendlyName">\n\t${_tv.client}\n</$clazz>';
   }
 

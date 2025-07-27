@@ -6,7 +6,7 @@ import 'package:dim_client/common.dart';
 import '../common/dbi/network.dart';
 import '../client/shared.dart';
 
-class NeighborInfo {
+class NeighborInfo with Logging {
   NeighborInfo(this.host, this.port, {required this.provider, required this.chosen});
 
   final String host;
@@ -22,7 +22,7 @@ class NeighborInfo {
 
   @override
   String toString() {
-    Type clazz = runtimeType;
+    String clazz = className;
     return '<$clazz host="$host" port=$port pid="$provider" chosen=$chosen>\n'
         '\tID: $identifier, name: $name, speed: $responseTime @ $testTime\n'
         '</$clazz>';

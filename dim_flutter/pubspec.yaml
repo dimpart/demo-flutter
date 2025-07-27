@@ -60,10 +60,10 @@ dependencies:
 
   mutex: ^3.1.0
 
-#  object_key: 1.1.0
-#  lnc: 1.1.0
-#  startrek: 1.1.0
-#  stargate: 1.0.0
+#  object_key: 1.1.1
+#  lnc: 1.2.1
+#  startrek: 1.1.1
+#  stargate: 1.1.0
 
 #  mkm: 2.1.1
 #  dkd: 2.1.1
@@ -72,7 +72,7 @@ dependencies:
 #  dim_plugins: 2.1.1
   dim_client: 1.0.6
 
-  pnf: 1.2.2
+  pnf: 1.2.3
   tvbox: 1.0.0
 
 dev_dependencies:

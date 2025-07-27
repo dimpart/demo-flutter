@@ -28,10 +28,11 @@
  * SOFTWARE.
  * =============================================================================
  */
+import 'package:dim_client/ok.dart';
 import 'package:dim_client/sdk.dart';
 
 
-class ContactRemark {
+class ContactRemark with Logging {
   ContactRemark(this.identifier, {required this.alias, required this.description});
 
   final ID identifier;
@@ -40,7 +41,7 @@ class ContactRemark {
 
   @override
   String toString() {
-    Type clazz = runtimeType;
+    String clazz = className;
     return '<$clazz id="$identifier" alias="$alias" desc="$description" />';
   }
 

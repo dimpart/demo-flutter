@@ -33,11 +33,11 @@ import 'package:dim_client/ws.dart';
 
 
 /// Castable Device
-abstract class ScreenDevice {
+abstract class ScreenDevice with Logging {
 
   @override
   String toString() {
-    Type clazz = runtimeType;
+    String clazz = className;
     return '<$clazz uuid="$uuid" type="$deviceType" name="$friendlyName" />';
   }
 

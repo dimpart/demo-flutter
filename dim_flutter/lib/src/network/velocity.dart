@@ -41,7 +41,7 @@ import '../client/shared.dart';
 
 import 'station_speed.dart';
 
-class VelocityMeter {
+class VelocityMeter with Logging {
   VelocityMeter(this.info);
 
   final NeighborInfo info;
@@ -58,7 +58,7 @@ class VelocityMeter {
 
   @override
   String toString() {
-    Type clazz = runtimeType;
+    String clazz = className;
     return '<$clazz host="$host", port=$port id="$identifier" rt=$responseTime />';
   }
 
