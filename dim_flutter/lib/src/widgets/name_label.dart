@@ -66,14 +66,14 @@ class _NameState extends State<NameLabel> implements lnc.Observer {
   @override
   Future<void> onReceiveNotification(lnc.Notification notification) async {
     String name = notification.name;
-    Map? info = notification.userInfo;
+    Map? userInfo = notification.userInfo;
     if (name == NotificationNames.kDocumentUpdated) {
-      ID? identifier = info?['ID'];
+      ID? identifier = userInfo?['ID'];
       if (identifier == widget.info.identifier) {
         await _reload();
       }
     } else if (name == NotificationNames.kRemarkUpdated) {
-      ID? identifier = info?['contact'];
+      ID? identifier = userInfo?['contact'];
       if (identifier == widget.info.identifier) {
         await _reload();
       }

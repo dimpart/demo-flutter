@@ -28,16 +28,16 @@ class Vestibule implements Observer {
   @override
   Future<void> onReceiveNotification(Notification notification) async {
     String name = notification.name;
-    Map? info = notification.userInfo;
+    Map? userInfo = notification.userInfo;
     assert(name == NotificationNames.kMembersUpdated
         || name == NotificationNames.kDocumentUpdated
         || name == NotificationNames.kMetaSaved, 'name error: $notification');
-    assert(info != null, 'user info error: $notification');
+    assert(userInfo != null, 'user info error: $notification');
     GlobalVariable shared = GlobalVariable();
     ClientFacebook facebook = shared.facebook;
 
     // check conversation ID
-    ID? entity = ID.parse(info?['ID']);
+    ID? entity = ID.parse(userInfo?['ID']);
     if (entity == null) {
       assert(false, 'conversation ID not found');
       return;

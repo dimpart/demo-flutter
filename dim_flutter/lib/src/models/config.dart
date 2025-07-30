@@ -50,7 +50,8 @@ class Config with Logging {
     ID? uid;
     for (var item in array) {
       if (item is Map) {
-        uid = ID.parse(item['ID']);
+        uid = ID.parse(item['did']);
+        uid ??= ID.parse(item['ID']);
       } else {
         uid = ID.parse(item);
       }
@@ -71,7 +72,8 @@ class Config with Logging {
     ID? uid;
     for (var item in array) {
       if (item is Map) {
-        uid = ID.parse(item['ID']);
+        uid = ID.parse(item['did']);
+        uid ??= ID.parse(item['ID']);
       } else {
         uid = ID.parse(item);
       }
@@ -92,7 +94,8 @@ class Config with Logging {
     ID? uid;
     for (var item in array) {
       if (item is Map) {
-        uid = ID.parse(item['ID']);
+        uid = ID.parse(item['did']);
+        uid ??= ID.parse(item['ID']);
       } else {
         uid = ID.parse(item);
       }
@@ -106,7 +109,7 @@ class Config with Logging {
   /// Service Bots
   List get services => _info?['services'] ?? [];
 
-  ID? get provider => ID.parse(_info?['ID']);
+  ID? get provider => ID.parse(_info?['did']) ?? ID.parse(_info?['ID']);
 
   /// Base stations
   List get stations => _info?['stations'] ?? [];

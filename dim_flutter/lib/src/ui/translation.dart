@@ -1,5 +1,4 @@
 
-import 'package:dim_client/common.dart';
 import 'package:dim_client/ok.dart';
 import 'package:dim_client/sdk.dart';
 
@@ -138,13 +137,13 @@ class Translator with Logging implements Observer {
   @override
   Future<void> onReceiveNotification(Notification notification) async {
     String name = notification.name;
-    Map? info = notification.userInfo;
+    Map? userInfo = notification.userInfo;
     if (name == NotificationNames.kTranslatorWarning) {
-      ID? sender = info?['sender'];
-      TranslateContent? content = info?['content'];
+      ID? sender = userInfo?['sender'];
+      TranslateContent? content = userInfo?['content'];
       TranslateResult? result = content?.result;
       if (sender == null) {
-        logError('translator error: $info');
+        logError('translator error: $userInfo');
       } else {
         var text = result?.translation;
         text ??= result?.text;

@@ -116,12 +116,12 @@ class _VideoAppState extends State<VideoPlayerPage> with Logging implements lnc.
   @override
   Future<void> onReceiveNotification(lnc.Notification notification) async {
     String name = notification.name;
-    Map? info = notification.userInfo;
+    Map? userInfo = notification.userInfo;
     if (name == NotificationNames.kVideoPlayerPlay) {
-      Uri? url = info?['url'] ?? info?['URL'];
-      String? title = info?['title'];
+      Uri? url = userInfo?['url'] ?? userInfo?['URL'];
+      String? title = userInfo?['title'];
       if (url == null || title == null) {
-        assert(false, 'video play info error: $info');
+        assert(false, 'video play info error: $userInfo');
       } else {
         await _changeVideo(url, title);
       }

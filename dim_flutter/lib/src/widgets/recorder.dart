@@ -42,10 +42,10 @@ class _RecordState extends State<RecordButton> implements lnc.Observer {
   @override
   Future<void> onReceiveNotification(lnc.Notification notification) async {
     String name = notification.name;
-    Map? info = notification.userInfo;
+    Map? userInfo = notification.userInfo;
     if (name == NotificationNames.kRecordFinished) {
-      Uint8List data = info?['data'];
-      double duration = info?['duration'];
+      Uint8List data = userInfo?['data'];
+      double duration = userInfo?['duration'];
       if (_position.dy > 0.0) {
         Log.debug('stop record, send: $_position, ${duration}s, ${data.length} bytes');
         widget.onComplected(data, duration);

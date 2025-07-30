@@ -41,16 +41,16 @@ class _GroupImageState extends State<GroupImage> implements lnc.Observer {
   @override
   Future<void> onReceiveNotification(lnc.Notification notification) async {
     String name = notification.name;
-    Map? info = notification.userInfo;
+    Map? userInfo = notification.userInfo;
     if (name == NotificationNames.kMembersUpdated) {
-      ID? identifier = info?['ID'];
+      ID? identifier = userInfo?['ID'];
       if (identifier == null) {
         Log.error('notification error: $notification');
       } else if (identifier == widget.info.identifier) {
         await _reload();
       }
     } else if (name == NotificationNames.kParticipantsUpdated) {
-      ID? identifier = info?['ID'];
+      ID? identifier = userInfo?['ID'];
       if (identifier == null) {
         Log.error('notification error: $notification');
       } else if (identifier == widget.info.identifier) {

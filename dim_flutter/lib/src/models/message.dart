@@ -94,7 +94,7 @@ abstract class MessageBuilder with Logging {
     logInfo('template: $template');
     String text = template;
     replacements.forEach((key, value) {
-      if (key == 'ID' || key == 'sender' || key == 'receiver' || key == 'group') {
+      if (key == 'ID' || key == 'did' || key == 'sender' || key == 'receiver' || key == 'group') {
         ID? identifier = ID.parse(value);
         if (identifier != null) {
           value = getName(identifier);

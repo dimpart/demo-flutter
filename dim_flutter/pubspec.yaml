@@ -70,7 +70,7 @@ dependencies:
 #  dimp: 2.1.1
 #  dimsdk: 2.1.1
 #  dim_plugins: 2.1.1
-  dim_client: 1.0.6
+  dim_client: 1.0.7
 
   pnf: 1.3.0
   tvbox: 1.0.0

@@ -441,7 +441,11 @@ class Amanuensis with Logging {
       logWarning('ignore receipt for customized content: ${env.sender} -> ${env.receiver}, ${env.type}');
       return true;
     }
-    Map mta = {'ID': iMsg.sender.toString(), 'time': content['time']};
+    Map mta = {
+      'ID': iMsg.sender.toString(),
+      'did': iMsg.sender.toString(),
+      'time': content['time'],
+    };
     // trace info
     String trace = JSON.encode(mta);
     ID cid = await _cid(env, null);
