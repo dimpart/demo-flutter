@@ -145,19 +145,18 @@ abstract class PortableNetworkState<T extends PortableNetworkView>
     Map? userInfo = notification.userInfo;
     PortableNetworkFile? pnf = userInfo?['PNF'];
     String? filename = pnf?.filename;
+    int? sn = pnf?['sn'];
     Uri? url = userInfo?['URL'];
     // checking
     bool isMatched = false;
     if (notification.sender == widget.loader) {
       isMatched = true;
-    } else if (pnf?['sn'] == widget.pnf?['sn']) {
+    } else if (sn != null && sn == widget.pnf?['sn']) {
       isMatched = true;
-    } else if (url != null) {
-      isMatched = url == widget.pnf?.url;
-    } else {
-      var filename1 = pnf?.filename;
-      var filename2 = widget.pnf?.filename;
-      isMatched = filename1 == filename2;
+    } else if (url != null && url == widget.pnf?.url) {
+      isMatched = true;
+    } else if (filename != null && filename == widget.pnf?.filename) {
+      isMatched = true;
     }
     if (!isMatched) {
       // not for this view
