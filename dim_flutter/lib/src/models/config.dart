@@ -1,18 +1,14 @@
-import 'package:flutter/services.dart';
-
 import 'package:dim_client/sdk.dart';
 import 'package:dim_client/ok.dart';
 import 'package:dim_client/ok.dart' as lnc;
 import 'package:dim_client/group.dart';
 
-import 'package:pnf/dos.dart';
 import 'package:pnf/enigma.dart';
-import 'package:pnf/http.dart';
 
 import '../common/constants.dart';
-import '../filesys/local.dart';
 import '../filesys/upload.dart';
-import '../utils/html.dart';
+
+import 'config_loader.dart';
 import 'newest.dart';
 
 
@@ -107,12 +103,28 @@ class Config with Logging {
   }
 
   /// Service Bots
-  List get services => _info?['services'] ?? [];
+  List get services {
+    var array = _info?['services'];
+    if (array is List) {
+      return array;
+    }
+    assert(array == null, 'services error: $array');
+    return [];
+  }
+  // List get services => _info?['services'] ?? [];
 
   ID? get provider => ID.parse(_info?['did']) ?? ID.parse(_info?['ID']);
 
   /// Base stations
-  List get stations => _info?['stations'] ?? [];
+  List get stations {
+    var array = _info?['stations'];
+    if (array is List) {
+      return array;
+    }
+    assert(array == null, 'stations error: $array');
+    return [];
+  }
+  // List get stations => _info?['stations'] ?? [];
 
   // 'http://tfs.dim.chat:8081/upload/{ID}/avatar?md5={MD5}&salt={SALT}&enigma=123456'
   // 'http://106.52.25.169:8081/upload/{ID}/file?md5={MD5}&salt={SALT}&enigma=123456'
@@ -142,7 +154,7 @@ class Config with Logging {
       //
       //  1. load from cache path
       //
-      var loader = _ConfigLoader();
+      var loader = ConfigLoader();
       cnf = await loader.loadConfig();
       //
       //  2. if cache not found, load from assets
@@ -183,74 +195,6 @@ void _initWithConfig(Config config) {
   // update file uploader
   var ftp = SharedFileUploader();
   ftp.initWithConfig(config);
-}
-
-
-class _ConfigLoader with Logging {
-
-  Future<Map> loadAssetsFile(String assets) async {
-    String json = await rootBundle.loadString(assets);
-    var cnf = JSONMap.decode(json);
-    if (cnf == null) {
-      assert(false, 'config assets error: $assets -> $json');
-      cnf = {};
-    }
-    return cnf;
-  }
-
-  Future<String> _cachePath() async {
-    String dir = await LocalStorage().cachesDirectory;
-    return Paths.append(dir, 'config.json');
-  }
-
-  Future<Map?> loadConfig() async {
-    String path = await _cachePath();
-    if (await Paths.exists(path)) {
-      // file exists, trying to load
-      return await ExternalStorage.loadJsonMap(path);
-    } else {
-      logError('config file not exists: $path');
-      return null;
-    }
-  }
-
-  Future<bool> saveConfig(Map cnf) async {
-    String path = await _cachePath();
-    try {
-      int size = await ExternalStorage.saveJsonMap(cnf, path);
-      return size > 0;
-    } catch (e, st) {
-      logError('failed to save config: $path, $e, $st');
-      return false;
-    }
-  }
-
-  Future<Map?> downloadConfig(String entrance) async {
-    var url = HtmlUri.parseUri(entrance);
-    if (url == null) {
-      assert(false, 'config URL error: $entrance');
-      return null;
-    }
-    var http = FileDownloader(HTTPClient());
-    Uint8List? data = await http.download(url);
-    if (data == null) {
-      logWarning('failed to download config: $url');
-      return null;
-    }
-    String? text = UTF8.decode(data);
-    if (text == null) {
-      assert(false, 'data error: ${data.length} bytes');
-      return null;
-    }
-    Map? cnf = JSONMap.decode(text);
-    if (cnf == null) {
-      assert(false, 'config error: $text');
-      return null;
-    }
-    logInfo('new config: $text');
-    return cnf;
-  }
-
 }
 
 
