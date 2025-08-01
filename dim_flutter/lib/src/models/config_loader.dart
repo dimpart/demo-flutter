@@ -45,7 +45,8 @@ class ConfigLoader with Logging {
       if (config == null) {
         assert(false, 'config assets error: $assets -> $json');
       } else {
-        return await _updateBranches(config);
+        // await _updateBranches(config);
+        return config;
       }
     } catch (e, st) {
       logError('failed to load config from assets: $assets, error: $e, $st');
@@ -64,9 +65,10 @@ class ConfigLoader with Logging {
     logInfo('loading config: $path');
     Map? config = await ConfigStorage.load(path);
     if (config != null) {
-      return await _updateBranches(config);
+      // await _updateBranches(config);
+      return config;
     }
-    assert(false, 'failed to load config: $path');
+    // assert(false, 'failed to load config: $path');
     return null;
   }
 

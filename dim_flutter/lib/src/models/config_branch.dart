@@ -171,9 +171,9 @@ abstract interface class ConfigServer {
       Log.info('downloaded json: $remote -> $text');
       return info;
     } catch (e, st) {
-      Log.error('failed to download URL: $remote, error: $e, $st');
+      Log.error('failed to download: $remote, error: $e, $st');
     }
-    // error
+    assert(false, 'failed to download: $remote');
     return null;
   }
 
@@ -185,13 +185,11 @@ abstract interface class ConfigStorage {
     try {
       if (await Paths.exists(path)) {
         return await ExternalStorage.loadJsonMap(path);
-      } else {
-        assert(false, 'local file not exists: $path');
       }
     } catch (e, st) {
       Log.error('failed to load file: $path, error: $e, $st');
     }
-    // error
+    // assert(false, 'local file not exists: $path');
     return null;
   }
 
@@ -200,13 +198,11 @@ abstract interface class ConfigStorage {
       int size = await ExternalStorage.saveJsonMap(info, path);
       if (size > 0) {
         return true;
-      } else {
-        assert(false, 'failed to save file: $path');
       }
     } catch (e, st) {
       Log.error('failed to save file: $path, error: $e, $st');
     }
-    // error
+    assert(false, 'failed to save file: $path');
     return false;
   }
 

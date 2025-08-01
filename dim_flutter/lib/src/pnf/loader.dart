@@ -52,14 +52,14 @@ class PortableFileLoader {
     var ftp = SharedFileUploader();
     if (pnf.url == null) {
       var task = PortableFileUploadTask(pnf, ftp.enigma);
+      uploadTask = task;
       await ftp.addUploadTask(task);
       _plaintext = await task.plaintext;
-      uploadTask = task;
     } else {
       var task = PortableFileDownloadTask(pnf);
+      downloadTask = task;
       await ftp.addDownloadTask(task);
       // _plaintext = task.plaintext;
-      downloadTask = task;
     }
   }
 

@@ -92,8 +92,7 @@ class AvatarFactory {
   _AvatarImageLoader _createLoader(PortableNetworkFile pnf) {
     _AvatarImageLoader loader = _AvatarImageLoader(pnf);
     if (pnf.data == null) {
-      var ftp = SharedFileUploader();
-      loader.prepare().then((value) => ftp.addAvatarTask(loader.downloadTask!));
+      /*await */loader.prepare();
     }
     return loader;
   }
@@ -101,8 +100,7 @@ class AvatarFactory {
   _AvatarImageLoader _createUpper(PortableNetworkFile pnf) {
     _AvatarImageLoader loader = _AvatarImageLoader(pnf);
     if (pnf['enigma'] != null) {
-      var ftp = SharedFileUploader();
-      loader.prepare().then((value) => ftp.addUploadTask(loader.uploadTask!));
+      /*await */loader.prepare();
     }
     return loader;
   }
@@ -365,8 +363,8 @@ class _AvatarImageLoader extends PortableImageLoader {
     } else {
       var ftp = SharedFileUploader();
       var task = _AvatarDownloadTask(pnf);
-      await ftp.addAvatarTask(task);
       downloadTask = task;
+      await ftp.addAvatarTask(task);
     }
   }
 

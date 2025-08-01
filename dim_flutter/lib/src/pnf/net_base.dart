@@ -37,7 +37,6 @@ import 'package:dim_client/ok.dart';
 import 'package:dim_client/ok.dart' as lnc;
 
 import '../common/constants.dart';
-import '../filesys/upload.dart';
 
 import 'loader.dart';
 
@@ -75,8 +74,7 @@ class PortableNetworkFactory {
   PortableFileLoader _createLoader(PortableNetworkFile pnf) {
     PortableFileLoader loader = PortableFileLoader(pnf);
     if (pnf.data == null) {
-      var ftp = SharedFileUploader();
-      loader.prepare().then((value) => ftp.addDownloadTask(loader.downloadTask!));
+      /*await */loader.prepare();
     }
     return loader;
   }
@@ -84,8 +82,7 @@ class PortableNetworkFactory {
   PortableFileLoader _createUpper(PortableNetworkFile pnf) {
     PortableFileLoader loader = PortableFileLoader(pnf);
     if (pnf['enigma'] != null) {
-      var ftp = SharedFileUploader();
-      loader.prepare().then((value) => ftp.addUploadTask(loader.uploadTask!));
+      /*await */loader.prepare();
     }
     return loader;
   }

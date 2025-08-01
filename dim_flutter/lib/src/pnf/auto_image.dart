@@ -33,7 +33,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:dim_client/ok.dart';
 import 'package:dim_client/sdk.dart';
 
-import '../filesys/upload.dart';
 import '../ui/icons.dart';
 import '../ui/styles.dart';
 
@@ -120,8 +119,7 @@ class NetworkImageFactory {
   _ImageLoader _createLoader(PortableNetworkFile pnf) {
     _ImageLoader loader = _ImageLoader(pnf);
     if (pnf.data == null) {
-      var ftp = SharedFileUploader();
-      loader.prepare().then((value) => ftp.addDownloadTask(loader.downloadTask!));
+      /*await */loader.prepare();
     }
     return loader;
   }
@@ -129,8 +127,7 @@ class NetworkImageFactory {
   _ImageLoader _createUpper(PortableNetworkFile pnf) {
     _ImageLoader loader = _ImageLoader(pnf);
     if (pnf['enigma'] != null) {
-      var ftp = SharedFileUploader();
-      loader.prepare().then((value) => ftp.addUploadTask(loader.uploadTask!));
+      /*await */loader.prepare();
     }
     return loader;
   }
