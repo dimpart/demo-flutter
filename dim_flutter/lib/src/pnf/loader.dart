@@ -32,8 +32,6 @@ import 'dart:typed_data';
 
 import 'package:dim_client/ok.dart';
 import 'package:dim_client/sdk.dart';
-import 'package:pnf/dos.dart';
-import 'package:pnf/enigma.dart';
 import 'package:pnf/pnf.dart';
 
 import '../filesys/local.dart';

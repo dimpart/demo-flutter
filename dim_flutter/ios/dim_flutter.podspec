@@ -4,16 +4,16 @@
 #
 Pod::Spec.new do |s|
     s.name                  = 'dim_flutter'
-    s.version               = '0.0.1'
+    s.version               = '1.0.0'
     s.summary               = 'DIM Client'
     s.description           = <<-DESC
-            Flutter Channels for DIM Client
+DIM Client
                                 DESC
-    s.homepage              = 'https://github.com/dimchat/demo-flutter'
+    s.homepage              = 'https://github.com/dimpart/demo-flutter'
     s.license               = { :file => '../LICENSE' }
     s.author                = { 'Albert Moky' => 'albert.moky@gmail.com' }
     s.social_media_url      = "https://twitter.com/AlbertMoky"
-    s.source                = { :git => 'https://github.com/dimchat/demo-flutter.git', :tag => s.version.to_s }
+    s.source                = { :git => 'https://github.com/dimpart/demo-flutter.git', :tag => s.version.to_s }
     # s.platform            = :ios, "11.0"
     s.ios.deployment_target = '12.0'
 
