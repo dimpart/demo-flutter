@@ -6,6 +6,7 @@ import 'package:dim_client/common.dart';
 
 import 'chat.dart';
 import 'chat_group.dart';
+import 'msg_tmpl.dart';
 
 abstract class MessageBuilder with Logging {
 
@@ -75,9 +76,9 @@ abstract class MessageBuilder with Logging {
 
   String getText(Content content, ID sender) {
     try {
-      String? template = content['template'];
-      Map? replacements = content['replacements'];
-      if (template != null && replacements != null) {
+      var template = content['template'];
+      var replacements = content['replacements'];
+      if (template is String && replacements is Map) {
         return _getTempText(template, replacements);
       }
       if (content is Command) {
@@ -92,17 +93,20 @@ abstract class MessageBuilder with Logging {
 
   String _getTempText(String template, Map replacements) {
     logInfo('template: $template');
-    String text = template;
     replacements.forEach((key, value) {
-      if (key == 'ID' || key == 'did' || key == 'sender' || key == 'receiver' || key == 'group') {
+      // alternate did to name
+      if (key == 'ID' || key == 'did' ||
+          key == 'sender' || key == 'receiver' ||
+          key == 'group' || key == 'gid') {
         ID? identifier = ID.parse(value);
         if (identifier != null) {
           value = getName(identifier);
         }
       }
-      text = text.replaceAll('\${$key}', '$value');
+      // replace value for key
+      template = MessageTemplate.replaceTemplate(template, key: key, value: value);
     });
-    return text;
+    return template;
   }
 
   String _getContentText(Content content) {

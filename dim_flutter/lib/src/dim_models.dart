@@ -10,6 +10,7 @@ export 'models/chat_group.dart';
 export 'models/amanuensis.dart';
 export 'models/vestibule.dart';
 export 'models/message.dart';
+export 'models/msg_tmpl.dart';
 export 'models/station.dart';
 export 'models/shield.dart';
 export 'models/editing.dart';
