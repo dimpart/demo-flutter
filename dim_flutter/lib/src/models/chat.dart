@@ -240,6 +240,18 @@ abstract class Conversation with Logging implements lnc.Observer {
   }
 
   void block({required BuildContext context}) {
+    // check managers
+    GlobalVariable shared = GlobalVariable();
+    List<ID> managers = shared.config.managers;
+    if (managers.contains(identifier)) {
+      logWarning('cannot block manager: $identifier, $managers');
+      if (context.mounted) {
+        Alert.show(context, 'Unblocked',
+          'Cannot block this contact'.tr,
+        );
+      }
+      return;
+    }
     _blocked = true;
     // update database and broadcast
     Shield shield = Shield();

@@ -31,75 +31,28 @@ class Config with Logging {
     return '<$clazz url="$entrance">\n$_info\n</$clazz>';
   }
 
-  ID? get webmaster {
-    var admin = _info?['webmaster'];
-    return ID.parse(admin);
+  /// Web masters
+  List<ID> get managers {
+    var array = _info?['managers'];
+    return _IDUtils.convert(array);
   }
 
   /// Default contacts
   List<ID> get contacts {
-    List? array = _info?['contacts'];
-    if (array == null || array.isEmpty) {
-      return [];
-    }
-    List<ID> users = [];
-    ID? uid;
-    for (var item in array) {
-      if (item is Map) {
-        uid = ID.parse(item['did']);
-        uid ??= ID.parse(item['ID']);
-      } else {
-        uid = ID.parse(item);
-      }
-      if (uid != null) {
-        users.add(uid);
-      }
-    }
-    return users;
+    var array = _info?['contacts'];
+    return _IDUtils.convert(array);
   }
 
   /// Service bots for translation
   List<ID> get translators {
-    List? array = _info?['translators'];
-    if (array == null || array.isEmpty) {
-      return [];
-    }
-    List<ID> bots = [];
-    ID? uid;
-    for (var item in array) {
-      if (item is Map) {
-        uid = ID.parse(item['did']);
-        uid ??= ID.parse(item['ID']);
-      } else {
-        uid = ID.parse(item);
-      }
-      if (uid != null) {
-        bots.add(uid);
-      }
-    }
-    return bots;
+    var array = _info?['translators'];
+    return _IDUtils.convert(array);
   }
 
   /// Common assistants for group
   List<ID> get assistants {
-    List? array = _info?['assistants'];
-    if (array == null || array.isEmpty) {
-      return [];
-    }
-    List<ID> bots = [];
-    ID? uid;
-    for (var item in array) {
-      if (item is Map) {
-        uid = ID.parse(item['did']);
-        uid ??= ID.parse(item['ID']);
-      } else {
-        uid = ID.parse(item);
-      }
-      if (uid != null) {
-        bots.add(uid);
-      }
-    }
-    return bots;
+    var array = _info?['assistants'];
+    return _IDUtils.convert(array);
   }
 
   /// Service Bots
@@ -113,7 +66,7 @@ class Config with Logging {
   }
   // List get services => _info?['services'] ?? [];
 
-  ID? get provider => ID.parse(_info?['did']) ?? ID.parse(_info?['ID']);
+  ID? get provider => _IDUtils.getIdentifier(_info);
 
   /// Base stations
   List get stations {
@@ -254,6 +207,35 @@ abstract interface class _APIUtils {
     }
     String? enigma = api['enigma'];
     return enigma == null ? url : Template.replaceQueryParam(url, 'enigma', enigma);
+  }
+
+}
+
+
+abstract interface class _IDUtils {
+
+  static List<ID> convert(dynamic array) {
+    if (array == null || array is! List) {
+      return [];
+    }
+    List<ID> users = [];
+    ID? uid;
+    for (var item in array) {
+      uid = getIdentifier(item);
+      if (uid != null) {
+        users.add(uid);
+      }
+    }
+    return users;
+  }
+
+  static ID? getIdentifier(dynamic info) {
+    if (info == null) {
+      return null;
+    } else if (info is Map) {
+      info = info['did'] ?? info['ID'];
+    }
+    return ID.parse(info);
   }
 
 }

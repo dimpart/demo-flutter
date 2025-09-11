@@ -31,6 +31,17 @@ class Shield {
     }
     List<ID> contacts = await getBlockList();
     Log.info('broadcast block-list command: $contacts');
+    // ignore managers
+    List<ID> managers = shared.config.managers;
+    if (managers.isNotEmpty) {
+      Log.info('check managers: $managers');
+      Set<ID> blockList = contacts.toSet();
+      blockList.removeWhere((did) => managers.contains(did));
+      if (blockList.length < contacts.length) {
+        Log.info('broadcast block-list command: $blockList (${contacts.length} -> ${blockList.length})');
+        contacts = blockList.toList();
+      }
+    }
     BlockCommand command = BlockCommand.fromList(contacts);
     // broadcast 'block-list' to all stations,
     // so that the blocked user's message will be stopped at the first station.
