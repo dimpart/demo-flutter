@@ -67,7 +67,7 @@ class _LiveChannelListState extends State<LiveChannelListPage> implements lnc.Ob
   @override
   void dispose() {
     var nc = lnc.NotificationCenter();
-    nc.removeObserver(this, NotificationNames.kDocumentUpdated);
+    nc.removeObserver(this, LiveChannelListPage.kPlayerChannelsRefresh);
     super.dispose();
   }
 

@@ -393,8 +393,15 @@ class Amanuensis with Logging {
       var app = content['app'];
       var mod = content['mod'];
       var act = content['act'];
-      logInfo('ignore customized content: $app, $mod, $act from: ${iMsg.sender}');
-      return true;
+      if (content.getBool('hidden') == true) {
+        logInfo('ignore hidden content: $app, $mod, $act from: ${iMsg.sender}');
+        return true;
+      } else if (app == 'chat.dim.search' && mod == 'users') {
+        logInfo('show active users: ${content["users"]}');
+      } else {
+        logInfo('ignore content: $app, $mod, $act from: ${iMsg.sender}');
+        return true;
+      }
     }
 
     if (content is InviteCommand) {

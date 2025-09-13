@@ -1,5 +1,4 @@
 
-import 'package:dim_client/common.dart';
 import 'package:dim_client/group.dart';
 import 'package:dim_client/client.dart';
 
@@ -78,7 +77,7 @@ class GlobalVariable {
   /// Step 3: create facebook
   static ClientFacebook createFacebook(SharedDatabase db) {
     var facebook = ClientFacebook(db);
-    facebook.barrack = CommonArchivist(facebook, db);
+    facebook.barrack = ClientArchivist(facebook, db);
     facebook.entityChecker = ClientChecker(facebook, db);
     // set for group manager
     SharedGroupManager man = SharedGroupManager();
