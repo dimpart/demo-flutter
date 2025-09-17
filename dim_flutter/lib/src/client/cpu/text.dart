@@ -1,5 +1,6 @@
 
 import 'package:dim_client/ok.dart';
+import 'package:dim_client/pnf.dart' show MD5;
 import 'package:dim_client/sdk.dart';
 
 import '../../common/constants.dart';

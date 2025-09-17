@@ -33,7 +33,7 @@ import 'dart:typed_data';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
-import 'package:pnf/pnf.dart';
+import 'package:dim_client/pnf.dart';
 
 import '../ui/icons.dart';
 

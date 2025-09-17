@@ -2,8 +2,7 @@ import 'package:dim_client/sdk.dart';
 import 'package:dim_client/ok.dart';
 import 'package:dim_client/ok.dart' as lnc;
 import 'package:dim_client/group.dart';
-
-import 'package:pnf/enigma.dart';
+import 'package:dim_client/pnf.dart' hide NotificationNames;
 
 import '../common/constants.dart';
 import '../filesys/upload.dart';

@@ -32,7 +32,7 @@ import 'dart:typed_data';
 
 import 'package:dim_client/ok.dart';
 import 'package:dim_client/sdk.dart';
-import 'package:pnf/pnf.dart';
+import 'package:dim_client/pnf.dart';
 
 import '../filesys/local.dart';
 import '../filesys/upload.dart';

@@ -35,9 +35,7 @@ import 'package:flutter/services.dart';
 import 'package:dim_client/ok.dart';
 import 'package:dim_client/sdk.dart';
 import 'package:dim_client/common.dart';
-import 'package:pnf/dos.dart';
-import 'package:pnf/enigma.dart';
-import 'package:pnf/http.dart';
+import 'package:dim_client/pnf.dart';
 
 import '../client/shared.dart';
 import '../models/config.dart';

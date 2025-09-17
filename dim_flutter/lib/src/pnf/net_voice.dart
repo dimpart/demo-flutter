@@ -34,8 +34,7 @@ import 'package:get/get.dart';
 import 'package:dim_client/sdk.dart';
 import 'package:dim_client/ok.dart';
 import 'package:dim_client/ok.dart' as lnc;
-import 'package:pnf/dos.dart';
-import 'package:pnf/pnf.dart' show PortableNetworkStatus;
+import 'package:dim_client/pnf.dart' hide NotificationNames;
 
 import '../channels/manager.dart';
 import '../common/constants.dart';
