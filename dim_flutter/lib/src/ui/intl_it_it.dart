@@ -178,6 +178,7 @@ final Map<String, String> intlItIt = {
   'Forward Video': 'Inoltra Video',
   'Forward Web Page': 'Inoltra Pagina Web',
   'Forward Name Card': 'Inoltra Carta d\'Identità',
+  'Forward Service': 'Inoltra servizio',
 
   'Text message forwarded to @chat': 'Messaggio di testo inoltrato a "@chat".',
   'Failed to share text with @chat': 'Impossibile condividere il messaggio di testo con "@chat".',
@@ -193,6 +194,9 @@ final Map<String, String> intlItIt = {
 
   'Name Card @name forwarded to @chat': 'Carta d\'identità "@name" inoltrata a "@chat".',
   'Failed to share Name Card @name with @chat': 'Impossibile condividere la Carta d\'identità "@name" con "@chat".',
+
+  'Service @title forwarded to @chat': 'Servizio "@title" inoltrato a "@chat".',
+  'Failed to share Service @title with @chat': 'Condivisione del servizio "@title" con "@chat" non riuscita.',
 
   'Chat Details': 'Dettagli Chat',
   'Group Chat Details (@count)': 'Dettagli Chat di Gruppo (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlItIt = {
   'Delete Contact': 'Elimina Contatto',
   'Quit Group': 'Abbandona Gruppo',
   'Report': 'Segnala',
+
+  'Cannot block this contact': 'Impossibile bloccare questo contatto.',
 
   'Contact @name shared to @chat': 'Contatto "@name" condiviso con "@chat".',
   'Failed to share contact @name with @chat': 'Impossibile condividere il contatto "@name" con "@chat".',

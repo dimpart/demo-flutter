@@ -179,6 +179,7 @@ final Map<String, String> intlEsEs = {
   'Forward Video': 'Reenviar Video',
   'Forward Web Page': 'Reenviar Página Web',
   'Forward Name Card': 'Reenviar Tarjeta de Nombre',
+  'Forward Service': 'Reenviar servicio',
 
   'Text message forwarded to @chat': 'Mensaje de texto reenviado a "@chat".',
   'Failed to share text with @chat': 'Error al compartir el mensaje de texto con "@chat".',
@@ -194,6 +195,9 @@ final Map<String, String> intlEsEs = {
 
   'Name Card @name forwarded to @chat': 'Tarjeta de nombre "@name" ha sido reenviada a "@chat".',
   'Failed to share Name Card @name with @chat': 'Error al compartir Tarjeta de nombre "@name" con "@chat".',
+
+  'Service @title forwarded to @chat': 'Servicio "@title" reenviado a "@chat".',
+  'Failed to share Service @title with @chat': 'Error al compartir el servicio "@title" con "@chat".',
 
   'Chat Details': 'Detalles del Chat',
   'Group Chat Details (@count)': 'Detalles del Chat de Grupo (@count)',
@@ -275,6 +279,8 @@ final Map<String, String> intlEsEs = {
   'Delete Contact': 'Eliminar contacto',
   'Quit Group': 'Salir del grupo',
   'Report': 'Reportar',
+
+  'Cannot block this contact': 'No se puede bloquear este contacto.',
 
   'Contact @name shared to @chat': 'Contacto "@name" compartido en "@chat".',
   'Failed to share contact @name with @chat': 'Error al compartir contacto "@name" con "@chat".',

@@ -178,6 +178,7 @@ final Map<String, String> intlViVN = {
   'Forward Video': 'Chuyển tiếp Video',
   'Forward Web Page': 'Chuyển tiếp Trang web',
   'Forward Name Card': 'Chuyển tiếp Danh thiếp',
+  'Forward Service': 'Chuyển tiếp dịch vụ',
 
   'Text message forwarded to @chat': 'Tin nhắn đã được chuyển tiếp tới "@chat".',
   'Failed to share text with @chat': 'Không thể chia sẻ tin nhắn với "@chat".',
@@ -193,6 +194,9 @@ final Map<String, String> intlViVN = {
 
   'Name Card @name forwarded to @chat': 'Danh thiếp "@name" đã được chuyển tiếp đến "@chat".',
   'Failed to share Name Card @name with @chat': 'Không thể chia sẻ Danh thiếp "@name" với "@chat".',
+
+  'Service @title forwarded to @chat': 'Dịch vụ "@title" đã được chuyển tiếp đến "@chat".',
+  'Failed to share Service @title with @chat': 'Không thể chia sẻ dịch vụ "@title" với "@chat".',
 
   'Chat Details': 'Chi tiết Cuộc trò chuyện',
   'Group Chat Details (@count)': 'Chi tiết Cuộc trò chuyện nhóm (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlViVN = {
   'Delete Contact': 'Xóa Liên lạc',
   'Quit Group': 'Rời Nhóm',
   'Report': 'Báo cáo',
+
+  'Cannot block this contact': 'Không thể chặn liên hệ này.',
 
   'Contact @name shared to @chat': 'Liên lạc "@name" đã được chia sẻ đến "@chat".',
   'Failed to share contact @name with @chat': 'Không thể chia sẻ liên lạc "@name" với "@chat".',

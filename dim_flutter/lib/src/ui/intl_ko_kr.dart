@@ -178,6 +178,7 @@ final Map<String, String> intlKoKr = {
   'Forward Video': '비디오 전송',
   'Forward Web Page': '웹 페이지 전송',
   'Forward Name Card': '명함 전송',
+  'Forward Service': '서비스 전달',
 
   'Text message forwarded to @chat': '텍스트 메시지가 "@chat"으로 전송되었습니다.',
   'Failed to share text with @chat': '"@chat"과 텍스트 메시지를 공유하지 못했습니다.',
@@ -193,6 +194,9 @@ final Map<String, String> intlKoKr = {
 
   'Name Card @name forwarded to @chat': '명함 "@name"이(가) "@chat"로 전송되었습니다.',
   'Failed to share Name Card @name with @chat': '"@chat"과(와) 명함 "@name" 공유에 실패했습니다.',
+
+  'Service @title forwarded to @chat': '"@chat"에 서비스 "@title"을 전달했습니다.',
+  'Failed to share Service @title with @chat': '"@chat"과(와) 서비스 "@title"을 공유할 수 없습니다.',
 
   'Chat Details': '채팅 세부 정보',
   'Group Chat Details (@count)': '그룹 채팅 세부 정보 (@count)',
@@ -273,6 +277,8 @@ final Map<String, String> intlKoKr = {
   'Delete Contact': '연락처 삭제',
   'Quit Group': '그룹 나가기',
   'Report': '신고',
+
+  'Cannot block this contact': '이 연락처를 차단할 수 없습니다.',
 
   'Contact @name shared to @chat': '연락처 "@name" 이(가) "@chat" 과(와) 공유되었습니다.',
   'Failed to share contact @name with @chat': '연락처 "@name" 을(를) "@chat" 과(와) 공유하지 못했습니다.',

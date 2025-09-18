@@ -177,6 +177,7 @@ final Map<String, String> intlEnUs = {
   'Forward Video': 'Forward Video',
   'Forward Web Page': 'Forward Web Page',
   'Forward Name Card': 'Forward Name Card',
+  'Forward Service': 'Forward Service',
 
   'Text message forwarded to @chat': 'Text message forwarded to "@chat".',
   'Failed to share text with @chat': 'Failed to share text message with "@chat".',
@@ -192,6 +193,9 @@ final Map<String, String> intlEnUs = {
 
   'Name Card @name forwarded to @chat': 'Name Card "@name" has been forwarded to "@chat".',
   'Failed to share Name Card @name with @chat': 'Failed to share Name Card "@name" with "@chat".',
+
+  'Service @title forwarded to @chat': 'Service "@title" forwarded to "@chat".',
+  'Failed to share Service @title with @chat': 'Failed to share Service "@title" with "@chat".',
 
   'Chat Details': 'Chat Details',
   'Group Chat Details (@count)': 'Group Chat Details (@count)',
@@ -273,6 +277,8 @@ final Map<String, String> intlEnUs = {
   'Delete Contact': 'Delete Contact',
   'Quit Group': 'Quit Group',
   'Report': 'Report',
+
+  'Cannot block this contact': 'Cannot block this contact.',
 
   'Contact @name shared to @chat': 'Contact "@name" shared to "@chat".',
   'Failed to share contact @name with @chat': 'Failed to share contact "@name" with "@chat".',

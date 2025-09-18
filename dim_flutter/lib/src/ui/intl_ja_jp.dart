@@ -178,6 +178,7 @@ final Map<String, String> intlJaJp = {
   'Forward Video': 'ビデオを転送',
   'Forward Web Page': 'ウェブページを転送',
   'Forward Name Card': '名刺を転送',
+  'Forward Service': 'サービス転送',
 
   'Text message forwarded to @chat': 'テキストメッセージが "@chat" に転送されました。',
   'Failed to share text with @chat': '"@chat" とのテキストメッセージの共有に失敗しました。',
@@ -193,6 +194,9 @@ final Map<String, String> intlJaJp = {
 
   'Name Card @name forwarded to @chat': '名刺"@name"が"@chat"に転送されました。',
   'Failed to share Name Card @name with @chat': '"@chat"との名刺"@name"の共有に失敗しました。',
+
+  'Service @title forwarded to @chat': 'サービス「@title」を「@chat」に転送しました。',
+  'Failed to share Service @title with @chat': 'サービス「@title」を「@chat」と共有できませんでした。',
 
   'Chat Details': 'チャットの詳細',
   'Group Chat Details (@count)': 'グループチャットの詳細（@count）',
@@ -274,6 +278,8 @@ final Map<String, String> intlJaJp = {
   'Delete Contact': '連絡先を削除',
   'Quit Group': 'グループを退出',
   'Report': '報告',
+
+  'Cannot block this contact': 'この連絡先をブロックできません。',
 
   'Contact @name shared to @chat': '連絡先 "@name" が "@chat" に共有されました。',
   'Failed to share contact @name with @chat': '連絡先 "@name" の "@chat" への共有に失敗しました。',

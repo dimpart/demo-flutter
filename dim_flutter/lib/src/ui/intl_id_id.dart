@@ -178,6 +178,7 @@ final Map<String, String> intlIdId = {
   'Forward Video': 'Teruskan Video',
   'Forward Web Page': 'Teruskan Halaman Web',
   'Forward Name Card': 'Teruskan Kartu Nama',
+  'Forward Service': 'Teruskan Layanan',
 
   'Text message forwarded to @chat': 'Pesan teks telah diteruskan ke "@chat".',
   'Failed to share text with @chat': 'Gagal membagikan pesan teks dengan "@chat".',
@@ -193,6 +194,9 @@ final Map<String, String> intlIdId = {
 
   'Name Card @name forwarded to @chat': 'Kartu Nama "@name" telah diteruskan ke "@chat".',
   'Failed to share Name Card @name with @chat': 'Gagal membagikan Kartu Nama "@name" dengan "@chat".',
+
+  'Service @title forwarded to @chat': 'Layanan "@title" diteruskan ke "@chat".',
+  'Failed to share Service @title with @chat': 'Gagal berbagi Layanan "@title" dengan "@chat".',
 
   'Chat Details': 'Detail Obrolan',
   'Group Chat Details (@count)': 'Detail Obrolan Grup (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlIdId = {
   'Delete Contact': 'Hapus Kontak',
   'Quit Group': 'Keluar dari Grup',
   'Report': 'Laporkan',
+
+  'Cannot block this contact': 'Tidak dapat memblokir kontak ini.',
 
   'Contact @name shared to @chat': 'Kontak "@name" dibagikan ke "@chat".',
   'Failed to share contact @name with @chat': 'Gagal membagikan kontak "@name" ke "@chat".',

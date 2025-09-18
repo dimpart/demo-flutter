@@ -178,6 +178,7 @@ final Map<String, String> intlFrFr = {
   'Forward Video': 'Vidéo en avant',
   'Forward Web Page': 'Transmettre la page Web',
   'Forward Name Card': 'Transmettre la carte de visite',
+  'Forward Service': 'Transfert de service',
 
   'Text message forwarded to @chat': 'Message texte transféré à "@chat".',
   'Failed to share text with @chat': 'Échec du partage du message texte avec "@chat".',
@@ -193,6 +194,9 @@ final Map<String, String> intlFrFr = {
 
   'Name Card @name forwarded to @chat': 'Carte de visite "@name" transmise à "@chat".',
   'Failed to share Name Card @name with @chat': 'Échec du partage de la carte de visite "@name" avec "@chat".',
+
+  'Service @title forwarded to @chat': 'Service "@title" transféré vers "@chat".',
+  'Failed to share Service @title with @chat': 'Échec du partage du service "@title" avec "@chat".',
 
   'Chat Details': 'Détails du chat',
   'Group Chat Details (@count)': 'Détails du chat de groupe (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlFrFr = {
   'Delete Contact': 'Supprimer le contact',
   'Quit Group': 'Quitter le groupe',
   'Report': 'Signaler',
+
+  'Cannot block this contact': 'Impossible de bloquer ce contact.',
 
   'Contact @name shared to @chat': 'Le contact "@name" a été partagé avec "@chat".',
   'Failed to share contact @name with @chat': 'Échec du partage du contact "@name" avec "@chat".',

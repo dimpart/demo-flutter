@@ -178,6 +178,7 @@ final Map<String, String> intlAfZa = {
   'Forward Video': 'Stuur video',
   'Forward Web Page': 'Stuur Webblad Voort',
   'Forward Name Card': 'Stuur Naamkaartjie Voort',
+  'Forward Service': 'Stuur Diens Vooruit',
 
   'Text message forwarded to @chat': 'Teksboodskap is na "@chat" gestuur.',
   'Failed to share text with @chat': 'Versoek om teksboodskap met "@chat" te deel, het gefaal.',
@@ -193,6 +194,9 @@ final Map<String, String> intlAfZa = {
 
   'Name Card @name forwarded to @chat': 'Naamkaartjie "@name" is na "@chat" deurgestuur.',
   'Failed to share Name Card @name with @chat': 'Kon nie naamkaartjie "@name" deel met "@chat" nie.',
+
+  'Service @title forwarded to @chat': 'Diens "@title" is vorentoe gestuur na "@chat".',
+  'Failed to share Service @title with @chat': 'Kon nie diens "@title" met "@chat" deel nie.',
 
   'Chat Details': 'Geselskap Besonderhede',
   'Group Chat Details (@count)': 'Groep Geselskap Besonderhede (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlAfZa = {
   'Delete Contact': 'Verwyder Kontak',
   'Quit Group': 'Verlaat Groep',
   'Report': 'Verslag',
+
+  'Cannot block this contact': 'Kan nie hierdie kontak blokkeer nie.',
 
   'Contact @name shared to @chat': 'Kontak "@name" gedeel na "@chat".',
   'Failed to share contact @name with @chat': 'Kon nie kontak "@name" deel met "@chat" nie.',

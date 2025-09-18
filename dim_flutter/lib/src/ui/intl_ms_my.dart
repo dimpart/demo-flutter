@@ -178,6 +178,7 @@ final Map<String, String> intlMsMy = {
   'Forward Video': 'Hantar Video',
   'Forward Web Page': 'Hantar Laman Web',
   'Forward Name Card': 'Hantar Kad Nama',
+  'Forward Service': 'Hantar Perkhidmatan',
 
   'Text message forwarded to @chat': 'Mesej teks telah dihantar ke "@chat".',
   'Failed to share text with @chat': 'Gagal untuk berkongsi mesej teks dengan "@chat".',
@@ -193,6 +194,9 @@ final Map<String, String> intlMsMy = {
 
   'Name Card @name forwarded to @chat': 'Kad Nama "@name" telah dihantar ke "@chat".',
   'Failed to share Name Card @name with @chat': 'Gagal berkongsi Kad Nama "@name" dengan "@chat".',
+
+  'Service @title forwarded to @chat': 'Perkhidmatan "@title" telah dihantar ke "@chat".',
+  'Failed to share Service @title with @chat': 'Gagal berkongsi Perkhidmatan "@title" dengan "@chat".',
 
   'Chat Details': 'Butiran Chat',
   'Group Chat Details (@count)': 'Butiran Bualan Kumpulan (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlMsMy = {
   'Delete Contact': 'Padam Kenalan',
   'Quit Group': 'Keluar Kumpulan',
   'Report': 'Laporkan',
+
+  'Cannot block this contact': 'Tidak dapat menyekat kenalan ini.',
 
   'Contact @name shared to @chat': 'Kenalan "@name" dikongsi ke "@chat".',
   'Failed to share contact @name with @chat': 'Gagal berkongsi kenalan "@name" dengan "@chat".',

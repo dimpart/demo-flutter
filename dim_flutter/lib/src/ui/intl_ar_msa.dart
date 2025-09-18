@@ -178,6 +178,7 @@ final Map<String, String> intlAr = {
   'Forward Video': 'توجيه الفيديو',
   'Forward Web Page': 'إعادة توجيه صفحة الويب',
   'Forward Name Card': 'إعادة توجيه بطاقة الاسم',
+  'Forward Service': 'إعادة توجيه الخدمة',
 
   'Text message forwarded to @chat': 'تمت إعادة توجيه الرسالة النصية إلى "@chat".',
   'Failed to share text with @chat': 'فشل في مشاركة الرسالة النصية مع "@chat".',
@@ -193,6 +194,9 @@ final Map<String, String> intlAr = {
 
   'Name Card @name forwarded to @chat': 'تم إعادة توجيه بطاقة الاسم "@name" إلى "@chat".',
   'Failed to share Name Card @name with @chat': 'فشلت في مشاركة بطاقة الاسم "@name" مع "@chat".',
+
+  'Service @title forwarded to @chat': 'تم إعادة توجيه الخدمة "@title" إلى "@chat".',
+  'Failed to share Service @title with @chat': 'فشل في مشاركة الخدمة "@title" مع "@chat".',
 
   'Chat Details': 'تفاصيل الدردشة',
   'Group Chat Details (@count)': 'تفاصيل محادثة المجموعة (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlAr = {
   'Delete Contact': 'حذف جهة الاتصال',
   'Quit Group': 'الخروج من المجموعة',
   'Report': 'إبلاغ',
+
+  'Cannot block this contact': 'لا يمكن حظر جهة الاتصال هذه.',
 
   'Contact @name shared to @chat': 'تمت مشاركة جهة الاتصال "@name" مع "@chat".',
   'Failed to share contact @name with @chat': 'فشلت في مشاركة جهة الاتصال "@name" مع "@chat".',

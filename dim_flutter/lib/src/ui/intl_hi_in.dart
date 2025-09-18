@@ -178,6 +178,7 @@ final Map<String, String> intlHiIn = {
   'Forward Video': 'वीडियो अग्रेषित करें',
   'Forward Web Page': 'वेब पृष्ठ आगे भेजें',
   'Forward Name Card': 'नाम कार्ड आगे भेजें',
+  'Forward Service': 'सेवा अग्रेषित करें',
 
   'Text message forwarded to @chat': 'टेक्स्ट संदेश "@chat" को अग्रेषित किया गया।',
   'Failed to share text with @chat': 'टेक्स्ट संदेश को "@chat" के साथ साझा करने में विफल।',
@@ -193,6 +194,9 @@ final Map<String, String> intlHiIn = {
 
   'Name Card @name forwarded to @chat': 'नाम कार्ड "@name" को "@chat" को आगे भेज दिया गया है।',
   'Failed to share Name Card @name with @chat': '"@chat" के साथ नाम कार्ड "@name" को साझा करने में विफल रहा।',
+
+  'Service @title forwarded to @chat': 'सेवा "@title" को "@chat" को अग्रेषित किया गया।',
+  'Failed to share Service @title with @chat': 'सेवा "@title" को "@chat" के साथ साझा करने में विफल।',
 
   'Chat Details': 'चैट विवरण',
   'Group Chat Details (@count)': 'समूह चैट विवरण (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlHiIn = {
   'Delete Contact': 'संपर्क हटाएं',
   'Quit Group': 'समूह छोड़ें',
   'Report': 'रिपोर्ट',
+
+  'Cannot block this contact': 'इस संपर्क को ब्लॉक नहीं किया जा सकता।',
 
   'Contact @name shared to @chat': 'संपर्क "@name" को "@chat" के साथ साझा किया गया है।',
   'Failed to share contact @name with @chat': 'संपर्क "@name" को "@chat" के साथ साझा करने में विफल हुआ।',

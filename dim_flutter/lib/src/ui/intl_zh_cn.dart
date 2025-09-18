@@ -177,6 +177,7 @@ final Map<String, String> intlZhCn = {
   'Forward Video': '转发视频',
   'Forward Web Page': '转发网页',
   'Forward Name Card': '转发名片',
+  'Forward Service': '转发服务',
 
   'Text message forwarded to @chat': '文本消息已转发至 "@chat"。',
   'Failed to share text with @chat': '未能与 "@chat" 分享文本消息。',
@@ -192,6 +193,9 @@ final Map<String, String> intlZhCn = {
 
   'Name Card @name forwarded to @chat': '名片 "@name" 已转发给 "@chat"。',
   'Failed to share Name Card @name with @chat': '无法转发名片 "@name" 给 "@chat"。',
+
+  'Service @title forwarded to @chat': '服务“@title”已转发到“@chat”。',
+  'Failed to share Service @title with @chat': '无法与“@chat”共享服务“@title”。',
 
   'Chat Details': '聊天资料',
   'Group Chat Details (@count)': '群聊资料 (@count)',
@@ -272,6 +276,8 @@ final Map<String, String> intlZhCn = {
   'Delete Contact': '删除联系人',
   'Quit Group': '退出群组',
   'Report': '举报',
+
+  'Cannot block this contact': '无法屏蔽此联系人。',
 
   'Contact @name shared to @chat': '联系人 "@name" 已分享给 "@chat"。',
   'Failed to share contact @name with @chat': '无法分享联系人 "@name" 给 "@chat"。',

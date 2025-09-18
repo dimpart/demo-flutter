@@ -178,6 +178,7 @@ final Map<String, String> intlRuRu = {
   'Forward Video': 'Переслать видео',
   'Forward Web Page': 'Переслать веб-страницу',
   'Forward Name Card': 'Переслать визитку',
+  'Forward Service': 'Переслать услугу',
 
   'Text message forwarded to @chat': 'Текстовое сообщение переслано в "@chat".',
   'Failed to share text with @chat': 'Не удалось поделиться текстовым сообщением с "@chat".',
@@ -193,6 +194,9 @@ final Map<String, String> intlRuRu = {
 
   'Name Card @name forwarded to @chat': 'Визитка "@name" переслана в "@chat".',
   'Failed to share Name Card @name with @chat': 'Не удалось поделиться визиткой "@name" с "@chat".',
+
+  'Service @title forwarded to @chat': 'Услуга "@title" переслана "@chat".',
+  'Failed to share Service @title with @chat': 'Не удалось поделиться услугой "@title" с "@chat".',
 
   'Chat Details': 'Сведения о чате',
   'Group Chat Details (@count)': 'Сведения о групповом чате (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlRuRu = {
   'Delete Contact': 'Удалить контакт',
   'Quit Group': 'Покинуть группу',
   'Report': 'Пожаловаться',
+
+  'Cannot block this contact': 'Невозможно заблокировать этот контакт.',
 
   'Contact @name shared to @chat': 'Контакт "@name" поделен с "@chat".',
   'Failed to share contact @name with @chat': 'Не удалось поделиться контактом "@name" с "@chat".',

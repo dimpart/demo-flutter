@@ -178,6 +178,7 @@ final Map<String, String> intlThTh = {
   'Forward Video': 'ส่งวิดีโอต่อ',
   'Forward Web Page': 'ส่งต่อหน้าเว็บ',
   'Forward Name Card': 'ส่งต่อบัตรชื่อ',
+  'Forward Service': 'ส่งต่อบริการ',
 
   'Text message forwarded to @chat': 'ข้อความได้ถูกส่งต่อไปยัง "@chat".',
   'Failed to share text with @chat': 'ไม่สามารถแชร์ข้อความไปยัง "@chat".',
@@ -193,6 +194,9 @@ final Map<String, String> intlThTh = {
 
   'Name Card @name forwarded to @chat': 'บัตรชื่อ "@name" ถูกส่งต่อไปยัง "@chat"',
   'Failed to share Name Card @name with @chat': 'การแชร์บัตรชื่อ "@name" กับ "@chat" ล้มเหลว',
+
+  'Service @title forwarded to @chat': 'บริการ "@title" ถูกส่งต่อไปยัง "@chat" แล้ว',
+  'Failed to share Service @title with @chat': 'ไม่สามารถแชร์บริการ "@title" กับ "@chat" ได้',
 
   'Chat Details': 'รายละเอียดแชท',
   'Group Chat Details (@count)': 'รายละเอียดแชทกลุ่ม (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlThTh = {
   'Delete Contact': 'ลบที่ติดต่อ',
   'Quit Group': 'ออกจากกลุ่ม',
   'Report': 'รายงาน',
+
+  'Cannot block this contact': 'ไม่สามารถบล็อกผู้ติดต่อรายนี้ได้',
 
   'Contact @name shared to @chat': 'ที่ติดต่อ "@name" ถูกแชร์ไปยัง "@chat"',
   'Failed to share contact @name with @chat': 'ไม่สามารถแชร์ที่ติดต่อ "@name" กับ "@chat" ได้',

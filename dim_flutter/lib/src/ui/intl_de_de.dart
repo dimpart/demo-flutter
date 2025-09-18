@@ -178,6 +178,7 @@ final Map<String, String> intlDeDe = {
   'Forward Video': 'Video weiterleiten',
   'Forward Web Page': 'Webseite weiterleiten',
   'Forward Name Card': 'Namenskarte weiterleiten',
+  'Forward Service': 'Dienst weiterleiten',
 
   'Text message forwarded to @chat': 'Textnachricht wurde an "@chat" weitergeleitet.',
   'Failed to share text with @chat': 'Fehler beim Teilen der Textnachricht mit "@chat".',
@@ -193,6 +194,9 @@ final Map<String, String> intlDeDe = {
 
   'Name Card @name forwarded to @chat': 'Namenskarte "@name" wurde an "@chat" weitergeleitet.',
   'Failed to share Name Card @name with @chat': 'Fehler beim Teilen der Namenskarte "@name" mit "@chat".',
+
+  'Service @title forwarded to @chat': 'Dienst "@title" an "@chat" weitergeleitet.',
+  'Failed to share Service @title with @chat': 'Dienst "@title" konnte nicht mit "@chat" geteilt werden.',
 
   'Chat Details': 'Chat-Details',
   'Group Chat Details (@count)': 'Gruppen-Chat-Details (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlDeDe = {
   'Delete Contact': 'Kontakt löschen',
   'Quit Group': 'Gruppe verlassen',
   'Report': 'Melden',
+
+  'Cannot block this contact': 'Dieser Kontakt kann nicht blockiert werden.',
 
   'Contact @name shared to @chat': 'Kontakt "@name" wurde an "@chat" geteilt.',
   'Failed to share contact @name with @chat': 'Fehler beim Teilen des Kontakts "@name" mit "@chat".',

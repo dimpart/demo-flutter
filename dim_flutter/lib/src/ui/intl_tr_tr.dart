@@ -177,6 +177,7 @@ final Map<String, String> intlTrTr = {
   'Forward Video': 'Videoyu İleriye Taşı',
   'Forward Web Page': 'Web Sayfasını İleri Gönder',
   'Forward Name Card': 'İsim Kartını İleri Gönder',
+  'Forward Service': 'Servisi İlet',
 
   'Text message forwarded to @chat': 'Metin mesajı "@chat" iletildi.',
   'Failed to share text with @chat': '"@chat" ile metin mesajını paylaşırken hata oluştu.',
@@ -192,6 +193,9 @@ final Map<String, String> intlTrTr = {
 
   'Name Card @name forwarded to @chat': 'İsim kartı "@name" "@chat" kişisine ileri gönderildi.',
   'Failed to share Name Card @name with @chat': '@chat kişisiyle isim kartı "@name" paylaşma başarısız oldu.',
+
+  'Service @title forwarded to @chat': '"@title" servisi "@chat" iletildi.',
+  'Failed to share Service @title with @chat': '"@title" servisi "@chat" ile paylaşılamadı.',
 
   'Chat Details': 'Sohbet Detayları',
   'Group Chat Details (@count)': 'Grup Sohbet Detayları (@count)',
@@ -273,6 +277,8 @@ final Map<String, String> intlTrTr = {
   'Delete Contact': 'Kişiyi Sil',
   'Quit Group': 'Grubu Terk Et',
   'Report': 'Raporla',
+
+  'Cannot block this contact': 'Bu kişiyi engelleyemezsiniz.',
 
   'Contact @name shared to @chat': 'Kişi "@name" "@chat" kişisiyle paylaşıldı.',
   'Failed to share contact @name with @chat': '@chat kişisiyle kişi "@name" paylaşma başarısız oldu.',

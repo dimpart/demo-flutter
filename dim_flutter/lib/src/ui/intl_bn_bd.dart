@@ -178,6 +178,7 @@ final Map<String, String> intlBnBd = {
   'Forward Video': 'ভিডিও প্রেরিত করুন',
   'Forward Web Page': 'ওয়েব পৃষ্ঠা পুনরায় প্রেরণ করুন',
   'Forward Name Card': 'নাম কার্ড পুনরায় প্রেরণ করুন',
+  'Forward Service': 'সেবা পুনঃনির্দেশ',
 
   'Text message forwarded to @chat': 'টেক্সট মেসেজ "@chat" এ ফরওয়ার্ড করা হয়েছে।',
   'Failed to share text with @chat': 'টেক্সট মেসেজ "@chat" এর সাথে শেয়ার করতে ব্যর্থ হয়েছে।',
@@ -193,6 +194,9 @@ final Map<String, String> intlBnBd = {
 
   'Name Card @name forwarded to @chat': 'নাম কার্ড "@name" পুনরায় প্রেরিত হয়েছে "@chat" কে।',
   'Failed to share Name Card @name with @chat': 'নাম কার্ড শেয়ার করতে ব্যর্থ হয়েছে "@name" কে "@chat" কে।',
+
+  'Service @title forwarded to @chat': '"@chat"-এ "@title" সেবা পুনঃনির্দেশিত হয়েছে।',
+  'Failed to share Service @title with @chat': '"@chat"-এর সাথে "@title" সেবা শেয়ার করা ব্যর্থ হয়েছে।',
 
   'Chat Details': 'চ্যাটের বিশদ',
   'Group Chat Details (@count)': 'গোষ্ঠী চ্যাটের বিশদ (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlBnBd = {
   'Delete Contact': 'যোগাযোগ মুছে ফেলুন',
   'Quit Group': 'গোষ্ঠী ছাড়ুন',
   'Report': 'রিপোর্ট',
+
+  'Cannot block this contact': 'এই যোগাযোগটিকে ব্লক করা যাবে না।',
 
   'Contact @name shared to @chat': '@name যোগাযোগ @chat এ ভাগ করা হয়েছে।',
   'Failed to share contact @name with @chat': '@name যোগাযোগ @chat এ ভাগাভাগি করতে ব্যর্থ হয়েছে।',

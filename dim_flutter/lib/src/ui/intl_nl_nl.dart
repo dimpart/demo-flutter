@@ -178,6 +178,7 @@ final Map<String, String> intlNlNl = {
   'Forward Video': 'Video doorsturen',
   'Forward Web Page': 'Webpagina doorsturen',
   'Forward Name Card': 'Naamkaart doorsturen',
+  'Forward Service': 'Dienst doorsturen',
 
   'Text message forwarded to @chat': 'Tekstbericht doorgestuurd naar "@chat".',
   'Failed to share text with @chat': 'Fout bij het delen van tekstbericht met "@chat".',
@@ -193,6 +194,9 @@ final Map<String, String> intlNlNl = {
 
   'Name Card @name forwarded to @chat': 'Naamkaart "@name" is doorgestuurd naar "@chat".',
   'Failed to share Name Card @name with @chat': 'Kan naamkaart "@name" niet delen met "@chat".',
+
+  'Service @title forwarded to @chat': 'Dienst "@title" doorgestuurd naar "@chat".',
+  'Failed to share Service @title with @chat': 'Dienst "@title" kon niet worden gedeeld met "@chat".',
 
   'Chat Details': 'Chat Details',
   'Group Chat Details (@count)': 'Groepschat Details (@count)',
@@ -274,6 +278,8 @@ final Map<String, String> intlNlNl = {
   'Delete Contact': 'Contact Verwijderen',
   'Quit Group': 'Groep Verlaten',
   'Report': 'Rapporteren',
+
+  'Cannot block this contact': 'Kan dit contact niet blokkeren.',
 
   'Contact @name shared to @chat': 'Contact "@name" gedeeld naar "@chat".',
   'Failed to share contact @name with @chat': 'Mislukt om contact "@name" te delen met "@chat".',
