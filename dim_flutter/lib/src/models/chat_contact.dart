@@ -87,7 +87,9 @@ class ContactInfo extends Conversation {
     ContactRemark cr = remark;
     String desc = cr.alias;
     if (desc.isEmpty) {
-      desc = _language ?? '';
+      if (isNotFriend) {
+        desc = _language ?? '';
+      }
       if (desc.isEmpty) {
         return nickname.isEmpty ? Anonymous.getName(identifier) : nickname;
       }

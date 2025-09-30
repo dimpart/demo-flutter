@@ -6,11 +6,12 @@ import 'package:dim_client/sdk.dart';
 
 import '../common/constants.dart';
 import '../models/chat.dart';
+import '../models/chat_contact.dart';
 
 
 /// NameView
 class NameLabel extends StatefulWidget {
-  const NameLabel(this.info, this.remarks, {super.key,
+  const NameLabel(this.info, {super.key,
     this.style,
     this.strutStyle,
     this.textAlign,
@@ -27,7 +28,6 @@ class NameLabel extends StatefulWidget {
   });
 
   final Conversation info;
-  final bool remarks;
 
   final TextStyle? style;
   final StrutStyle? strutStyle;
@@ -97,7 +97,7 @@ class _NameState extends State<NameLabel> implements lnc.Observer {
 
   @override
   Widget build(BuildContext context) => Text(
-    widget.remarks ? widget.info.title : widget.info.name,
+    widget.info.title,
     style:              widget.style,
     strutStyle:         widget.strutStyle,
     textAlign:          widget.textAlign,
