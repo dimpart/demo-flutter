@@ -86,7 +86,7 @@ class _ProviderTable extends DataTableHandler<ProviderInfo> {
   // protected
   Future<List<ProviderInfo>> loadProviders() async {
     SQLConditions cond = SQLConditions.kTrue;
-    return await select(_table, columns: _selectColumns,
+    return await select(_table, distinct: true, columns: _selectColumns,
         conditions: cond, orderBy: 'chosen DESC');
   }
 

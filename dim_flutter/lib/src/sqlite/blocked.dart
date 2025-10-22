@@ -53,7 +53,7 @@ class _BlockedTable extends DataTableHandler<ID> {
   Future<List<ID>> loadBlockedList(ID user) async {
     SQLConditions cond;
     cond = SQLConditions(left: 'uid', comparison: '=', right: user.toString());
-    return await select(_table, columns: _selectColumns, conditions: cond);
+    return await select(_table, distinct: true, columns: _selectColumns, conditions: cond);
   }
 
 }

@@ -6,7 +6,7 @@ import 'package:dim_client/ok.dart';
 import 'package:dim_client/sdk.dart';
 import 'package:dim_client/common.dart';
 import 'package:dim_client/client.dart';
-import 'package:dim_client/ws.dart' show Runner;
+import 'package:dim_client/ws.dart' hide Processor;
 
 import '../common/constants.dart';
 import '../models/station.dart';
@@ -92,15 +92,17 @@ class Client extends Terminal {
     ClientMessenger? transceiver = messenger;
     if (transceiver == null) {
       // not connect
+      logError('App Lifecycle::enterBackground | not connected yet');
       return;
     }
-    logInfo("App Lifecycle: report offline before pause session");
+    logInfo("App Lifecycle::enterBackground | report offline before pause session");
     // check signed in user
     ClientSession cs = transceiver.session;
     ID? uid = cs.identifier;
     if (uid != null) {
       // already signed in, check session state
       SessionState? state = cs.state;
+      logInfo('session state: $state');
       if (state?.index == SessionStateOrder.running.index) {
         // report client state
         await transceiver.reportOffline(uid);
@@ -115,9 +117,10 @@ class Client extends Terminal {
     ClientMessenger? transceiver = messenger;
     if (transceiver == null) {
       // not connect
+      logError('App Lifecycle::enterForeground | not connected yet');
       return;
     }
-    logInfo("App Lifecycle: report online after resume session");
+    logInfo("App Lifecycle::enterForeground | report online after resume session");
     ClientSession cs = transceiver.session;
     // resume the session
     await cs.resume();
@@ -127,6 +130,7 @@ class Client extends Terminal {
       // already signed in, wait a while to check session state
       await Runner.sleep(const Duration(milliseconds: 512));
       SessionState? state = cs.state;
+      logInfo('session state: $state');
       if (state?.index == SessionStateOrder.running.index) {
         // report client state
         await transceiver.reportOnline(uid);
@@ -139,6 +143,7 @@ class Client extends Terminal {
     switch (state) {
       case AppLifecycleState.resumed:
         logWarning('AppLifecycleState::enterForeground $state bg=${shared.isBackground}');
+        driveConnection(inBackground: false);
         if (shared.isBackground != false) {
           shared.isBackground = false;
           await enterForeground();
@@ -154,10 +159,25 @@ class Client extends Terminal {
           shared.isBackground = true;
           await enterBackground();
         }
+        driveConnection(inBackground: true);
         break;
       default:
         logInfo("AppLifecycleState::unknown state=$state bg=${shared.isBackground}");
         break;
+    }
+  }
+
+  bool driveConnection({required bool inBackground}) {
+    ClientMessenger? transceiver = messenger;
+    ClientSession? session = transceiver?.session;
+    Connection? connection = session?.connection;
+    if (connection is ActiveConnection) {
+      logInfo('background connection: ${connection.inBackground} -> $inBackground');
+      connection.inBackground = inBackground;
+      return true;
+    } else {
+      logWarning('connection error: $connection');
+      return false;
     }
   }
 

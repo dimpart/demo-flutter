@@ -53,7 +53,7 @@ class _MutedTable extends DataTableHandler<ID> {
   Future<List<ID>> loadMutedList(ID user) async {
     SQLConditions cond;
     cond = SQLConditions(left: 'uid', comparison: '=', right: user.toString());
-    return await select(_table, columns: _selectColumns, conditions: cond);
+    return await select(_table, distinct: true, columns: _selectColumns, conditions: cond);
   }
 
 }
