@@ -181,7 +181,12 @@ class VelocityMeter with Logging {
       return false;
     }
     GlobalVariable shared = GlobalVariable();
-    ReliableMessage? rMsg = await shared.messenger?.deserializeMessage(data);
+    Messenger? messenger = shared.messenger;
+    if (messenger == null) {
+      assert(false, 'messenger not ready');
+      return false;
+    }
+    ReliableMessage? rMsg = await messenger.deserializeMessage(data);
     // ReliableMessage? rMsg = await _decodeMsg(data);
     if (rMsg == null) {
       return false;
@@ -197,7 +202,9 @@ class VelocityMeter with Logging {
     info.responseTime = duration;
     // fetch socket address
     try {
-      socketAddress = await _decryptAddress(rMsg);
+      bool ok = await _checkAttachments(rMsg, messenger);
+      assert(ok, 'should not happen');
+      socketAddress = await _decryptAddress(rMsg, messenger);
     } catch (e, st) {
       Log.error('socket address not found in message from $sender}, error: $e, $st');
     }
@@ -205,9 +212,19 @@ class VelocityMeter with Logging {
     return true;
   }
 
-  static Future<String?> _decryptAddress(SecureMessage sMsg) async {
-    GlobalVariable shared = GlobalVariable();
-    InstantMessage? iMsg = await shared.messenger?.decryptMessage(sMsg);
+  static Future<bool> _checkAttachments(ReliableMessage rMsg, Messenger messenger) async {
+    // [Meta Protocol]
+    // [Visa Protocol]
+    var packer = messenger.packer;
+    if (packer is MessagePacker) {
+      return await packer.checkAttachments(rMsg);
+    } else {
+      return false;
+    }
+  }
+
+  static Future<String?> _decryptAddress(SecureMessage sMsg, Messenger messenger) async {
+    InstantMessage? iMsg = await messenger.decryptMessage(sMsg);
     assert(iMsg != null, 'failed to decrypt message: ${sMsg.sender} => ${sMsg.receiver}');
     Content? content = iMsg?.content;
     var remote = content?['remote_address'];
