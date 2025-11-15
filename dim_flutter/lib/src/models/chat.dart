@@ -213,6 +213,19 @@ abstract class Conversation with Logging implements lnc.Observer {
 
   void setNeedsReload() => _loaded = false;
 
+  Future<bool> refreshDocuments() async {
+    var shared = GlobalVariable();
+    var facebook = shared.facebook;
+    var checker = facebook.entityChecker;
+    if (checker == null) {
+      logError('entity checker lost, cannot refresh documents now.');
+      return false;
+    }
+    List<Document> docs = await facebook.getDocuments(identifier);
+    logInfo('refreshing ${docs.length} document(s) "$name" $identifier');
+    return await checker.queryDocuments(identifier, docs);
+  }
+
   Future<void> reloadData() async {
     if (_loaded) {
     } else {
