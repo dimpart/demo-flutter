@@ -202,6 +202,35 @@ class SharedMessenger extends ClientMessenger {
     await clerk.resumeMessages(user.identifier);
   }
 
+  @override
+  Future<void> broadcastDocuments({bool updated = false}) async {
+    var checker = facebook.entityChecker;
+    if (checker == null) {
+      assert(false, 'entity checker not found');
+      return;
+    }
+    User? user = await facebook.currentUser;
+    Visa? visa = await user?.visa;
+    if (visa == null) {
+      assert(false, 'visa not found: $user');
+      return;
+    }
+    if (updated) {
+      //
+      //  send to all contacts
+      //
+      ID me = visa.identifier;
+      List<ID> contacts = await facebook.getContacts(me);
+      for (ID item in contacts) {
+        await checker.sendVisa(visa, item, updated: updated);
+      }
+    }
+    //
+    //  broadcast to 'everyone@everywhere'
+    //
+    await checker.sendVisa(visa, ID.EVERYONE, updated: updated);
+  }
+
   Future<void> reportSpeeds(List<VelocityMeter> meters, ID provider) async {
     if (meters.isEmpty) {
       logWarning('meters empty');
