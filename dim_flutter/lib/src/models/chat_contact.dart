@@ -18,6 +18,22 @@ import '../widgets/alert.dart';
 import 'amanuensis.dart';
 import 'chat.dart';
 
+enum ContactStatus {
+
+  // active within 15 minutes
+  online,
+
+  // active within 72 hours
+  active,
+
+  // normal
+  normal,
+
+  // inactive more than 180 days
+  invalid,
+
+}
+
 class ContactInfo extends Conversation {
   ContactInfo(super.identifier, {super.unread = 0, super.lastMessage, super.lastMessageTime, super.mentionedSerialNumber = 0}) {
     var nc = lnc.NotificationCenter();
@@ -79,6 +95,21 @@ class ContactInfo extends Conversation {
   String? get avatar => _avatar?.url?.toString();
 
   DateTime? get lastActiveTime => _lastActiveTime;
+
+  ContactStatus get status {
+    DateTime now = DateTime.now();
+    DateTime? activeTime = _lastActiveTime;
+    if (activeTime == null) {
+      return ContactStatus.invalid;
+    } else if (now.difference(activeTime).inMinutes < 15) {
+      return ContactStatus.online;
+    } else if (now.difference(activeTime).inHours < 72) {
+      return ContactStatus.active;
+    } else if (now.difference(activeTime).inDays > 180) {
+      return ContactStatus.invalid;
+    }
+    return ContactStatus.normal;
+  }
 
   @override
   String get title {
