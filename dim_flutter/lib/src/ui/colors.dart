@@ -96,6 +96,13 @@ abstract class ThemeColors {
   Color get textFieldDecorationBorderColor;
 
   //
+  //  Contact Status
+  //
+  Color get onlineContactColor => CupertinoColors.systemBlue;
+  Color get activeContactColor => CupertinoColors.systemIndigo;
+  Color get invalidContactColor => CupertinoColors.systemGrey;
+
+  //
   //  Colors based on Brightness
   //
 

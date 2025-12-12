@@ -20,17 +20,36 @@ import 'chat.dart';
 
 enum ContactStatus {
 
-  // active within 15 minutes
+  // checking
+  init,
+
+  // active within 30 minutes
   online,
 
-  // active within 72 hours
+  // active within 7 days
   active,
 
   // normal
   normal,
 
-  // inactive more than 180 days
-  invalid,
+  // inactive more than 6 months
+  invalid;
+
+  static ContactStatus fromTime(DateTime? activeTime) {
+    if (activeTime == null) {
+      return init;
+    }
+    Duration duration = DateTime.now().difference(activeTime);
+    if (duration.inMinutes < 30) {
+      return online;
+    } else if (duration.inDays < 7) {
+      return active;
+    } else if (duration.inDays < 183) {
+      return normal;
+    } else {
+      return invalid;
+    }
+  }
 
 }
 
@@ -96,20 +115,7 @@ class ContactInfo extends Conversation {
 
   DateTime? get lastActiveTime => _lastActiveTime;
 
-  ContactStatus get status {
-    DateTime now = DateTime.now();
-    DateTime? activeTime = _lastActiveTime;
-    if (activeTime == null) {
-      return ContactStatus.invalid;
-    } else if (now.difference(activeTime).inMinutes < 15) {
-      return ContactStatus.online;
-    } else if (now.difference(activeTime).inHours < 72) {
-      return ContactStatus.active;
-    } else if (now.difference(activeTime).inDays > 180) {
-      return ContactStatus.invalid;
-    }
-    return ContactStatus.normal;
-  }
+  ContactStatus get status => ContactStatus.fromTime(_lastActiveTime);
 
   @override
   String get title {
