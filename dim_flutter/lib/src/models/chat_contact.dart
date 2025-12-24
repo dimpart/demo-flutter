@@ -32,7 +32,7 @@ enum ContactStatus {
   // normal
   normal,
 
-  // inactive more than 6 months
+  // inactive more than 2 years
   invalid;
 
   static ContactStatus fromTime(DateTime? activeTime) {
@@ -40,11 +40,11 @@ enum ContactStatus {
       return init;
     }
     Duration duration = DateTime.now().difference(activeTime);
-    if (duration.inMinutes < 30) {
+    if (duration.inMinutes <= 30) {
       return online;
-    } else if (duration.inDays < 7) {
+    } else if (duration.inHours <= 168) {  // 24 * 7
       return active;
-    } else if (duration.inDays < 183) {
+    } else if (duration.inDays <= 730) {  // 365 * 2
       return normal;
     } else {
       return invalid;

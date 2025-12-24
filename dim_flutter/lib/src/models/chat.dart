@@ -221,9 +221,11 @@ abstract class Conversation with Logging implements lnc.Observer {
       logError('entity checker lost, cannot refresh documents now.');
       return false;
     }
-    List<Document> docs = await facebook.getDocuments(identifier);
+    List<Document> docs = await checker.database.getDocuments(identifier);
     logInfo('refreshing ${docs.length} document(s) "$name" $identifier');
-    return await checker.queryDocuments(identifier, docs);
+    // return await checker.checkDocuments(identifier, docs);
+    DateTime? lastTime = checker.getLastDocumentTime(identifier, docs);
+    return await checker.queryDocuments(identifier, lastTime, respondents: [Station.ANY]);
   }
 
   Future<void> reloadData() async {
