@@ -89,7 +89,7 @@ abstract interface class SearchCommand implements Command {
 class BaseSearchCommand extends BaseCommand implements SearchCommand {
   BaseSearchCommand(super.dict);
 
-  BaseSearchCommand.from(String name, String keywords) : super.fromName(name) {
+  BaseSearchCommand.from(String name, String keywords) : super.fromCmd(name) {
     if (keywords.isNotEmpty) {
       this['keywords'] = keywords;
     }
@@ -109,7 +109,7 @@ class BaseSearchCommand extends BaseCommand implements SearchCommand {
     if (words == null) {
       remove('keywords');
     } else {
-      this['keywords'] = keywords;
+      this['keywords'] = words;
     }
   }
 

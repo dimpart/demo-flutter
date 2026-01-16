@@ -1,7 +1,6 @@
 import 'package:dim_client/sdk.dart';
 import 'package:dim_client/ok.dart';
 import 'package:dim_client/ok.dart' as lnc;
-import 'package:dim_client/group.dart';
 import 'package:dim_client/pnf.dart' hide NotificationNames;
 
 import '../common/constants.dart';
@@ -45,12 +44,6 @@ class Config with Logging {
   /// Service bots for translation
   List<ID> get translators {
     var array = _info?['translators'];
-    return _IDUtils.convert(array);
-  }
-
-  /// Common assistants for group
-  List<ID> get assistants {
-    var array = _info?['assistants'];
     return _IDUtils.convert(array);
   }
 
@@ -138,12 +131,6 @@ class Config with Logging {
 }
 
 void _initWithConfig(Config config) {
-  // update group assistants
-  var bots = config.assistants;
-  if (bots.isNotEmpty) {
-    SharedGroupManager man = SharedGroupManager();
-    man.delegate.setCommonAssistants(bots);
-  }
   // update file uploader
   var ftp = SharedFileUploader();
   ftp.initWithConfig(config);

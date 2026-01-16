@@ -42,20 +42,6 @@ class GroupCache with Logging implements GroupDBI {
       await _memberTable.removeMember(member, group: group);
 
   @override
-  Future<List<ID>> getAssistants({required ID group}) async {
-    // TODO: implement getAssistants
-    logWarning('implement getAssistants: $group');
-    return [];
-  }
-
-  @override
-  Future<bool> saveAssistants(List<ID> bots, {required ID group}) async {
-    // TODO: implement saveAssistants
-    logWarning('implement saveAssistants: $group, $bots');
-    return false;
-  }
-
-  @override
   Future<List<ID>> getAdministrators({required ID group}) async =>
       await _adminTable.getAdministrators(group);
 

@@ -324,14 +324,14 @@ class GroupInfo extends Conversation with Logging {
     }
     // 3. save into local storage and broadcast it
     var archivist = shared.facebook.archivist;
-    var ok = await archivist?.saveDocument(bulletin);
+    var ok = await archivist?.saveDocument(bulletin, group);
     if (ok == true) {
       Log.warning('group document saved: $group');
     } else {
       assert(false, 'failed to save group document: $bulletin');
       return 'failed to save group document';
     }
-    if (await man.broadcastGroupDocument(bulletin)) {
+    if (await man.broadcastGroupDocument(bulletin, group)) {
       Log.warning('group document broadcast: $group');
     } else {
       assert(false, 'failed to broadcast group document: $bulletin');

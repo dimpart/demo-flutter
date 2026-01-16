@@ -43,7 +43,8 @@ class Vestibule implements Observer {
       return;
     } else if (entity.isUser) {
       // check user
-      if (await facebook.getPublicKeyForEncryption(entity) == null) {
+      var docs = await facebook.getDocuments(entity);
+      if (docs.isEmpty) {
         Log.error('user not ready yet: $entity');
         return;
       }

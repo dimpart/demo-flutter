@@ -259,7 +259,8 @@ class Amanuensis with Logging {
     // check content text for mentioned me
     int mentioned = 0;
     if (content is TextContent) {
-      Visa? visa = await current?.visa;
+      List<Document>? docs = await current?.documents;
+      Visa? visa = docs == null ? null : DocumentUtils.lastVisa(docs);
       String? nickname = visa?.name;
       assert(nickname != null, 'failed to get my nickname');
       var text = content.text;

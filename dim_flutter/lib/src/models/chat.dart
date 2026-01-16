@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:dim_client/sdk.dart';
 import 'package:dim_client/ok.dart';
 import 'package:dim_client/ok.dart' as lnc;
+import 'package:dim_client/common.dart';
 
 import '../common/constants.dart';
 import '../common/dbi/contact.dart';

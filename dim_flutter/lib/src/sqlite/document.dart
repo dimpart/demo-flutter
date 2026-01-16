@@ -17,8 +17,11 @@ String getDocumentType(Document document) {
     return Converter.getString(type) ?? '';
   }
   // get type for did
-  var did = document.identifier;
-  if (did.isUser) {
+  ID? did = ID.parse(document['did']);
+  if (did == null) {
+    assert(false, 'document ID not found: $document');
+    return DocumentType.PROFILE;
+  } else if (did.isUser) {
     return DocumentType.VISA;
   } else if (did.isGroup) {
     return DocumentType.BULLETIN;
@@ -40,7 +43,8 @@ Document _extractDocument(ResultSet resultSet, int index) {
     type = '*';
   }
   TransportableData? ted = TransportableData.parse(signature);
-  Document doc = Document.create(type, identifier!, data: data, signature: ted);
+  Document doc = Document.create(type, data: data, signature: ted);
+  doc.setString('did', identifier!);
   if (type == '*') {
     if (identifier.isUser) {
       type = DocumentType.VISA;
@@ -67,8 +71,7 @@ class _DocumentTable extends DataTableHandler<Document> {
   }
 
   // protected
-  Future<bool> updateDocument(Document doc) async {
-    ID identifier = doc.identifier;
+  Future<bool> updateDocument(Document doc, ID identifier) async {
     // String type = doc.getString('type') ?? '';
     String type = getDocumentType(doc);
     String? data = doc.getString('data');
@@ -84,8 +87,7 @@ class _DocumentTable extends DataTableHandler<Document> {
   }
 
   // protected
-  Future<bool> insertDocument(Document doc) async {
-    ID identifier = doc.identifier;
+  Future<bool> insertDocument(Document doc, ID identifier) async {
     // String type = doc.getString('type') ?? '';
     String type = getDocumentType(doc);
     String? data = doc.getString('data');
@@ -127,7 +129,11 @@ class _DocTask extends DbTask<ID, List<Document>> {
       assert(false, 'should not happen: $_entity');
       return false;
     }
-    ID identifier = doc.identifier;
+    ID? identifier = ID.parse(doc['did']);
+    if (identifier == null) {
+      assert(false, 'document ID not found: $doc');
+      identifier = _entity;
+    }
     // String type = doc.getString('type') ?? '';
     String type = getDocumentType(doc);
     bool update = false;
@@ -135,7 +141,7 @@ class _DocTask extends DbTask<ID, List<Document>> {
     // check old documents
     for (int index = documents.length - 1; index >= 0; --index) {
       item = documents[index];
-      if (item.identifier != identifier) {
+      if (identifier != item['did']) {
         assert(false, 'document error: $identifier, $item');
         continue;
       } else if (getDocumentType(item) != type) {
@@ -151,10 +157,10 @@ class _DocTask extends DbTask<ID, List<Document>> {
     }
     if (update) {
       // update old record
-      return await _table.updateDocument(doc);
+      return await _table.updateDocument(doc, identifier);
     }
     // add new record
-    var ok = await _table.insertDocument(doc);
+    var ok = await _table.insertDocument(doc, identifier);
     if (ok) {
       documents.add(doc);
     }
@@ -179,11 +185,11 @@ class DocumentCache extends DataCache<ID, List<Document>> implements DocumentDBI
   }
 
   @override
-  Future<bool> saveDocument(Document doc) async {
+  Future<bool> saveDocument(Document doc, ID identifier) async {
     //
     //  0. check valid
     //
-    ID identifier = doc.identifier;
+    assert(identifier == doc['did'], 'document ID not matched: $identifier, $doc');
     if (!doc.isValid) {
       logError('document not valid: $identifier');
       return false;

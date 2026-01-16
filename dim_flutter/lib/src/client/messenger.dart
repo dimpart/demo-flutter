@@ -95,7 +95,7 @@ class SharedMessenger extends ClientMessenger {
       return false;
     }
     // 2. get visa document for current user
-    Visa? visa = await user.visa;
+    Visa? visa = DocumentUtils.lastVisa(await user.documents);
     if (visa == null) {
       // FIXME: query from station or create a new one?
       assert(false, 'user error: $user');
@@ -119,7 +119,7 @@ class SharedMessenger extends ClientMessenger {
     assert(sig != null, 'failed to sign visa: $visa, $user');
     // 5. save it
     var archivist = facebook.archivist;
-    bool? ok = await archivist?.saveDocument(visa);
+    bool? ok = await archivist?.saveDocument(visa, user.identifier);
     assert(ok == true, 'failed to save document: $visa');
     logWarning('visa updated: $ok, $visa');
     return ok == true;

@@ -62,20 +62,20 @@ class Gallery {
       );
 
   static Image? getThumbnail(Map content) {
-    String? small = content['thumbnail'];
+    var small = content['thumbnail'];
     return small == null ? null : ImageUtils.getImage(small);
   }
   static Image? getSnapshot(Map content) {
-    String? small = content['snapshot'];
+    var small = content['snapshot'];
     return small == null ? null : ImageUtils.getImage(small);
   }
 
   static ImageProvider? getThumbnailProvider(Map content) {
-    String? small = content['thumbnail'];
+    var small = content['thumbnail'];
     return small == null ? null : ImageUtils.getProvider(small);
   }
   static ImageProvider? getSnapshotProvider(Map content) {
-    String? small = content['snapshot'];
+    var small = content['snapshot'];
     return small == null ? null : ImageUtils.getProvider(small);
   }
 

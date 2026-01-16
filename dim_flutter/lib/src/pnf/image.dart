@@ -42,9 +42,8 @@ import '../ui/icons.dart';
 
 abstract class ImageUtils {
 
-  static Image? getImage(String small, {double? width, double? height, BoxFit? fit}) {
-    assert(small.isNotEmpty, 'image info empty');
-    if (small.contains('://')) {
+  static Image? getImage(Object small, {double? width, double? height, BoxFit? fit}) {
+    if (small is String && small.contains('://')) {
       return networkImage(small, width: width, height: height, fit: fit);
     } else {
       var ted = TransportableData.parse(small);
@@ -57,9 +56,8 @@ abstract class ImageUtils {
     return null;
   }
 
-  static ImageProvider? getProvider(String small) {
-    assert(small.isNotEmpty, 'image info empty');
-    if (small.contains('://')) {
+  static ImageProvider? getProvider(Object small) {
+    if (small is String && small.contains('://')) {
       return networkImageProvider(small);
     } else {
       var ted = TransportableData.parse(small);

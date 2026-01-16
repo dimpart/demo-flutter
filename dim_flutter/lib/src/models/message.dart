@@ -224,7 +224,7 @@ abstract class MessageBuilder with Logging {
 
   String _getInviteCommandText(InviteCommand content, ID sender) {
     String commander = getName(sender);
-    var someone = content.member;
+    var someone = ID.parse(content['member']);
     var members = content.members;
     if (members == null || members.isEmpty) {
       assert(someone != null, 'failed to get group member: $content');
@@ -254,7 +254,7 @@ abstract class MessageBuilder with Logging {
 
   String _getExpelCommandText(ExpelCommand content, ID sender) {
     String commander = getName(sender);
-    var someone = content.member;
+    var someone = ID.parse(content['member']);
     var members = content.members;
     if (members == null || members.isEmpty) {
       assert(someone != null, 'failed to get group member: $content');

@@ -108,8 +108,8 @@ class SharedDatabase implements AccountDBI, SessionDBI, MessageDBI,
   //
 
   @override
-  Future<bool> saveDocument(Document doc) async =>
-      await documentTable.saveDocument(doc);
+  Future<bool> saveDocument(Document doc, ID entity) async =>
+      await documentTable.saveDocument(doc, entity);
 
   @override
   Future<List<Document>> getDocuments(ID entity) async =>
@@ -228,14 +228,6 @@ class SharedDatabase implements AccountDBI, SessionDBI, MessageDBI,
 
   Future<bool> removeMember(ID member, {required ID group}) async =>
       await groupTable.removeMember(member, group: group);
-
-  @override
-  Future<List<ID>> getAssistants({required ID group}) async =>
-      await groupTable.getAssistants(group: group);
-
-  @override
-  Future<bool> saveAssistants(List<ID> bots, {required ID group}) async =>
-      await groupTable.saveAssistants(bots, group: group);
 
   @override
   Future<List<ID>> getAdministrators({required ID group}) async =>

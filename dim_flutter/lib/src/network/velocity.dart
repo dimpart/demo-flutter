@@ -117,18 +117,18 @@ class VelocityMeter with Logging {
       // assert(false, 'failed to get message package');
       return null;
     }
-    Log.info('connecting to $host:$port ...');
+    logInfo('connecting to $host:$port ...');
     // _startTime = Time.currentTimeSeconds;
     Uri url = Uri.parse('ws://$host:$port/');
     WebSocketConnector socket = WebSocketConnector(url);
     try {
       bool ok = await socket.connect();
       if (!ok) {
-        Log.error('failed to connect url: $url');
+        logError('failed to connect url: $url');
         return null;
       }
     } on Exception catch (e) {
-      Log.error('failed to connect $host:$port, $e');
+      logError('failed to connect $host:$port, $e');
       return null;
     }
     // prepare data handler
@@ -136,14 +136,14 @@ class VelocityMeter with Logging {
       if (_startTime > 0 && msg.length > 64) {
         _endTime = TimeUtils.currentTimeSeconds;
       }
-      Log.info('received ${msg.length} bytes from $host:$port');
+      logInfo('received ${msg.length} bytes from $host:$port');
       _caches.add(msg);
     });
     // send
-    Log.info('connected, sending ${data.length} bytes to $host:$port ...');
+    logInfo('connected, sending ${data.length} bytes to $host:$port ...');
     _startTime = TimeUtils.currentTimeSeconds;
     int cnt = await socket.write(data);
-    Log.info('$cnt byte(s) sent, waiting response from $host:$port ...');
+    logInfo('$cnt byte(s) sent, waiting response from $host:$port ...');
     return socket;
   }
 
@@ -177,7 +177,7 @@ class VelocityMeter with Logging {
 
   Future<bool> _process(Uint8List data) async {
     if (!_checkMessageData(data)) {
-      Log.warning('ignore pack: $data');
+      logWarning('ignore pack: $data');
       return false;
     }
     GlobalVariable shared = GlobalVariable();
@@ -193,7 +193,7 @@ class VelocityMeter with Logging {
     }
     ID sender = rMsg.sender;
     if (sender.type != EntityType.STATION) {
-      Log.error('sender not a station: $sender');
+      logError('sender not a station: $sender');
       return false;
     }
     double? duration = _endTime - _startTime;
@@ -206,9 +206,9 @@ class VelocityMeter with Logging {
       assert(ok, 'should not happen');
       socketAddress = await _decryptAddress(rMsg, messenger);
     } catch (e, st) {
-      Log.error('socket address not found in message from $sender}, error: $e, $st');
+      logError('socket address not found in message from $sender}, error: $e, $st');
     }
-    Log.warning('station ($host:$port) $sender responded within $duration seconds via socket: "$socketAddress"');
+    logWarning('station ($host:$port) $sender responded within $duration seconds via socket: "$socketAddress"');
     return true;
   }
 
@@ -216,7 +216,7 @@ class VelocityMeter with Logging {
     // [Meta Protocol]
     // [Visa Protocol]
     var packer = messenger.packer;
-    if (packer is MessagePacker) {
+    if (packer is CommonPacker) {
       return await packer.checkAttachments(rMsg);
     } else {
       return false;

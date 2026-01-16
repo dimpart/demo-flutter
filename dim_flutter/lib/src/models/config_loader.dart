@@ -73,7 +73,7 @@ class ConfigLoader with Logging {
 
   Future<bool> saveConfig(Map cnf) async {
     String path = await _cachePath();
-    logInfo('saving config: $path');
+    logWarning('saving config: $path');
     bool ok = await ConfigStorage.save(cnf, path);
     if (ok) {
       return true;
@@ -86,9 +86,10 @@ class ConfigLoader with Logging {
     logInfo('downloading config: $entrance');
     var config = await ConfigServer.download(entrance);
     if (config is Map) {
+      logWarning('downloaded config from: $entrance => $config');
       return await _updateBranches(config);
     }
-    assert(false, 'failed to download config: $entrance');
+    logError('failed to download config: $entrance');
     return null;
   }
 
