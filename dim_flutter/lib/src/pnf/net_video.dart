@@ -53,7 +53,7 @@ class NetworkVideoFactory {
 
   PortableNetworkView getVideoView(VideoContent content,
       {double? width, double? height, OnVideoShare? onVideoShare}) {
-    PortableNetworkFile? pnf = PortableNetworkFile.parse(content.toMap());
+    var pnf = TransportableFile.parse(content.toMap());
     Uri? url = pnf?.url;
     if (url == null || pnf == null) {
       throw FormatException('PNF error: $content');
@@ -214,7 +214,7 @@ class _PortableVideoLoader extends PortableFileLoader with Logging {
   //
   //  Factory
   //
-  static _PortableVideoLoader from(PortableNetworkFile pnf) {
+  static _PortableVideoLoader from(TransportableFile pnf) {
     _PortableVideoLoader loader = _PortableVideoLoader(pnf);
     // if (pnf.url != null && pnf.data == null) {
     //   SharedFileUploader().addDownloadTask(loader);

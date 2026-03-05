@@ -26,7 +26,7 @@ Pair<Address?, String?> generateAddress() {
   if (publicKey == null) {
     return const Pair(null, null);
   }
-  Uint8List data = publicKey.data;
+  Uint8List data = publicKey.data.bytes!;
   Address address = ETHAddress.generate(data);
   return Pair(address, words);
 }

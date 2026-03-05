@@ -49,7 +49,7 @@ class PortableNetworkFactory {
 
   final Map<String, PortableFileLoader> _loaders = WeakValueMap();
 
-  PortableFileLoader getLoader(PortableNetworkFile pnf) {
+  PortableFileLoader getLoader(TransportableFile pnf) {
     PortableFileLoader? runner;
     var filename = pnf.filename;
     var url = pnf.url;
@@ -71,7 +71,7 @@ class PortableNetworkFactory {
     return runner;
   }
 
-  PortableFileLoader _createLoader(PortableNetworkFile pnf) {
+  PortableFileLoader _createLoader(TransportableFile pnf) {
     PortableFileLoader loader = PortableFileLoader(pnf);
     if (pnf.data == null) {
       /*await */loader.prepare();
@@ -79,7 +79,7 @@ class PortableNetworkFactory {
     return loader;
   }
 
-  PortableFileLoader _createUpper(PortableNetworkFile pnf) {
+  PortableFileLoader _createUpper(TransportableFile pnf) {
     PortableFileLoader loader = PortableFileLoader(pnf);
     if (pnf['enigma'] != null) {
       /*await */loader.prepare();
@@ -96,7 +96,7 @@ abstract class PortableNetworkView<T> extends StatefulWidget {
 
   final PortableFileLoader loader;
 
-  PortableNetworkFile? get pnf {
+  TransportableFile? get pnf {
     var task = loader.downloadTask;
     if (task != null) {
       return task.pnf;
@@ -140,7 +140,7 @@ abstract class PortableNetworkState<T extends PortableNetworkView>
   Future<void> onReceiveNotification(lnc.Notification notification) async {
     String name = notification.name;
     Map? userInfo = notification.userInfo;
-    PortableNetworkFile? pnf = userInfo?['PNF'];
+    TransportableFile? pnf = userInfo?['PNF'];
     String? filename = pnf?.filename;
     int? sn = pnf?['sn'];
     Uri? url = userInfo?['URL'];

@@ -113,9 +113,10 @@ abstract class HtmlUri {
 
   /// "data:image/png;base64,{BASE64_ENCODE}"
   static Uri encodeImageData(Uint8List img, {String mimeType = 'image/png'}) {
-    var ted = Base64Data.fromData(img);
-    var url = ted.encode(mimeType);
-    return Uri.parse(url);
+    // var ted = Base64Data.fromData(img);
+    // var url = ted.encode(mimeType);
+    // return Uri.parse(url);
+    return Uri.dataFromBytes(img, mimeType: mimeType);
   }
 
 }

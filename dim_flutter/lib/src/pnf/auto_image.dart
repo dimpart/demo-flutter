@@ -47,7 +47,7 @@ void previewImageContent(BuildContext context, ImageContent image, List<InstantM
 }) {
   int pos = messages.length;
   Content item;
-  PortableNetworkFile? pnf;
+  TransportableFile? pnf;
   List<PortableImageView> images = [];
   NetworkImageFactory factory = NetworkImageFactory();
   int index = -1;
@@ -60,7 +60,7 @@ void previewImageContent(BuildContext context, ImageContent image, List<InstantM
       assert(index == -1, 'duplicated message?');
       index = images.length;
     }
-    pnf = PortableNetworkFile.parse(item.toMap());
+    pnf = TransportableFile.parse(item.toMap());
     if (pnf == null) {
       assert(false, '[PNF] image content error: $item');
       continue;
@@ -74,7 +74,7 @@ void previewImageContent(BuildContext context, ImageContent image, List<InstantM
 
 /// Save image from content
 void saveImageContent(BuildContext context, ImageContent image) {
-  PortableNetworkFile? pnf = PortableNetworkFile.parse(image.toMap());
+  var pnf = TransportableFile.parse(image.toMap());
   if (pnf == null) {
     assert(false, 'PNF error: $image');
     return;
@@ -94,7 +94,7 @@ class NetworkImageFactory {
   final Map<String, _ImageLoader> _loaders = WeakValueMap();
   final Map<Uri, Set<_AutoImageView>> _views = {};
 
-  PortableImageLoader getImageLoader(PortableNetworkFile pnf) {
+  PortableImageLoader getImageLoader(TransportableFile pnf) {
     _ImageLoader? runner;
     var filename = pnf.filename;
     var url = pnf.url;
@@ -116,7 +116,7 @@ class NetworkImageFactory {
     return runner;
   }
 
-  _ImageLoader _createLoader(PortableNetworkFile pnf) {
+  _ImageLoader _createLoader(TransportableFile pnf) {
     _ImageLoader loader = _ImageLoader(pnf);
     if (pnf.data == null) {
       /*await */loader.prepare();
@@ -124,7 +124,7 @@ class NetworkImageFactory {
     return loader;
   }
 
-  _ImageLoader _createUpper(PortableNetworkFile pnf) {
+  _ImageLoader _createUpper(TransportableFile pnf) {
     _ImageLoader loader = _ImageLoader(pnf);
     if (pnf['enigma'] != null) {
       /*await */loader.prepare();
@@ -132,7 +132,7 @@ class NetworkImageFactory {
     return loader;
   }
 
-  PortableImageView getImageView(PortableNetworkFile pnf, {
+  PortableImageView getImageView(TransportableFile pnf, {
     double? width, double? height, BoxFit? fit,
   }) {
     Uri? url = pnf.url;

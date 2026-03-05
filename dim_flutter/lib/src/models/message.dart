@@ -132,7 +132,8 @@ abstract class MessageBuilder with Logging {
     } else if (content is NameCard) {
       text = '[NameCard:${content.name}]';
     } else if (content is CustomizedContent) {
-      var app = content.application;
+      // var app = content.application;
+      var app = content.getString('app');
       var mod = content.module;
       var act = content.action;
       text = '[Customized:app=$app,mod=$mod,act=$act]';

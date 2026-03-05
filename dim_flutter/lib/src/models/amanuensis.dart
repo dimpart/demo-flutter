@@ -383,9 +383,10 @@ class Amanuensis with Logging {
     if (content is CustomizedContent) {
       // customized content will be parsed,
       // no need to save it here.
-      String app = content.application;
-      String mod = content.module;
-      String act = content.action;
+      var app = content.getString('app');
+      // var app = content.application;
+      var mod = content.module;
+      var act = content.action;
       logInfo('ignore customized content: $app, $mod, $act from: ${iMsg.sender}');
       return true;
     } else if (ServiceContentHandler(shared.database).checkAppContent(content)) {

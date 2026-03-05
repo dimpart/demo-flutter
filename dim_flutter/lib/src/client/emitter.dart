@@ -106,7 +106,7 @@ class SharedEmitter extends Emitter implements Observer {
     int priority = 0
   }) async {
     Uri? url = content.url;
-    Uint8List? data = content.data;
+    Uint8List? data = content.data?.bytes;
     String? filename = content.filename;
     //
     //  1. check URL

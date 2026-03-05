@@ -49,7 +49,7 @@ import 'net_image.dart';
 
 
 /// preview avatar image
-void previewAvatar(BuildContext context, ID identifier, PortableNetworkFile avatar, {
+void previewAvatar(BuildContext context, ID identifier, TransportableFile avatar, {
   BoxFit? fit,
 }) {
   var image = AvatarFactory().getImageView(identifier, avatar, fit: fit);
@@ -67,7 +67,7 @@ class AvatarFactory {
   final Map<Uri, Set<_AvatarImageView>> _views = {};
   final Map<ID, Set<_AutoAvatarView>> _avatars = {};
 
-  PortableImageLoader getImageLoader(PortableNetworkFile pnf) {
+  PortableImageLoader getImageLoader(TransportableFile pnf) {
     _AvatarImageLoader? runner;
     var filename = pnf.filename;
     var url = pnf.url;
@@ -89,7 +89,7 @@ class AvatarFactory {
     return runner;
   }
 
-  _AvatarImageLoader _createLoader(PortableNetworkFile pnf) {
+  _AvatarImageLoader _createLoader(TransportableFile pnf) {
     _AvatarImageLoader loader = _AvatarImageLoader(pnf);
     if (pnf.data == null) {
       /*await */loader.prepare();
@@ -97,7 +97,7 @@ class AvatarFactory {
     return loader;
   }
 
-  _AvatarImageLoader _createUpper(PortableNetworkFile pnf) {
+  _AvatarImageLoader _createUpper(TransportableFile pnf) {
     _AvatarImageLoader loader = _AvatarImageLoader(pnf);
     if (pnf['enigma'] != null) {
       /*await */loader.prepare();
@@ -105,7 +105,7 @@ class AvatarFactory {
     return loader;
   }
 
-  PortableImageView getImageView(ID user, PortableNetworkFile pnf, {
+  PortableImageView getImageView(ID user, TransportableFile pnf, {
     double? width, double? height, BoxFit? fit,
   }) {
     var loader = getImageLoader(pnf);
@@ -177,7 +177,7 @@ class _Info {
   final double height;
   final BoxFit? fit;
 
-  PortableNetworkFile? avatar;
+  TransportableFile? avatar;
   PortableImageView? avatarView;
 
   static from(ID identifier, {
@@ -275,7 +275,7 @@ class _AutoAvatarState extends State<_AutoAvatarView> implements lnc.Observer {
       return;
     }
     // get visa.avatar
-    PortableNetworkFile? avatar = doc.avatar;
+    TransportableFile? avatar = doc.avatar;
     if (avatar == null) {
       Log.warning('avatar not found: $doc');
       return;
@@ -384,7 +384,7 @@ class _AvatarDownloadTask extends PortableFileDownloadTask {
 
 }
 
-Future<String?> _getAvatarPath(String? filename, PortableNetworkFile pnf) async {
+Future<String?> _getAvatarPath(String? filename, TransportableFile pnf) async {
   if (filename == null || filename.isEmpty) {
     assert(false, 'PNF error: $pnf');
     return null;

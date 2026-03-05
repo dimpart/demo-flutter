@@ -148,8 +148,8 @@ class SharedFileUploader with Logging {
       return null;
     }
     // create upload task
-    var ted = TransportableData.create(data);
-    var pnf = PortableNetworkFile.createFromData(ted, filename);
+    var ted = Base64Data.createWithBytes(data);
+    var pnf = PortableNetworkFile.createWithData(ted, filename);
     pnf.password = Password.kPlainKey;
     var task = await PortableFileUploadTask.create(api, pnf,
       sender: sender, enigma: _enigma,
@@ -182,7 +182,7 @@ class SharedFileUploader with Logging {
       assert(false, 'file API not ready');
       return false;
     }
-    var pnf = PortableNetworkFile.parse(content.toMap());
+    var pnf = TransportableFile.parse(content.toMap());
     if (pnf == null) {
       logError('file content error: $content');
       assert(false, 'file content error: $content');

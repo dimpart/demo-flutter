@@ -41,7 +41,7 @@ import '../filesys/upload.dart';
 class PortableFileLoader {
   PortableFileLoader(this.pnf);
 
-  final PortableNetworkFile pnf;
+  final TransportableFile pnf;
 
   PortableNetworkUpper? uploadTask;
   PortableNetworkLoader? downloadTask;
@@ -119,7 +119,7 @@ class PortableFileUploadTask extends PortableNetworkUpper {
   @override
   Future<Uint8List?> get fileData async {
     String? path = await cacheFilePath;
-    Uint8List? data = pnf.data;
+    Uint8List? data = pnf.data?.bytes;
     if (data == null || data.isEmpty) {
       // get from local storage
       if (path != null && await Paths.exists(path)) {
@@ -141,11 +141,11 @@ class PortableFileUploadTask extends PortableNetworkUpper {
   }
 
   /// create upload task
-  static Future<PortableFileUploadTask?> create(String api, PortableNetworkFile pnf, {
+  static Future<PortableFileUploadTask?> create(String api, TransportableFile pnf, {
     required ID sender, required Enigma enigma,
   }) async {
     Uri? url = pnf.url;
-    Uint8List? data = pnf.data;
+    Uint8List? data = pnf.data?.bytes;
     String? filename = pnf.filename;
     assert(url == null, 'remote URL already exists: $pnf');
     //

@@ -79,7 +79,7 @@ class ContactInfo extends Conversation {
 
   Visa? get visa => _visa;
 
-  PortableNetworkFile? _avatar;
+  TransportableFile? _avatar;
 
   DateTime? _lastActiveTime;  // time of last login
 

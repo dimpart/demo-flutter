@@ -47,7 +47,7 @@ abstract class ImageUtils {
       return networkImage(small, width: width, height: height, fit: fit);
     } else {
       var ted = TransportableData.parse(small);
-      Uint8List? bytes = ted?.data;
+      Uint8List? bytes = ted?.bytes;
       if (bytes != null && bytes.isNotEmpty) {
         return memoryImage(bytes, width: width, height: height, fit: fit);
       }
@@ -61,7 +61,7 @@ abstract class ImageUtils {
       return networkImageProvider(small);
     } else {
       var ted = TransportableData.parse(small);
-      Uint8List? bytes = ted?.data;
+      Uint8List? bytes = ted?.bytes;
       if (bytes != null && bytes.isNotEmpty) {
         return memoryImageProvider(bytes);
       }

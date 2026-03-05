@@ -53,7 +53,7 @@ class NetworkAudioFactory {
   final Map<Uri, _PortableAudioView> _views = WeakValueMap();
 
   PortableNetworkView getAudioView(AudioContent content, {Color? color, Color? backgroundColor}) {
-    PortableNetworkFile? pnf = PortableNetworkFile.parse(content.toMap());
+    var pnf = TransportableFile.parse(content.toMap());
     if (pnf == null) {
       throw FormatException('PNF error: $content');
     }
