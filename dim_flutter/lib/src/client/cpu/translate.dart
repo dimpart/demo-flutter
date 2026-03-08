@@ -11,7 +11,8 @@ import '../../ui/translation.dart';
 class TranslateContentHandler with Logging implements CustomizedContentHandler {
 
   @override
-  Future<List<Content>> handleAction(String act, ID sender, CustomizedContent content, ReliableMessage rMsg) async {
+  Future<List<Content>> handleAction(CustomizedContent content, ReliableMessage rMsg, Messenger messenger) async {
+    ID sender = rMsg.sender;
     // parse & cache translate content
     TranslateContent tr = TranslateContent(content.toMap());
     if (tr.action != 'respond') {

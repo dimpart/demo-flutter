@@ -97,7 +97,8 @@ class ServiceContentHandler with Logging implements CustomizedContentHandler {
   }
 
   @override
-  Future<List<Content>> handleAction(String act, ID sender, CustomizedContent content, ReliableMessage rMsg) async {
+  Future<List<Content>> handleAction(CustomizedContent content, ReliableMessage rMsg, Messenger messenger) async {
+    ID sender = rMsg.sender;
     await saveAppContent(content, sender);
     return [];
   }

@@ -29,6 +29,8 @@ class GlobalVariable {
     /// Step 6: set messenger
   }
 
+  late final CompatLibraryLoader libraryLoader;
+
   late final Config config;
   late final SharedDatabase database;
 
@@ -57,25 +59,29 @@ class GlobalVariable {
   }
 
   /// Step 1: prepare
-  static Config createConfig() {
-    var loader = CompatLibraryLoader();
-    loader.run();
+  Config createConfig() {
+    // register plugins
+    libraryLoader = CompatLibraryLoader();
+    libraryLoader.run();
+    // create config
     Config config = Config();
     config.load();
     return config;
   }
 
   /// Step 2: create database
-  static SharedDatabase createDatabase() {
+  SharedDatabase createDatabase() {
     // create db
     var db = SharedDatabase();
     // purge expired contents
     ServiceContentHandler(db).clearExpiredContents();
+    // register for services
+    libraryLoader.registerCustomizedHandlers(db);
     return db;
   }
 
   /// Step 3: create facebook
-  static ClientFacebook createFacebook(SharedDatabase db) {
+  ClientFacebook createFacebook(SharedDatabase db) {
     var facebook = ClientFacebook(db);
     facebook.barrack = ClientArchivist(facebook, db);
     facebook.entityChecker = ClientChecker(facebook, db);
@@ -86,14 +92,14 @@ class GlobalVariable {
   }
 
   /// Step 4: create client
-  static Client createClient(ClientFacebook facebook, SharedDatabase db) {
+  Client createClient(ClientFacebook facebook, SharedDatabase db) {
     var client = Client(facebook, db);
     client.start();
     return client;
   }
 
   /// Step 5: create emitter
-  static SharedEmitter createEmitter() {
+  SharedEmitter createEmitter() {
     return SharedEmitter();
   }
 

@@ -1,15 +1,50 @@
 
 import 'package:dim_client/compat.dart';
 import 'package:dim_client/common.dart';
+import 'package:dim_client/cpu.dart';
+import 'package:dim_client/plugins.dart';
 
 import '../../common/protocol/search.dart';
+import '../../ui/translation.dart';
+import '../cpu/translate.dart';
+import '../cpu/text.dart';
+import '../database.dart';
 
 
 class CompatLibraryLoader extends LibraryLoader {
   CompatLibraryLoader() : super(extensionLoader: _CompatExtensionLoader());
+
+  AppCustomizedFilter get customizedFilter {
+    var filter = sharedMessageExtensions.customizedFilter;
+    if (filter is AppCustomizedFilter) {
+      return filter;
+    }
+    filter = AppCustomizedFilter();
+    sharedMessageExtensions.customizedFilter = filter;
+    return filter;
+  }
+
+  void registerCustomizedHandlers(SharedDatabase database) {
+
+    var filter = customizedFilter;
+
+    // Translation
+    var trans = TranslateContentHandler();
+    filter.setContentHandler(app: Translator.app, mod: Translator.mod, handler: trans);
+    filter.setContentHandler(app: Translator.app, mod: 'test', handler: trans);
+
+    // Services
+    var service = ServiceContentHandler(database);
+    ServiceContentHandler.appModules.forEach((app, modules) {
+      for (var mod in modules) {
+        filter.setContentHandler(app: app, mod: mod, handler: service);
+      }
+    });
+
+  }
 }
 
-class _CompatExtensionLoader extends CommonExtensionLoader {
+class _CompatExtensionLoader extends ClientExtensionLoader {
 
   @override
   void registerCommandFactories() {
