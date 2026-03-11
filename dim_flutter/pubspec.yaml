@@ -48,8 +48,8 @@ dependencies:
 #  webview_windows: ^0.4.0
   url_launcher: ^6.3.0
 
-  flutter_markdown: ^0.6.19
-#  markdown: ^7.2.1
+  flutter_markdown: ^0.7.7
+#  markdown: ^7.3.0
   syntax_highlight: ^0.4.0
 
   flutter_section_list: ^1.1.1
@@ -80,9 +80,9 @@ dependencies:
   mkm: 2.3.3
   dkd: 2.3.3
   dimp: 2.3.3
-  dimsdk: 2.3.1
-  dim_plugins: 2.3.1
-  dim_client: 1.4.0
+  dimsdk: 2.3.2
+  dim_plugins: 2.3.2
+  dim_client: 1.4.1
 
   tvbox: 1.0.0
 

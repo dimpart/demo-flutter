@@ -91,14 +91,48 @@ class DevicePlatform {
 ///         ),
 ///
 ///   new:
+/*
+        class MarkdownStyleSheet {
+          ...
+          factory MarkdownStyleSheet.fromTheme(ThemeData theme) {
+            ...
+            blockquoteDecoration: BoxDecoration(
+              color: theme.brightness == Brightness.dark
+                  ? Colors.grey.shade800
+                  : Colors.blue.shade100,
+              borderRadius: BorderRadius.circular(2.0),
+            ),
+ */
+
+
+/// TODO: patch for 'Null check operator used on a null value'
 ///
-///     class MarkdownStyleSheet {
-///       ...
-///       factory MarkdownStyleSheet.fromTheme(ThemeData theme) {
-///         ...
-///         blockquoteDecoration: BoxDecoration(
-///           color: theme.brightness == Brightness.dark
-///               ? Colors.grey.shade800
-///               : Colors.blue.shade100,
-///           borderRadius: BorderRadius.circular(2.0),
-///         ),
+///   file: '/Users/moky/.pub-cache/hosted/pub.flutter-io.cn/flutter_markdown-0.6.23/lib/src/builder.dart'
+///   line: 955
+///
+///   old:
+///
+///     return SelectableText.rich(
+///       text!,
+///       textScaler: styleSheet.textScaler,
+///       textAlign: textAlign ?? TextAlign.start,
+///       onSelectionChanged:
+///           (TextSelection selection, SelectionChangedCause? cause) =>
+///               onSelectionChanged!(text.text, selection, cause),
+///       onTap: onTapText,
+///       key: k,
+///     );
+///
+///   new:
+/*
+        return SelectableText.rich(
+          text!,
+          textScaler: styleSheet.textScaler,
+          textAlign: textAlign ?? TextAlign.start,
+          onSelectionChanged: onSelectionChanged == null ? null :
+              (TextSelection selection, SelectionChangedCause? cause) =>
+                  onSelectionChanged!(text.text, selection, cause),
+          onTap: onTapText,
+          key: k,
+        );
+ */
