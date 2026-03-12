@@ -29,9 +29,7 @@
  * =============================================================================
  */
 import 'package:flutter/material.dart';
-import 'package:flutter_section_list/flutter_section_list.dart';
 
-import '../common/platform.dart';
 import '../ui/styles.dart';
 
 
@@ -128,63 +126,4 @@ class CupertinoTableCell extends StatelessWidget {
     ),
   );
 
-}
-
-
-Widget buildSectionListView({
-  bool enableScrollbar = false,
-  // Axis scrollDirection = Axis.vertical,
-  bool reverse = false,
-  // ScrollController? controller,
-  // bool? primary,
-  // ScrollPhysics? physics,
-  // bool shrinkWrap = false,
-  // EdgeInsetsGeometry? padding,
-  required SectionAdapter adapter,
-  // bool addAutomaticKeepAlives = true,
-  // bool addRepaintBoundaries = true,
-  // bool addSemanticIndexes = true,
-  // double? cacheExtent,
-  // DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-  // ScrollViewKeyboardDismissBehavior keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
-  // String? restorationId,
-  // Clip clipBehavior = Clip.hardEdge,
-}) {
-  var view = SectionListView.builder(
-    reverse: reverse,
-    adapter: adapter,
-  );
-  if (DevicePlatform.isMobile) {
-    // needs to enable scroll bar
-  } else {
-    enableScrollbar = false;
-  }
-  return enableScrollbar ? Scrollbar(child: view) : view;
-}
-
-
-Widget buildScrollView({
-  bool enableScrollbar = false,
-  Axis scrollDirection = Axis.vertical,
-  // bool reverse = false,
-  // EdgeInsetsGeometry? padding,
-  // bool? primary,
-  // ScrollPhysics? physics,
-  // ScrollController? controller,
-  required Widget child,
-  // DragStartBehavior dragStartBehavior = DragStartBehavior.start,
-  // Clip clipBehavior = Clip.hardEdge,
-  // String? restorationId,
-  // ScrollViewKeyboardDismissBehavior keyboardDismissBehavior = ScrollViewKeyboardDismissBehavior.manual,
-}) {
-  var view = SingleChildScrollView(
-    scrollDirection: scrollDirection,
-    child: child,
-  );
-  if (DevicePlatform.isMobile) {
-    // needs to enable scroll bar
-  } else {
-    enableScrollbar = false;
-  }
-  return enableScrollbar ? Scrollbar(child: view) : view;
 }

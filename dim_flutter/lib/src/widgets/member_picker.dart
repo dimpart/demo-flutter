@@ -14,6 +14,7 @@ import '../ui/icons.dart';
 import '../ui/nav.dart';
 import '../ui/styles.dart';
 
+import 'layout.dart';
 import 'table.dart';
 import 'title.dart';
 

@@ -34,7 +34,7 @@ import 'package:get/get.dart';
 
 import '../ui/nav.dart';
 import '../ui/styles.dart';
-import '../widgets/table.dart';
+import '../widgets/layout.dart';
 
 import 'device.dart';
 

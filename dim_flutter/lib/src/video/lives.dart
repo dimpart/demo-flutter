@@ -36,7 +36,7 @@ import 'package:tvbox/lives.dart';
 
 import '../common/constants.dart';
 import '../ui/styles.dart';
-import '../widgets/table.dart';
+import '../widgets/layout.dart';
 
 import 'tvbox.dart';
 
