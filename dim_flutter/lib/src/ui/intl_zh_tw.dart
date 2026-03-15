@@ -266,6 +266,8 @@ final Map<String, String> intlZhTw = {
   //  Profile
   //
   'Remark': '備註',
+  'Alias': '別名',
+  'Memo': '備忘錄',
   'Block Messages': '封鎖訊息',
   'Mute Notifications': '靜音通知',
 
@@ -294,6 +296,7 @@ final Map<String, String> intlZhTw = {
   //
   'Please input group name': '請輸入群組名稱。',
   'Please input alias': '請輸入別名。',
+  'Please input memo': '請輸入備忘錄。',
   'Please review invitations': '請先檢閱邀請。',
 
   'Current user not found': '未找到當前使用者。',

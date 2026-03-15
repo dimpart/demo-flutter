@@ -268,6 +268,8 @@ final Map<String, String> intlFrFr = {
   //  Profile
   //
   'Remark': 'Remarque',
+  'Alias': 'Pseudonyme',
+  'Memo': 'Mémorandum',
   'Block Messages': 'Bloquer les messages',
   'Mute Notifications': 'Muter les notifications',
 
@@ -295,7 +297,8 @@ final Map<String, String> intlFrFr = {
   //  Prompts
   //
   'Please input group name': 'Veuillez saisir le nom du groupe.',
-  'Please input alias': 'Veuillez saisir un alias.',
+  'Please input alias': 'Veuillez saisir le pseudonyme.',
+  'Please input memo': 'Veuillez saisir le mémorandum.',
   'Please review invitations': 'Veuillez d\'abord passer en revue les invitations.',
 
   'Current user not found': 'Utilisateur actuel non trouvé.',

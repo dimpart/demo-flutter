@@ -267,6 +267,8 @@ final Map<String, String> intlEnUs = {
   //  Profile
   //
   'Remark': 'Remark',
+  'Alias': 'Alias',
+  'Memo': 'Memo',
   'Block Messages': 'Block Messages',
   'Mute Notifications': 'Mute Notifications',
 
@@ -295,6 +297,7 @@ final Map<String, String> intlEnUs = {
   //
   'Please input group name': 'Please input group name.',
   'Please input alias': 'Please input alias.',
+  'Please input memo': 'Please input memo.',
   'Please review invitations': 'Please review invitations first.',
 
   'Current user not found': 'Current user not found.',

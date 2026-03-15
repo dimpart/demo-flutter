@@ -268,6 +268,8 @@ final Map<String, String> intlJaJp = {
   //  Profile
   //
   'Remark': '備考',
+  'Alias': '別名',
+  'Memo': 'メモ',
   'Block Messages': 'メッセージのブロック',
   'Mute Notifications': '通知のミュート',
 
@@ -295,7 +297,8 @@ final Map<String, String> intlJaJp = {
   //  Prompts
   //
   'Please input group name': 'グループ名を入力してください。',
-  'Please input alias': 'エイリアスを入力してください。',
+  'Please input alias': '別名を入力してください。',
+  'Please input memo': 'メモを入力してください。',
   'Please review invitations': 'まず招待状を確認してください。',
 
   'Current user not found': '現在のユーザーが見つかりません。',

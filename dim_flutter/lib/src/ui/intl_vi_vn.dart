@@ -268,6 +268,8 @@ final Map<String, String> intlViVN = {
   //  Profile
   //
   'Remark': 'Ghi chú',
+  'Alias': 'Tên khác',
+  'Memo': 'Nội dung ghi nhớ',
   'Block Messages': 'Chặn Tin nhắn',
   'Mute Notifications': 'Tắt Thông báo',
 
@@ -295,7 +297,8 @@ final Map<String, String> intlViVN = {
   //  Prompts
   //
   'Please input group name': 'Vui lòng nhập tên nhóm.',
-  'Please input alias': 'Vui lòng nhập biệt danh.',
+  'Please input alias': 'Vui lòng nhập tên khác.',
+  'Please input memo': 'Vui lòng nhập nội dung ghi nhớ.',
   'Please review invitations': 'Vui lòng xem xét lời mời trước.',
 
   'Current user not found': 'Không tìm thấy người dùng hiện tại.',

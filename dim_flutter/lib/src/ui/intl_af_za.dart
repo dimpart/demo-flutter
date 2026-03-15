@@ -268,6 +268,8 @@ final Map<String, String> intlAfZa = {
   //  Profile
   //
   'Remark': 'Opmerking',
+  'Alias': 'Alias',
+  'Memo': 'Memorandum',
   'Block Messages': 'Blokkeer Boodskappe',
   'Mute Notifications': 'Demper Kennisgewings',
 
@@ -294,8 +296,9 @@ final Map<String, String> intlAfZa = {
   //
   //  Prompts
   //
-  'Please input group name': 'Voer asseblief groepnaam in.',
-  'Please input alias': 'Voer asseblief skuilnaam in.',
+  'Please input group name': 'Voer die groepnaam in.',
+  'Please input alias': 'Voer die alias in.',
+  'Please input memo': 'Voer die memorandum in.',
   'Please review invitations': 'Gaan asseblief eers deur die uitnodigings.',
 
   'Current user not found': 'Huidige gebruiker nie gevind nie.',

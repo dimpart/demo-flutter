@@ -267,7 +267,9 @@ final Map<String, String> intlDeDe = {
   //
   //  Profile
   //
-  'Remark': 'Bemerkung',
+  'Remark': 'Anmerkung',
+  'Alias': 'Alias',
+  'Memo': 'Notiz',
   'Block Messages': 'Nachrichten blockieren',
   'Mute Notifications': 'Benachrichtigungen stummschalten',
 
@@ -294,8 +296,9 @@ final Map<String, String> intlDeDe = {
   //
   //  Prompts
   //
-  'Please input group name': 'Bitte geben Sie den Gruppennamen ein.',
-  'Please input alias': 'Bitte geben Sie einen Alias ein.',
+  'Please input group name': 'Bitte Gruppenname eingeben.',
+  'Please input alias': 'Bitte Alias eingeben.',
+  'Please input memo': 'Bitte Notiz eingeben.',
   'Please review invitations': 'Bitte überprüfen Sie zuerst die Einladungen.',
 
   'Current user not found': 'Aktueller Benutzer nicht gefunden.',

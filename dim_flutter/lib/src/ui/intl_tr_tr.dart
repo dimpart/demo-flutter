@@ -267,6 +267,8 @@ final Map<String, String> intlTrTr = {
   //  Profile
   //
   'Remark': 'Not',
+  'Alias': 'Alternatif Ad',
+  'Memo': 'Hatırlatma Notu',
   'Block Messages': 'Mesajları Engelle',
   'Mute Notifications': 'Bildirimleri Sustur',
 
@@ -293,8 +295,9 @@ final Map<String, String> intlTrTr = {
   //
   //  Prompts
   //
-  'Please input group name': 'Lütfen grup adını girin.',
-  'Please input alias': 'Lütfen takma adı girin.',
+  'Please input group name': 'Lütfen grup adını giriniz.',
+  'Please input alias': 'Lütfen alternatif adı giriniz.',
+  'Please input memo': 'Lütfen hatırlatma notunu giriniz.',
   'Please review invitations': 'Lütfen önce davetiyeleri gözden geçirin.',
 
   'Current user not found': 'Mevcut kullanıcı bulunamadı.',

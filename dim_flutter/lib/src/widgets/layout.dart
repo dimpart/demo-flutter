@@ -114,7 +114,7 @@ Widget buildAdaptiveListTile(BuildContext context, {
   Color? backgroundColor,
   Color? backgroundColorActivated,
   EdgeInsetsGeometry? padding,
-  double leadingSize = 120,
+  double leadingSize = 180,
   // double leadingToTitle = 16.0,
 }) {
   final textStyle = CupertinoTheme.of(context).textTheme.textStyle;

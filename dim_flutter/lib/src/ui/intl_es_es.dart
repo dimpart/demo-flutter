@@ -269,6 +269,8 @@ final Map<String, String> intlEsEs = {
   //  Profile
   //
   'Remark': 'Observación',
+  'Alias': 'Apodo',
+  'Memo': 'Memorando',
   'Block Messages': 'Bloquear mensajes',
   'Mute Notifications': 'Silenciar notificaciones',
 
@@ -295,8 +297,9 @@ final Map<String, String> intlEsEs = {
   //
   //  Prompts
   //
-  'Please input group name': 'Por favor, ingresa el nombre del grupo.',
-  'Please input alias': 'Por favor, ingresa un alias.',
+  'Please input group name': 'Introduce el nombre del grupo.',
+  'Please input alias': 'Introduce el apodo.',
+  'Please input memo': 'Introduce el memorando.',
   'Please review invitations': 'Por favor, revisa las invitaciones primero.',
 
   'Current user not found': 'Usuario actual no encontrado.',

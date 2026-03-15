@@ -268,6 +268,8 @@ final Map<String, String> intlPtPt = {
   //  Profile
   //
   'Remark': 'Observação',
+  'Alias': 'Nome Alternativo',
+  'Memo': 'Anotação',
   'Block Messages': 'Bloquear Mensagens',
   'Mute Notifications': 'Silenciar Notificações',
 
@@ -294,8 +296,9 @@ final Map<String, String> intlPtPt = {
   //
   //  Prompts
   //
-  'Please input group name': 'Por favor, introduza o nome do grupo.',
-  'Please input alias': 'Por favor, introduza um alias.',
+  'Please input group name': 'Por favor, insira o nome do grupo.',
+  'Please input alias': 'Por favor, insira o nome alternativo.',
+  'Please input memo': 'Por favor, insira a anotação.',
   'Please review invitations': 'Por favor, reveja os convites primeiro.',
 
   'Current user not found': 'Usuário atual não encontrado.',

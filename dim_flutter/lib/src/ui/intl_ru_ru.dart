@@ -267,7 +267,9 @@ final Map<String, String> intlRuRu = {
   //
   //  Profile
   //
-  'Remark': 'Заметка',
+  'Remark': 'Примечание',
+  'Alias': 'Псевдоним',
+  'Memo': 'Заметка',
   'Block Messages': 'Заблокировать сообщения',
   'Mute Notifications': 'Отключить уведомления',
 
@@ -296,6 +298,7 @@ final Map<String, String> intlRuRu = {
   //
   'Please input group name': 'Пожалуйста, введите название группы.',
   'Please input alias': 'Пожалуйста, введите псевдоним.',
+  'Please input memo': 'Пожалуйста, введите заметку.',
   'Please review invitations': 'Пожалуйста, просмотрите приглашения сначала.',
 
   'Current user not found': 'Текущий пользователь не найден.',

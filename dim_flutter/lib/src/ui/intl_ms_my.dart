@@ -267,7 +267,9 @@ final Map<String, String> intlMsMy = {
   //
   //  Profile
   //
-  'Remark': 'Ulasan',
+  'Remark': 'Catatan',
+  'Alias': 'Nama Panggilan',
+  'Memo': 'Nota Tambahan',
   'Block Messages': 'Halang Mesej',
   'Mute Notifications': 'Matikan Pemberitahuan',
 
@@ -295,7 +297,8 @@ final Map<String, String> intlMsMy = {
   //  Prompts
   //
   'Please input group name': 'Sila masukkan nama kumpulan.',
-  'Please input alias': 'Sila masukkan nama gelaran.',
+  'Please input alias': 'Sila masukkan nama panggilan.',
+  'Please input memo': 'Sila masukkan nota tambahan.',
   'Please review invitations': 'Sila semak jemputan dahulu.',
 
   'Current user not found': 'Pengguna semasa tidak ditemui.',

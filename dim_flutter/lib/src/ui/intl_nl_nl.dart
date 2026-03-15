@@ -268,6 +268,8 @@ final Map<String, String> intlNlNl = {
   //  Profile
   //
   'Remark': 'Opmerking',
+  'Alias': 'Alias',
+  'Memo': 'Memorandum',
   'Block Messages': 'Berichten Blokkeren',
   'Mute Notifications': 'Notificaties Dempen',
 
@@ -294,8 +296,9 @@ final Map<String, String> intlNlNl = {
   //
   //  Prompts
   //
-  'Please input group name': 'Voer alstublieft de groepsnaam in.',
-  'Please input alias': 'Voer alstublieft een alias in.',
+  'Please input group name': 'Voer de groepsnaam in.',
+  'Please input alias': 'Voer het alias in.',
+  'Please input memo': 'Voer het memorandum in.',
   'Please review invitations': 'Beoordeel alstublieft eerst de uitnodigingen.',
 
   'Current user not found': 'Huidige gebruiker niet gevonden.',

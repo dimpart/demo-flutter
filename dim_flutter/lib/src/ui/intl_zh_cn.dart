@@ -266,6 +266,8 @@ final Map<String, String> intlZhCn = {
   //  Profile
   //
   'Remark': '备注',
+  'Alias': '别名',
+  'Memo': '备忘信息',
   'Block Messages': '拦截消息',
   'Mute Notifications': '屏蔽通知',
 
@@ -292,8 +294,9 @@ final Map<String, String> intlZhCn = {
   //
   //  Prompts
   //
-  'Please input group name': '请输入群名称',
-  'Please input alias': '请输入别名',
+  'Please input group name': '请输入群名称。',
+  'Please input alias': '请输入别名。',
+  'Please input memo': '请输入备忘信息。',
   'Please review invitations': '请先审查邀请函',
 
   'Current user not found': '未找到当前用户。',

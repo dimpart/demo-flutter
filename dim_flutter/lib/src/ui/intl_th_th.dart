@@ -268,6 +268,8 @@ final Map<String, String> intlThTh = {
   //  Profile
   //
   'Remark': 'หมายเหตุ',
+  'Alias': 'ชื่อแทน',
+  'Memo': 'บันทึกเพิ่มเติม',
   'Block Messages': 'บล็อกข้อความ',
   'Mute Notifications': 'ปิดเสียงการแจ้งเตือน',
 
@@ -294,8 +296,9 @@ final Map<String, String> intlThTh = {
   //
   //  Prompts
   //
-  'Please input group name': 'กรุณาใส่ชื่อกลุ่ม',
-  'Please input alias': 'กรุณาใส่ชื่อเล่น',
+  'Please input group name': 'กรุณากรอกชื่อกลุ่ม.',
+  'Please input alias': 'กรุณากรอกชื่อแทน.',
+  'Please input memo': 'กรุณากรอกบันทึกเพิ่มเติม.',
   'Please review invitations': 'กรุณาตรวจสอบคำเชิญก่อน',
 
   'Current user not found': 'ไม่พบผู้ใช้ปัจจุบัน',

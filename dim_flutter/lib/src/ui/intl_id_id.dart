@@ -268,6 +268,8 @@ final Map<String, String> intlIdId = {
   //  Profile
   //
   'Remark': 'Catatan',
+  'Alias': 'Nama Alias',
+  'Memo': 'Catatan Tambahan',
   'Block Messages': 'Blokir Pesan',
   'Mute Notifications': 'Nonaktifkan Pemberitahuan',
 
@@ -294,8 +296,9 @@ final Map<String, String> intlIdId = {
   //
   //  Prompts
   //
-  'Please input group name': 'Harap masukkan nama grup.',
-  'Please input alias': 'Harap masukkan alias.',
+  'Please input group name': 'Silakan masukkan nama grup.',
+  'Please input alias': 'Silakan masukkan nama alias.',
+  'Please input memo': 'Silakan masukkan catatan tambahan.',
   'Please review invitations': 'Harap tinjau undangan terlebih dahulu.',
 
   'Current user not found': 'Pengguna saat ini tidak ditemukan.',

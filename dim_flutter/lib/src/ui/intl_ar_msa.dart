@@ -268,6 +268,8 @@ final Map<String, String> intlAr = {
   //  Profile
   //
   'Remark': 'ملاحظة',
+  'Alias': 'اسم مستعار',
+  'Memo': 'مذكرة',
   'Block Messages': 'حظر الرسائل',
   'Mute Notifications': 'كتم الإشعارات',
 
@@ -296,6 +298,7 @@ final Map<String, String> intlAr = {
   //
   'Please input group name': 'الرجاء إدخال اسم المجموعة.',
   'Please input alias': 'الرجاء إدخال الاسم المستعار.',
+  'Please input memo': 'الرجاء إدخال المذكرة.',
   'Please review invitations': 'الرجاء مراجعة الدعوات أولا.',
 
   'Current user not found': 'لم يتم العثور على المستخدم الحالي.',

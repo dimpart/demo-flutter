@@ -267,6 +267,8 @@ final Map<String, String> intlKoKr = {
   //  Profile
   //
   'Remark': '비고',
+  'Alias': '별칭',
+  'Memo': '메모',
   'Block Messages': '메시지 차단',
   'Mute Notifications': '알림 음소거',
 
@@ -293,8 +295,9 @@ final Map<String, String> intlKoKr = {
   //
   //  Prompts
   //
-  'Please input group name': '그룹 이름을 입력하세요.',
-  'Please input alias': '별명을 입력하세요.',
+  'Please input group name': '그룹명을 입력해주세요.',
+  'Please input alias': '별칭을 입력해주세요.',
+  'Please input memo': '메모를 입력해주세요.',
   'Please review invitations': '초대장을 먼저 검토해주세요.',
 
   'Current user not found': '현재 사용자를 찾을 수 없습니다.',

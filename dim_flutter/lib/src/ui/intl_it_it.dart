@@ -268,6 +268,8 @@ final Map<String, String> intlItIt = {
   //  Profile
   //
   'Remark': 'Nota',
+  'Alias': 'Alias',
+  'Memo': 'Memoranda',
   'Block Messages': 'Blocca Messaggi',
   'Mute Notifications': 'Disattiva Notifiche',
 
@@ -295,7 +297,8 @@ final Map<String, String> intlItIt = {
   //  Prompts
   //
   'Please input group name': 'Inserisci il nome del gruppo.',
-  'Please input alias': 'Inserisci un alias.',
+  'Please input alias': 'Inserisci l’alias.',
+  'Please input memo': 'Inserisci i memoranda.',
   'Please review invitations': 'Per favore, rivedi prima gli inviti.',
 
   'Current user not found': 'Utente corrente non trovato.',

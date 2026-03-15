@@ -267,7 +267,9 @@ final Map<String, String> intlBnBd = {
   //
   //  Profile
   //
-  'Remark': 'মন্তব্য',
+  'Remark': 'সংক্ষিপ্ত মন্তব্য',
+  'Alias': 'বিশেষ নাম',
+  'Memo': 'স্মারক তথ্য',
   'Block Messages': 'বার্তা অবরোধ করুন',
   'Mute Notifications': 'মিউট বিজ্ঞপ্তি',
 
@@ -294,8 +296,9 @@ final Map<String, String> intlBnBd = {
   //
   //  Prompts
   //
-  'Please input group name': 'দয়া করে গোষ্ঠীর নাম ইনপুট করুন।',
-  'Please input alias': 'দয়া করে উপনাম ইনপুট করুন।',
+  'Please input group name': 'গ্রুপের নাম লিখুন',
+  'Please input alias': 'বিশেষ নাম লিখুন',
+  'Please input memo': 'স্মারক তথ্য লিখুন',
   'Please review invitations': 'দয়া করে প্রথমে আমন্ত্রণ পর্যালোচনা করুন।',
 
   'Current user not found': 'বর্তমান ব্যবহারকারী পাওয়া যায়নি।',

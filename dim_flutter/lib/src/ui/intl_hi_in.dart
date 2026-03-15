@@ -267,7 +267,9 @@ final Map<String, String> intlHiIn = {
   //
   //  Profile
   //
-  'Remark': 'टिप्पणी',
+  'Remark': 'संक्षिप्त टिप्पणी',
+  'Alias': 'उपनाम',
+  'Memo': 'यादगार सूचना',
   'Block Messages': 'संदेश ब्लॉक करें',
   'Mute Notifications': 'अधिसूचना म्यूट करें',
 
@@ -294,8 +296,9 @@ final Map<String, String> intlHiIn = {
   //
   //  Prompts
   //
-  'Please input group name': 'कृपया समूह का नाम दर्ज करें।',
-  'Please input alias': 'कृपया उपनाम दर्ज करें।',
+  'Please input group name': 'समूह का नाम दर्ज करें',
+  'Please input alias': 'उपनाम दर्ज करें',
+  'Please input memo': 'यादगार सूचना दर्ज करें',
   'Please review invitations': 'कृपया पहले आमंत्रणों की समीक्षा करें।',
 
   'Current user not found': 'वर्तमान उपयोगकर्ता नहीं मिला।',
