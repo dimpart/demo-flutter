@@ -54,6 +54,7 @@ abstract class AppIcons {
   static const IconData      msgSentIcon = Icons.done;
   static const IconData   msgBlockedIcon = Icons.block;
   static const IconData  msgReceivedIcon = Icons.done_all;
+  static const IconData   msgTimeoutIcon = CupertinoIcons.clear;
   static const IconData   msgExpiredIcon = CupertinoIcons.refresh;
 
   static const IconData    encryptedIcon = CupertinoIcons.padlock_solid;

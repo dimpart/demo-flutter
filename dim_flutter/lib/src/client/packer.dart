@@ -54,4 +54,14 @@ class SharedPacker extends ClientMessagePacker {
     clerk.suspendReliableMessage(rMsg);
   }
 
+  @override
+  Future<EncryptKey?> getVisaKey(ID user) async {
+    try {
+      return await super.getVisaKey(user);
+    } catch (e, st) {
+      logError('failed to get visa key: $user, error: $e, $st');
+      return null;
+    }
+  }
+
 }
