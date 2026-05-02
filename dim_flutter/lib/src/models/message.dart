@@ -144,12 +144,26 @@ abstract class MessageBuilder with Logging {
       //       '* act = "$act"\n';
       //   content['format'] = 'markdown';
       // }
+    } else if (content is ArrayContent) {
+      // assert(false, 'ArrayContent should be saved one by one');
+      text = _getArrayContentText(content.contents);
     } else {
       text = "Current version doesn't support this message type: ${content.type}.";
     }
     // store message text
     content['text'] = text;
     return text;
+  }
+
+  String _getArrayContentText(List<Content> contents) {
+    if (contents.isEmpty) {
+      return 'Array content empty.';
+    }
+    List<String> lines = [];
+    for (Content item in contents) {
+      lines.add(_getContentText(item));
+    }
+    return lines.join('\n');
   }
 
   String _getCommandText(Command content, ID sender) {

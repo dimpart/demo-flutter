@@ -376,6 +376,9 @@ class Amanuensis with Logging {
       // forward content will be parsed, if secret message decrypted, save it
       // no need to save forward content itself
       return true;
+    } else if (content is ArrayContent) {
+      // save the contents one by one
+      return await _saveArrayContents(content.contents, iMsg.envelope);
     }
 
     GlobalVariable shared = GlobalVariable();
@@ -427,6 +430,31 @@ class Amanuensis with Logging {
       await _updateConversation(cid, iMsg);
     }
     return ok;
+  }
+
+  /// save all contents one by one
+  Future<bool> _saveArrayContents(List<Content> contents, Envelope envelope) async {
+    int success = 0;
+    InstantMessage iMsg;
+    Envelope? head;
+    for (Content body in contents) {
+      // create new message head
+      head = Envelope.parse(envelope.copyMap());
+      if (head == null) {
+        assert(false, 'should not happen');
+        continue;
+      } else {
+        head.remove('sn');
+        head.remove('type');
+        head.remove('group');
+      }
+      // build instant message to save
+      iMsg = InstantMessage.create(head, body);
+      if (await saveInstantMessage(iMsg)) {
+        success += 1;
+      }
+    }
+    return success == contents.length;
   }
 
   /// save receipt for instant message
