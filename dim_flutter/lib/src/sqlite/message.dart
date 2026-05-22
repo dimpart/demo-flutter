@@ -18,13 +18,13 @@ import 'helper/sqlite.dart';
 
 class MessageDatabase extends DatabaseConnector {
   MessageDatabase() : super(name: dbName, directory: '.dkd', version: dbVersion,
-      onCreate: (db, version) {
+      onCreate: (db, version) async {
         // conversation
-        _createConversationTable(db);
+        await _createConversationTable(db);
         // instant message
-        _createInstantMessageTable(db);
+        await _createInstantMessageTable(db);
         // message traces
-        DatabaseConnector.createTable(db, tTrace, fields: [
+        await DatabaseConnector.createTable(db, tTrace, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
           "cid VARCHAR(64) NOT NULL",
           "sender VARCHAR(64) NOT NULL",
@@ -32,24 +32,25 @@ class MessageDatabase extends DatabaseConnector {
           "signature VARCHAR(8)",  // last 8 characters
           "trace TEXT NOT NULL",
         ]);
-        DatabaseConnector.createIndex(db, tTrace,
-            name: 'trace_index', columns: ['sender']);
+        await DatabaseConnector.createIndex(db, tTrace,
+          name: 'trace_index', columns: ['sender'],
+        );
         // reliable message
-      }, onUpgrade: (db, oldVersion, newVersion) {
+      }, onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) {
           // add column 'mentioned' for conversation
-          DatabaseConnector.addColumn(db, tChatBox, name: 'mentioned', type: 'INTEGER');
+          await DatabaseConnector.addColumn(db, tChatBox, name: 'mentioned', type: 'INTEGER');
         }
         if (oldVersion < 3) {
           // add column 'uid' for conversation, message
-          _upgradeConversationTableForUID(db);
-          _upgradeInstantMessageTableForUID(db);
+          await _upgradeConversationTableForUID(db);
+          await _upgradeInstantMessageTableForUID(db);
         }
       });
 
   // conversation
-  static void _createConversationTable(Database db) {
-    DatabaseConnector.createTable(db, tChatBox, fields: [
+  static Future<void> _createConversationTable(Database db) async {
+    await DatabaseConnector.createTable(db, tChatBox, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
       "uid VARCHAR(64) NOT NULL",  // current user
       "cid VARCHAR(64) NOT NULL",
@@ -58,21 +59,18 @@ class MessageDatabase extends DatabaseConnector {
       "time INTEGER",              // time of last message (seconds)
       "mentioned INTEGER",         // sn
     ]);
-    DatabaseConnector.createIndex(db, tChatBox, unique: true,
+    await DatabaseConnector.createIndex(db, tChatBox, unique: true,
       name: 'uid_cid_unique', columns: ['uid', 'cid'],
     );
   }
-  static void _upgradeConversationTableForUID(Database db) {
+  static Future<void> _upgradeConversationTableForUID(Database db) async {
     String tempTable = '${tChatBox}_old';
-
     // 1. rename old table
-    DatabaseConnector.renameTable(db, tempTable, fromTable: tChatBox);
-
+    await DatabaseConnector.renameTable(db, tempTable, fromTable: tChatBox);
     // 2. create new table
-    _createConversationTable(db);
-
+    await _createConversationTable(db);
     // 3. copy old records
-    DatabaseConnector.copyTable(db, tChatBox,
+    await DatabaseConnector.copyTable(db, tChatBox,
       columns: ["id", "uid", "cid", "unread", "last", "time", "mentioned"],
       fromColumns: ["id", "''", "cid", "unread", "last", "time", "mentioned"],
       fromTable: tempTable,
@@ -81,12 +79,12 @@ class MessageDatabase extends DatabaseConnector {
     // SELECT id, '', cid, unread, last, time, mentioned FROM $tempTable
 
     // 4. drop old table
-    DatabaseConnector.dropTable(db, tempTable);
+    await DatabaseConnector.dropTable(db, tempTable);
   }
 
   // instant message
-  static void _createInstantMessageTable(Database db) {
-    DatabaseConnector.createTable(db, tInstantMessage, fields: [
+  static Future<void> _createInstantMessageTable(Database db) async {
+    await DatabaseConnector.createTable(db, tInstantMessage, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
       "uid VARCHAR(64) NOT NULL",  // current user
       "cid VARCHAR(64) NOT NULL",
@@ -99,21 +97,18 @@ class MessageDatabase extends DatabaseConnector {
       // "content TEXT",
       "msg TEXT NOT NULL",
     ]);
-    DatabaseConnector.createIndex(db, tInstantMessage,
+    await DatabaseConnector.createIndex(db, tInstantMessage,
       name: 'uid_cid_index', columns: ['uid', 'cid'],
     );
   }
-  static void _upgradeInstantMessageTableForUID(Database db) {
+  static Future<void> _upgradeInstantMessageTableForUID(Database db) async {
     String tempTable = '${tInstantMessage}_old';
-
     // 1. rename old table
-    DatabaseConnector.renameTable(db, tempTable, fromTable: tInstantMessage);
-
+    await DatabaseConnector.renameTable(db, tempTable, fromTable: tInstantMessage);
     // 2. create new table
-    _createInstantMessageTable(db);
-
+    await _createInstantMessageTable(db);
     // 3. copy old records
-    DatabaseConnector.copyTable(db, tInstantMessage,
+    await DatabaseConnector.copyTable(db, tInstantMessage,
       columns: ["id", "uid", "cid", "sender", "time", "type", "sn", "signature", "msg"],
       fromColumns: ["id", "''", "cid", "sender", "time", "type", "sn", "signature", "msg"],
       fromTable: tempTable,
@@ -122,7 +117,7 @@ class MessageDatabase extends DatabaseConnector {
     // SELECT id, '', cid, sender, time, type, sn, signature, msg FROM $tempTable
 
     // 4. drop old table
-    DatabaseConnector.dropTable(db, tempTable);
+    await DatabaseConnector.dropTable(db, tempTable);
   }
 
   static const String dbName = 'msg.db';
@@ -160,7 +155,7 @@ class InstantMessageTable extends DataTableHandler<InstantMessage> implements In
   // static const List<String> _selectColumns = ["msg"];
   // static const List<String> _selectColumns = ['SUBSTR(msg, 0, 1048576) AS msg'];
   static const List<String> _selectColumns = ['SUBSTR(msg, 0, 1024000) AS msg'];
-  static const List<String> _insertColumns = ["cid", "sender",/* "receiver",*/
+  static const List<String> _insertColumns = ["uid", "cid", "sender",/* "receiver",*/
     "time", "type", "sn", "signature",/* "content",*/ "msg"];
 
   @override
@@ -169,6 +164,7 @@ class InstantMessageTable extends DataTableHandler<InstantMessage> implements In
     limit ??= 1024;
     SQLConditions cond;
     cond = SQLConditions(left: 'cid', comparison: '=', right: chat.toString());
+    // cond.addCondition(SQLConditions.kAnd, left: 'uid', comparison: '=', right: '');
     List<InstantMessage> messages = await select(_table, columns: _selectColumns,
         conditions: cond, orderBy: 'time DESC', offset: start, limit: limit);
     int remaining = 0;
@@ -214,13 +210,15 @@ class InstantMessageTable extends DataTableHandler<InstantMessage> implements In
     SQLConditions cond;
     cond = SQLConditions(left: 'sn', comparison: '=', right: content.sn);
     cond.addCondition(SQLConditions.kAnd, left: 'cid', comparison: '=', right: cid);
+    // cond.addCondition(SQLConditions.kAnd, left: 'uid', comparison: '=', right: '');
     cond.addCondition(SQLConditions.kAnd, left: 'sender', comparison: '=', right: sender);
     List<InstantMessage> messages = await select(_table, columns: _selectColumns,
         conditions: cond, limit: 1);
 
     if (messages.isEmpty) {
       // add new message
-      List values = [cid, sender,/* receiver,*/ time, iMsg.type,
+      String uid = '';  // TODO: add with current user id
+      List values = [uid, cid, sender,/* receiver,*/ time, iMsg.type,
         content.sn, sig, /*JSON.encode(content.dictionary),*/ msg];
       if (await insert(_table, columns: _insertColumns, values: values) <= 0) {
         Log.error('failed to save message: $sender -> $chat');
@@ -281,6 +279,7 @@ class InstantMessageTable extends DataTableHandler<InstantMessage> implements In
     SQLConditions cond;
     cond = SQLConditions(left: 'sn', comparison: '=', right: content.sn);
     cond.addCondition(SQLConditions.kAnd, left: 'cid', comparison: '=', right: cid);
+    // cond.addCondition(SQLConditions.kAnd, left: 'uid', comparison: '=', right: '');
     cond.addCondition(SQLConditions.kAnd, left: 'sender', comparison: '=', right: sender);
     if (await delete(_table, conditions: cond) < 0) {
       Log.error('failed to remove message: $sender -> $chat');
@@ -301,6 +300,7 @@ class InstantMessageTable extends DataTableHandler<InstantMessage> implements In
   Future<bool> removeInstantMessages(ID chat) async {
     SQLConditions cond;
     cond = SQLConditions(left: 'cid', comparison: '=', right: chat.toString());
+    // cond.addCondition(SQLConditions.kAnd, left: 'uid', comparison: '=', right: '');
     if (await delete(_table, conditions: cond) < 0) {
       Log.error('failed to remove messages: $chat');
       return false;
@@ -318,6 +318,7 @@ class InstantMessageTable extends DataTableHandler<InstantMessage> implements In
     int time = expired.millisecondsSinceEpoch ~/ 1000;
     SQLConditions cond;
     cond = SQLConditions(left: 'time', comparison: '<', right: time);
+    // cond.addCondition(SQLConditions.kAnd, left: 'uid', comparison: '=', right: '');
     int results = await delete(_table, conditions: cond);
     if (results < 0) {
       Log.error('failed to remove expired messages: $expired');

@@ -17,37 +17,38 @@ import 'helper/task.dart';
 
 class ServiceProviderDatabase extends DatabaseConnector {
   ServiceProviderDatabase() : super(name: dbName, version: dbVersion,
-      onCreate: (db, version) {
+      onCreate: (db, version) async {
         // provider
-        DatabaseConnector.createTable(db, tProvider, fields: [
+        await DatabaseConnector.createTable(db, tProvider, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
           "pid VARCHAR(64) NOT NULL UNIQUE",
           "chosen INTEGER",
         ]);
         // station
-        DatabaseConnector.createTable(db, tStation, fields: [
+        await DatabaseConnector.createTable(db, tStation, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
           "pid VARCHAR(64) NOT NULL",    // provider ID
           "host VARCHAR(128) NOT NULL",  // station IP or domain name
           "port INTEGER NOT NULL",       // station port
           "chosen INTEGER",
         ]);
-        DatabaseConnector.createIndex(db, tStation,
-            name: 'sp_id_index', columns: ['pid']);
+        await DatabaseConnector.createIndex(db, tStation,
+          name: 'sp_id_index', columns: ['pid'],
+        );
         // access speed
-        _createSpeedTable(db);
+        await _createSpeedTable(db);
       },
-      onUpgrade: (db, oldVersion, newVersion) {
+      onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 3) {
           // add column for speed
-          DatabaseConnector.addColumn(db, tSpeed, name: 'socket', type: 'VARCHAR(32)');
+          await DatabaseConnector.addColumn(db, tSpeed, name: 'socket', type: 'VARCHAR(32)');
         }
         // ALTER TABLE t_speed ADD COLUMN socket VARCHAR(32),  // '255.255.255.255:65535'
       });
 
   // speed
-  static void _createSpeedTable(Database db) {
-    DatabaseConnector.createTable(db, tSpeed, fields: [
+  static Future<void> _createSpeedTable(Database db) async {
+    await DatabaseConnector.createTable(db, tSpeed, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
       "host VARCHAR(128) NOT NULL",  // station IP or domain name
       "port INTEGER NOT NULL",       // station port
@@ -56,8 +57,9 @@ class ServiceProviderDatabase extends DatabaseConnector {
       "duration REAL NOT NULL",      // respond time (seconds)
       "socket VARCHAR(32)",          // socket address
     ]);
-    DatabaseConnector.createIndex(db, tSpeed,
-        name: 'ip_index', columns: ['host']);
+    await DatabaseConnector.createIndex(db, tSpeed,
+      name: 'ip_index', columns: ['host'],
+    );
   }
 
   static const String dbName = 'sp.db';

@@ -18,9 +18,9 @@ import 'helper/sqlite.dart';
 
 class CryptoKeyDatabase extends DatabaseConnector {
   CryptoKeyDatabase() : super(name: dbName, version: dbVersion,
-      onCreate: (db, version) {
+      onCreate: (db, version) async {
         // private key
-        DatabaseConnector.createTable(db, tPrivateKey, fields: [
+        await DatabaseConnector.createTable(db, tPrivateKey, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
           "uid VARCHAR(64) NOT NULL",
           "pri_key TEXT NOT NULL",
@@ -28,17 +28,19 @@ class CryptoKeyDatabase extends DatabaseConnector {
           "sign BIT",
           "decrypt BIT",
         ]);
-        DatabaseConnector.createIndex(db, tPrivateKey,
-            name: 'user_id_index', columns: ['uid']);
+        await DatabaseConnector.createIndex(db, tPrivateKey,
+          name: 'user_id_index', columns: ['uid'],
+        );
         // // msg key
-        // DatabaseConnector.createTable(db, tMsgKey, fields: [
+        // await DatabaseConnector.createTable(db, tMsgKey, fields: [
         //   "id INTEGER PRIMARY KEY AUTOINCREMENT",
         //   "sender VARCHAR(64) NOT NULL",
         //   "receiver VARCHAR(64) NOT NULL",
         //   "pwd TEXT NOT NULL",
         // ]);
-        // DatabaseConnector.createIndex(db, tMsgKey,
-        //     name: 'direction_index', columns: ['sender', 'receiver']);
+        // await DatabaseConnector.createIndex(db, tMsgKey,
+        //   name: 'direction_index', columns: ['sender', 'receiver'],
+        // );
       });
 
   static const String dbName = 'key.db';

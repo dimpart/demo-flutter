@@ -59,12 +59,13 @@ class _ConversationTable extends DataTableHandler<Conversation> implements Conve
   _ConversationTable() : super(MessageDatabase(), _extractConversation);
 
   static const String _table = MessageDatabase.tChatBox;
-  static const List<String> _selectColumns = ["cid", "unread", "last", "time", "mentioned"];
-  static const List<String> _insertColumns = ["cid", "unread", "last", "time", "mentioned"];
+  static const List<String> _selectColumns = ["uid", "cid", "unread", "last", "time", "mentioned"];
+  static const List<String> _insertColumns = ["uid", "cid", "unread", "last", "time", "mentioned"];
 
   @override
   Future<List<Conversation>> getConversations() async {
     SQLConditions cond = SQLConditions.kTrue;
+    // cond = SQLConditions(left: 'uid', comparison: '=', right: '');
     return await select(_table, columns: _selectColumns,
         conditions: cond, orderBy: 'time DESC');
   }
@@ -75,7 +76,8 @@ class _ConversationTable extends DataTableHandler<Conversation> implements Conve
     if (chat.lastMessageTime != null) {
       seconds = chat.lastMessageTime!.millisecondsSinceEpoch / 1000.0;
     }
-    List values = [chat.identifier.toString(), chat.unread,
+    String uid = '';  // TODO: add with current user id
+    List values = [uid, chat.identifier.toString(), chat.unread,
       chat.lastMessage, seconds, chat.mentionedSerialNumber];
     return await insert(_table, columns: _insertColumns, values: values) > 0;
   }
@@ -96,6 +98,7 @@ class _ConversationTable extends DataTableHandler<Conversation> implements Conve
     };
     SQLConditions cond;
     cond = SQLConditions(left: 'cid', comparison: '=', right: chat.identifier.toString());
+    // cond.addCondition(SQLConditions.kAnd, left: 'uid', comparison: '=', right: '');
     return await update(_table, values: values, conditions: cond) > 0;
   }
 
@@ -103,6 +106,7 @@ class _ConversationTable extends DataTableHandler<Conversation> implements Conve
   Future<bool> removeConversation(ID chat) async {
     SQLConditions cond;
     cond = SQLConditions(left: 'cid', comparison: '=', right: chat.toString());
+    // cond.addCondition(SQLConditions.kAnd, left: 'uid', comparison: '=', right: '');
     return await delete(_table, conditions: cond) >= 0;
   }
 
@@ -115,6 +119,7 @@ class _ConversationTable extends DataTableHandler<Conversation> implements Conve
     };
     SQLConditions cond;
     cond = SQLConditions(left: 'time', comparison: '<', right: time);
+    // cond.addCondition(SQLConditions.kAnd, left: 'uid', comparison: '=', right: '');
     return await update(_table, values: values, conditions: cond);
   }
 

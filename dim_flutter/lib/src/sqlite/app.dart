@@ -17,9 +17,9 @@ import 'helper/task.dart';
 
 class AppCustomizedDatabase extends DatabaseConnector {
   AppCustomizedDatabase() : super(name: dbName, directory: '.dkd', version: dbVersion,
-      onCreate: (db, version) {
+      onCreate: (db, version) async {
         // customized info
-        DatabaseConnector.createTable(db, tCustomizedInfo, fields: [
+        await DatabaseConnector.createTable(db, tCustomizedInfo, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
           "key VARCHAR(64) NOT NULL UNIQUE",
           "content TEXT NOT NULL",
@@ -27,10 +27,11 @@ class AppCustomizedDatabase extends DatabaseConnector {
           "expired INTEGER NOT NULL",  // time to remove (seconds)
           "mod VARCHAR(32)",           // module
         ]);
-        DatabaseConnector.createIndex(db, tCustomizedInfo,
-            name: 'key_index', columns: ['key']);
+        await DatabaseConnector.createIndex(db, tCustomizedInfo,
+          name: 'key_index', columns: ['key'],
+        );
       },
-      onUpgrade: (db, oldVersion, newVersion) {
+      onUpgrade: (db, oldVersion, newVersion) async {
         // TODO:
       });
 

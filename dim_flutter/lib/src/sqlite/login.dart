@@ -17,17 +17,18 @@ import 'helper/task.dart';
 
 class LoginDatabase extends DatabaseConnector {
   LoginDatabase() : super(name: dbName, directory: '.dim', version: dbVersion,
-      onCreate: (db, version) {
+      onCreate: (db, version) async {
         // login command
-        DatabaseConnector.createTable(db, tLogin, fields: [
+        await DatabaseConnector.createTable(db, tLogin, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
           "uid VARCHAR(64) NOT NULL",
           "cmd TEXT NOT NULL",
           "msg TEXT NOT NULL",
         ]);
-        DatabaseConnector.createIndex(db, tLogin,
-            name: 'uid_index', columns: ['uid']);
-      }, onUpgrade: (db, oldVersion, newVersion) {
+        await DatabaseConnector.createIndex(db, tLogin,
+          name: 'uid_index', columns: ['uid'],
+        );
+      }, onUpgrade: (db, oldVersion, newVersion) async {
         // TODO:
       });
 

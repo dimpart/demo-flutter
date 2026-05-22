@@ -87,59 +87,63 @@ class DatabaseConnector {
     return conn;
   }
 
-  void destroy() {
+  Future<void> destroy() async {
     DBConnection? conn = _connection;
     if (conn != null) {
       _connection = null;
-      conn.close();
+      await conn.close();
     }
   }
 
-  static void createTable(Database db, String table,
-      {required List<String> fields}) {
+  static Future<void> createTable(Database db, String table, {
+    required List<String> fields,
+  }) async {
     String sql = SQLBuilder.buildCreateTable(table, fields: fields);
     DBLogger.output('createTable: $sql');
-    db.execute(sql);
+    await db.execute(sql);
   }
 
-  static void createIndex(Database db, String table, {bool unique = false,
+  static Future<void> createIndex(Database db, String table, {bool unique = false,
     required String name, required List<String> columns,
-  }) {
+  }) async {
     String sql = SQLBuilder.buildCreateIndex(table, unique: unique,
       name: name, columns: columns,
     );
     DBLogger.output('createIndex: $sql');
-    db.execute(sql);
+    await db.execute(sql);
   }
 
-  static void renameTable(Database db, String table, {required String fromTable}) {
+  static Future<void> renameTable(Database db, String table, {
+    required String fromTable,
+  }) async {
     String sql = SQLBuilder.buildRenameTable(table, fromTable: fromTable);
     DBLogger.output('renameTable: $sql');
-    db.execute(sql);
+    await db.execute(sql);
   }
 
-  static void copyTable(Database db, String table, {
+  static Future<void> copyTable(Database db, String table, {
     required List<String> columns,
     required String fromTable,
     required List<String> fromColumns,
-  }) {
+  }) async {
     String select = SQLBuilder.buildSelect(fromTable, columns: fromColumns);
     String sql = SQLBuilder.buildInsert(table, columns: columns, selectClause: select);
     DBLogger.output('renameTable: $sql');
-    db.execute(sql);
+    await db.execute(sql);
   }
 
-  static void dropTable(Database db, String table) {
+  static Future<void> dropTable(Database db, String table) async {
     String sql = SQLBuilder.buildDropTable(table);
     DBLogger.output('dropTable: $sql');
-    db.execute(sql);
+    await db.execute(sql);
   }
 
-  static void addColumn(Database db, String table,
-      {required String name, required String type}) {
+  static Future<void> addColumn(Database db, String table, {
+    required String name, required String type,
+  }) async {
     String sql = SQLBuilder.buildAddColumn(table, name: name, type: type);
     DBLogger.output('alterTable: $sql');
-    db.execute(sql);
+    await db.execute(sql);
   }
 
 }
@@ -230,9 +234,9 @@ class _Connection implements DBConnection {
   final Database database;
 
   @override
-  void close() {
+  Future<void> close() async {
     if (database.isOpen) {
-      database.close();
+      await database.close();
     }
   }
 
@@ -246,7 +250,7 @@ class _Statement implements Statement {
   final Database database;
 
   @override
-  void close() {
+  Future<void> close() async {
   }
 
   @override

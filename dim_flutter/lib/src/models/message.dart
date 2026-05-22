@@ -40,7 +40,9 @@ abstract class MessageBuilder with Logging {
         assert(false, 'group not found: $group');
         return false;
       }
-      return !chat.isMember;
+      // if group members not loaded yet,
+      // here will return false to show the content as default
+      return chat.isNotMember;
     }
     return isCommand(content, sender);
   }

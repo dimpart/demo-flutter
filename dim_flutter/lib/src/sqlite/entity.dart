@@ -10,9 +10,9 @@ import 'helper/sqlite.dart';
 
 class EntityDatabase extends DatabaseConnector {
   EntityDatabase() : super(name: dbName, version: dbVersion,
-      onCreate: (db, version) {
+      onCreate: (db, version) async {
         // meta
-        DatabaseConnector.createTable(db, tMeta, fields: [
+        await DatabaseConnector.createTable(db, tMeta, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
           "did VARCHAR(64) NOT NULL UNIQUE",
           "type INTEGER NOT NULL",
@@ -20,85 +20,89 @@ class EntityDatabase extends DatabaseConnector {
           "seed VARCHAR(32)",
           "fingerprint VARCHAR(172)",
         ]);
-        DatabaseConnector.createIndex(db, tMeta,
+        await DatabaseConnector.createIndex(db, tMeta,
             name: 'meta_id_index', columns: ['did']);
         // document
-        DatabaseConnector.createTable(db, tDocument, fields: [
+        await DatabaseConnector.createTable(db, tDocument, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
           "did VARCHAR(64) NOT NULL",
           "type VARCHAR(16)",
           "data TEXT NOT NULL",
           "signature VARCHAR(172) NOT NULL",
         ]);
-        DatabaseConnector.createIndex(db, tDocument,
+        await DatabaseConnector.createIndex(db, tDocument,
             name: 'doc_id_index', columns: ['did']);
         // local user
-        DatabaseConnector.createTable(db, tLocalUser, fields: [
+        await DatabaseConnector.createTable(db, tLocalUser, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
           "uid VARCHAR(64) NOT NULL UNIQUE",
           "chosen BIT",
         ]);
         // contact
-        _createContactTable(db);
+        await _createContactTable(db);
 
         // alias
-        _createRemarkTable(db);
+        await _createRemarkTable(db);
         // block-list
-        _createBlockedTable(db);
+        await _createBlockedTable(db);
         // mute-list
-        _createMutedTable(db);
+        await _createMutedTable(db);
 
       },
-      onUpgrade: (db, oldVersion, newVersion) {
+      onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 5) {
-          _createRemarkTable(db);
-          _createBlockedTable(db);
-          _createMutedTable(db);
+          await _createRemarkTable(db);
+          await _createBlockedTable(db);
+          await _createMutedTable(db);
         }
       });
 
   // contact
-  static void _createContactTable(Database db) {
-    DatabaseConnector.createTable(db, tContact, fields: [
+  static Future<void> _createContactTable(Database db) async {
+    await DatabaseConnector.createTable(db, tContact, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
       "uid VARCHAR(64) NOT NULL",
       "contact VARCHAR(64) NOT NULL",
     ]);
-    DatabaseConnector.createIndex(db, tContact,
-        name: 'user_id_index', columns: ['uid']);
+    await DatabaseConnector.createIndex(db, tContact,
+      name: 'user_id_index', columns: ['uid'],
+    );
   }
   // alias
-  static void _createRemarkTable(Database db) {
-    DatabaseConnector.createTable(db, tRemark, fields: [
+  static Future<void> _createRemarkTable(Database db) async {
+    await DatabaseConnector.createTable(db, tRemark, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
       "uid VARCHAR(64) NOT NULL",
       "contact VARCHAR(64) NOT NULL",
       "alias VARCHAR(32)",
       "description TEXT",
     ]);
-    DatabaseConnector.createIndex(db, tRemark,
-        name: 'user_id_index', columns: ['uid']);
+    await DatabaseConnector.createIndex(db, tRemark,
+      name: 'user_id_index', columns: ['uid'],
+    );
   }
 
   // block-list
-  static void _createBlockedTable(Database db) {
-    DatabaseConnector.createTable(db, tBlocked, fields: [
+  static Future<void> _createBlockedTable(Database db) async {
+    await DatabaseConnector.createTable(db, tBlocked, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
       "uid VARCHAR(64) NOT NULL",
       "blocked VARCHAR(64) NOT NULL",  // contact ID
     ]);
-    DatabaseConnector.createIndex(db, tBlocked,
-        name: 'user_id_index', columns: ['uid']);
+    await DatabaseConnector.createIndex(db, tBlocked,
+      name: 'user_id_index', columns: ['uid'],
+    );
   }
   // mute-list
-  static void _createMutedTable(Database db) {
-    DatabaseConnector.createTable(db, tMuted, fields: [
+  static Future<void> _createMutedTable(Database db) async {
+    await DatabaseConnector.createTable(db, tMuted, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
       "uid VARCHAR(64) NOT NULL",
       "muted VARCHAR(64) NOT NULL",  // contact ID
     ]);
-    DatabaseConnector.createIndex(db, tMuted,
-        name: 'user_id_index', columns: ['uid']);
+    await DatabaseConnector.createIndex(db, tMuted,
+      name: 'user_id_index', columns: ['uid'],
+    );
   }
 
   static const String dbName = 'mkm.db';
@@ -126,7 +130,7 @@ class EntityDatabase extends DatabaseConnector {
 
 class GroupDatabase extends DatabaseConnector {
   GroupDatabase() : super(name: dbName, version: dbVersion,
-      onCreate: (db, version) {
+      onCreate: (db, version) async {
         // // reset group command
         // DatabaseConnector.createTable(db, tResetGroup, fields: [
         //   "id INTEGER PRIMARY KEY AUTOINCREMENT",
@@ -137,44 +141,46 @@ class GroupDatabase extends DatabaseConnector {
         // DatabaseConnector.createIndex(db, tResetGroup,
         //     name: 'gid_index', columns: ['gid']);
         // members
-        _createMemberTable(db);
+        await _createMemberTable(db);
         // administrators
-        _createAdminTable(db);
+        await _createAdminTable(db);
         // group history commands
-        _createHistoryTable(db);
-      }, onUpgrade: (db, oldVersion, newVersion) {
+        await _createHistoryTable(db);
+      }, onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) {
-          _createMemberTable(db);
-          _createAdminTable(db);
-          _createHistoryTable(db);
+          await _createMemberTable(db);
+          await _createAdminTable(db);
+          await _createHistoryTable(db);
         }
       });
 
   // members
-  static void _createMemberTable(Database db) {
-    DatabaseConnector.createTable(db, tMember, fields: [
+  static Future<void> _createMemberTable(Database db) async {
+    await DatabaseConnector.createTable(db, tMember, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
       "gid VARCHAR(64) NOT NULL",
       "member VARCHAR(64) NOT NULL",
     ]);
-    DatabaseConnector.createIndex(db, tMember,
-        name: 'group_id_index', columns: ['gid']);
+    await DatabaseConnector.createIndex(db, tMember,
+      name: 'group_id_index', columns: ['gid'],
+    );
   }
 
   // administrators
-  static void _createAdminTable(Database db) {
-    DatabaseConnector.createTable(db, tAdmin, fields: [
+  static Future<void> _createAdminTable(Database db) async {
+    await DatabaseConnector.createTable(db, tAdmin, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
       "gid VARCHAR(64) NOT NULL",
       "admin VARCHAR(64) NOT NULL",
     ]);
-    DatabaseConnector.createIndex(db, tAdmin,
-        name: 'group_id_index', columns: ['gid']);
+    await DatabaseConnector.createIndex(db, tAdmin,
+      name: 'group_id_index', columns: ['gid'],
+    );
   }
 
   // group history commands
-  static void _createHistoryTable(Database db) {
-    DatabaseConnector.createTable(db, tHistory, fields: [
+  static Future<void> _createHistoryTable(Database db) async {
+    await DatabaseConnector.createTable(db, tHistory, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
       "gid VARCHAR(64) NOT NULL",  // group id
       "cmd VARCHAR(32) NOT NULL",  // command name
@@ -182,8 +188,9 @@ class GroupDatabase extends DatabaseConnector {
       "content TEXT NOT NULL",     // command info
       "message TEXT NOT NULL",     // message info
     ]);
-    DatabaseConnector.createIndex(db, tHistory,
-        name: 'gid_index', columns: ['gid']);
+    await DatabaseConnector.createIndex(db, tHistory,
+      name: 'gid_index', columns: ['gid'],
+    );
   }
 
   static const String dbName = 'group.db';
