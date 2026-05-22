@@ -21,7 +21,7 @@ class EntityDatabase extends DatabaseConnector {
           "fingerprint VARCHAR(172)",
         ]);
         DatabaseConnector.createIndex(db, tMeta,
-            name: 'meta_id_index', fields: ['did']);
+            name: 'meta_id_index', columns: ['did']);
         // document
         DatabaseConnector.createTable(db, tDocument, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
@@ -31,7 +31,7 @@ class EntityDatabase extends DatabaseConnector {
           "signature VARCHAR(172) NOT NULL",
         ]);
         DatabaseConnector.createIndex(db, tDocument,
-            name: 'doc_id_index', fields: ['did']);
+            name: 'doc_id_index', columns: ['did']);
         // local user
         DatabaseConnector.createTable(db, tLocalUser, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
@@ -65,7 +65,7 @@ class EntityDatabase extends DatabaseConnector {
       "contact VARCHAR(64) NOT NULL",
     ]);
     DatabaseConnector.createIndex(db, tContact,
-        name: 'user_id_index', fields: ['uid']);
+        name: 'user_id_index', columns: ['uid']);
   }
   // alias
   static void _createRemarkTable(Database db) {
@@ -77,7 +77,7 @@ class EntityDatabase extends DatabaseConnector {
       "description TEXT",
     ]);
     DatabaseConnector.createIndex(db, tRemark,
-        name: 'user_id_index', fields: ['uid']);
+        name: 'user_id_index', columns: ['uid']);
   }
 
   // block-list
@@ -88,7 +88,7 @@ class EntityDatabase extends DatabaseConnector {
       "blocked VARCHAR(64) NOT NULL",  // contact ID
     ]);
     DatabaseConnector.createIndex(db, tBlocked,
-        name: 'user_id_index', fields: ['uid']);
+        name: 'user_id_index', columns: ['uid']);
   }
   // mute-list
   static void _createMutedTable(Database db) {
@@ -98,7 +98,7 @@ class EntityDatabase extends DatabaseConnector {
       "muted VARCHAR(64) NOT NULL",  // contact ID
     ]);
     DatabaseConnector.createIndex(db, tMuted,
-        name: 'user_id_index', fields: ['uid']);
+        name: 'user_id_index', columns: ['uid']);
   }
 
   static const String dbName = 'mkm.db';
@@ -135,7 +135,7 @@ class GroupDatabase extends DatabaseConnector {
         //   "msg TEXT NOT NULL",
         // ]);
         // DatabaseConnector.createIndex(db, tResetGroup,
-        //     name: 'gid_index', fields: ['gid']);
+        //     name: 'gid_index', columns: ['gid']);
         // members
         _createMemberTable(db);
         // administrators
@@ -158,7 +158,7 @@ class GroupDatabase extends DatabaseConnector {
       "member VARCHAR(64) NOT NULL",
     ]);
     DatabaseConnector.createIndex(db, tMember,
-        name: 'group_id_index', fields: ['gid']);
+        name: 'group_id_index', columns: ['gid']);
   }
 
   // administrators
@@ -169,7 +169,7 @@ class GroupDatabase extends DatabaseConnector {
       "admin VARCHAR(64) NOT NULL",
     ]);
     DatabaseConnector.createIndex(db, tAdmin,
-        name: 'group_id_index', fields: ['gid']);
+        name: 'group_id_index', columns: ['gid']);
   }
 
   // group history commands
@@ -183,7 +183,7 @@ class GroupDatabase extends DatabaseConnector {
       "message TEXT NOT NULL",     // message info
     ]);
     DatabaseConnector.createIndex(db, tHistory,
-        name: 'gid_index', fields: ['gid']);
+        name: 'gid_index', columns: ['gid']);
   }
 
   static const String dbName = 'group.db';

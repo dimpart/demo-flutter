@@ -20,29 +20,10 @@ class MessageDatabase extends DatabaseConnector {
   MessageDatabase() : super(name: dbName, directory: '.dkd', version: dbVersion,
       onCreate: (db, version) {
         // conversation
-        DatabaseConnector.createTable(db, tChatBox, fields: [
-          "id INTEGER PRIMARY KEY AUTOINCREMENT",
-          "cid VARCHAR(64) NOT NULL UNIQUE",
-          "unread INTEGER",     // count of unread messages
-          "last VARCHAR(128)",  // desc of last message
-          "time INTEGER",       // time of last message (seconds)
-          "mentioned INTEGER",  // sn
-        ]);
+        _createConversationTable(db);
         // instant message
-        DatabaseConnector.createTable(db, tInstantMessage, fields: [
-          "id INTEGER PRIMARY KEY AUTOINCREMENT",
-          "cid VARCHAR(64) NOT NULL",
-          "sender VARCHAR(64)",
-          // "receiver VARCHAR(64)",
-          "time INTEGER NOT NULL",  // time of message (seconds)
-          "type INTEGER",
-          "sn INTEGER",
-          "signature VARCHAR(8)",   // last 8 characters
-          // "content TEXT",
-          "msg TEXT NOT NULL",
-        ]);
-        DatabaseConnector.createIndex(db, tInstantMessage,
-            name: 'cid_index', fields: ['cid']);
+        _createInstantMessageTable(db);
+        // message traces
         DatabaseConnector.createTable(db, tTrace, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
           "cid VARCHAR(64) NOT NULL",
@@ -52,17 +33,100 @@ class MessageDatabase extends DatabaseConnector {
           "trace TEXT NOT NULL",
         ]);
         DatabaseConnector.createIndex(db, tTrace,
-            name: 'trace_index', fields: ['sender']);
+            name: 'trace_index', columns: ['sender']);
         // reliable message
       }, onUpgrade: (db, oldVersion, newVersion) {
         if (oldVersion < 2) {
-          // add column for conversation
+          // add column 'mentioned' for conversation
           DatabaseConnector.addColumn(db, tChatBox, name: 'mentioned', type: 'INTEGER');
+        }
+        if (oldVersion < 3) {
+          // add column 'uid' for conversation, message
+          _upgradeConversationTableForUID(db);
+          _upgradeInstantMessageTableForUID(db);
         }
       });
 
+  // conversation
+  static void _createConversationTable(Database db) {
+    DatabaseConnector.createTable(db, tChatBox, fields: [
+      "id INTEGER PRIMARY KEY AUTOINCREMENT",
+      "uid VARCHAR(64) NOT NULL",  // current user
+      "cid VARCHAR(64) NOT NULL",
+      "unread INTEGER",            // count of unread messages
+      "last VARCHAR(128)",         // desc of last message
+      "time INTEGER",              // time of last message (seconds)
+      "mentioned INTEGER",         // sn
+    ]);
+    DatabaseConnector.createIndex(db, tChatBox, unique: true,
+      name: 'uid_cid_unique', columns: ['uid', 'cid'],
+    );
+  }
+  static void _upgradeConversationTableForUID(Database db) {
+    String tempTable = '${tChatBox}_old';
+
+    // 1. rename old table
+    DatabaseConnector.renameTable(db, tempTable, fromTable: tChatBox);
+
+    // 2. create new table
+    _createConversationTable(db);
+
+    // 3. copy old records
+    DatabaseConnector.copyTable(db, tChatBox,
+      columns: ["id", "uid", "cid", "unread", "last", "time", "mentioned"],
+      fromColumns: ["id", "''", "cid", "unread", "last", "time", "mentioned"],
+      fromTable: tempTable,
+    );
+    // INSERT INTO $tChatBox (id, uid, cid, unread, last, time, mentioned}
+    // SELECT id, '', cid, unread, last, time, mentioned FROM $tempTable
+
+    // 4. drop old table
+    DatabaseConnector.dropTable(db, tempTable);
+  }
+
+  // instant message
+  static void _createInstantMessageTable(Database db) {
+    DatabaseConnector.createTable(db, tInstantMessage, fields: [
+      "id INTEGER PRIMARY KEY AUTOINCREMENT",
+      "uid VARCHAR(64) NOT NULL",  // current user
+      "cid VARCHAR(64) NOT NULL",
+      "sender VARCHAR(64)",
+      // "receiver VARCHAR(64)",
+      "time INTEGER NOT NULL",     // time of message (seconds)
+      "type INTEGER",
+      "sn INTEGER",
+      "signature VARCHAR(8)",      // last 8 characters
+      // "content TEXT",
+      "msg TEXT NOT NULL",
+    ]);
+    DatabaseConnector.createIndex(db, tInstantMessage,
+      name: 'uid_cid_index', columns: ['uid', 'cid'],
+    );
+  }
+  static void _upgradeInstantMessageTableForUID(Database db) {
+    String tempTable = '${tInstantMessage}_old';
+
+    // 1. rename old table
+    DatabaseConnector.renameTable(db, tempTable, fromTable: tInstantMessage);
+
+    // 2. create new table
+    _createInstantMessageTable(db);
+
+    // 3. copy old records
+    DatabaseConnector.copyTable(db, tInstantMessage,
+      columns: ["id", "uid", "cid", "sender", "time", "type", "sn", "signature", "msg"],
+      fromColumns: ["id", "''", "cid", "sender", "time", "type", "sn", "signature", "msg"],
+      fromTable: tempTable,
+    );
+    // INSERT INTO tInstantMessage (id, uid, cid, sender, time, type, sn, signature, msg}
+    // SELECT id, '', cid, sender, time, type, sn, signature, msg FROM $tempTable
+
+    // 4. drop old table
+    DatabaseConnector.dropTable(db, tempTable);
+  }
+
   static const String dbName = 'msg.db';
-  static const int dbVersion = 2;
+  static const int dbVersion = 3;
 
   static const String tChatBox         = 't_conversation';
 

@@ -102,10 +102,36 @@ class DatabaseConnector {
     db.execute(sql);
   }
 
-  static void createIndex(Database db, String table,
-      {required String name, required List<String> fields}) {
-    String sql = SQLBuilder.buildCreateIndex(table, name: name, fields: fields);
+  static void createIndex(Database db, String table, {bool unique = false,
+    required String name, required List<String> columns,
+  }) {
+    String sql = SQLBuilder.buildCreateIndex(table, unique: unique,
+      name: name, columns: columns,
+    );
     DBLogger.output('createIndex: $sql');
+    db.execute(sql);
+  }
+
+  static void renameTable(Database db, String table, {required String fromTable}) {
+    String sql = SQLBuilder.buildRenameTable(table, fromTable: fromTable);
+    DBLogger.output('renameTable: $sql');
+    db.execute(sql);
+  }
+
+  static void copyTable(Database db, String table, {
+    required List<String> columns,
+    required String fromTable,
+    required List<String> fromColumns,
+  }) {
+    String select = SQLBuilder.buildSelect(fromTable, columns: fromColumns);
+    String sql = SQLBuilder.buildInsert(table, columns: columns, selectClause: select);
+    DBLogger.output('renameTable: $sql');
+    db.execute(sql);
+  }
+
+  static void dropTable(Database db, String table) {
+    String sql = SQLBuilder.buildDropTable(table);
+    DBLogger.output('dropTable: $sql');
     db.execute(sql);
   }
 

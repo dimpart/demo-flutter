@@ -28,7 +28,7 @@ class AppCustomizedDatabase extends DatabaseConnector {
           "mod VARCHAR(32)",           // module
         ]);
         DatabaseConnector.createIndex(db, tCustomizedInfo,
-            name: 'key_index', fields: ['key']);
+            name: 'key_index', columns: ['key']);
       },
       onUpgrade: (db, oldVersion, newVersion) {
         // TODO:

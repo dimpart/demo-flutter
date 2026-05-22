@@ -29,7 +29,7 @@ class CryptoKeyDatabase extends DatabaseConnector {
           "decrypt BIT",
         ]);
         DatabaseConnector.createIndex(db, tPrivateKey,
-            name: 'user_id_index', fields: ['uid']);
+            name: 'user_id_index', columns: ['uid']);
         // // msg key
         // DatabaseConnector.createTable(db, tMsgKey, fields: [
         //   "id INTEGER PRIMARY KEY AUTOINCREMENT",
@@ -38,7 +38,7 @@ class CryptoKeyDatabase extends DatabaseConnector {
         //   "pwd TEXT NOT NULL",
         // ]);
         // DatabaseConnector.createIndex(db, tMsgKey,
-        //     name: 'direction_index', fields: ['sender', 'receiver']);
+        //     name: 'direction_index', columns: ['sender', 'receiver']);
       });
 
   static const String dbName = 'key.db';

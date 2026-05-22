@@ -26,7 +26,7 @@ class LoginDatabase extends DatabaseConnector {
           "msg TEXT NOT NULL",
         ]);
         DatabaseConnector.createIndex(db, tLogin,
-            name: 'uid_index', fields: ['uid']);
+            name: 'uid_index', columns: ['uid']);
       }, onUpgrade: (db, oldVersion, newVersion) {
         // TODO:
       });

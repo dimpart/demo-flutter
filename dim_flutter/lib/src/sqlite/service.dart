@@ -33,7 +33,7 @@ class ServiceProviderDatabase extends DatabaseConnector {
           "chosen INTEGER",
         ]);
         DatabaseConnector.createIndex(db, tStation,
-            name: 'sp_id_index', fields: ['pid']);
+            name: 'sp_id_index', columns: ['pid']);
         // access speed
         _createSpeedTable(db);
       },
@@ -57,7 +57,7 @@ class ServiceProviderDatabase extends DatabaseConnector {
       "socket VARCHAR(32)",          // socket address
     ]);
     DatabaseConnector.createIndex(db, tSpeed,
-        name: 'ip_index', fields: ['host']);
+        name: 'ip_index', columns: ['host']);
   }
 
   static const String dbName = 'sp.db';
