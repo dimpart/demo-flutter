@@ -183,6 +183,11 @@ class _PermissionHandler {
     Log.info('request permissions: $permissions');
     for (Permission item in permissions) {
       try {
+        status = await item.status;
+        if (status.isGranted) {
+          Log.info('permission already granted: $item');
+          continue;
+        }
         status = await item.request();
         isGranted = status.isGranted;
       } catch (e, st) {

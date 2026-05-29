@@ -107,14 +107,18 @@ OKSingletonImplementations(DIMPushNotificationController, sharedInstance)
     UNUserNotificationCenter *center;
     center = [UNUserNotificationCenter currentNotificationCenter];
     center.delegate = self;
-    UNAuthorizationOptions type;
-    type = UNAuthorizationOptionBadge|UNAuthorizationOptionSound|UNAuthorizationOptionAlert;
-    [center requestAuthorizationWithOptions:type
+    UNAuthorizationOptions options;
+    options = UNAuthorizationOptionBadge|UNAuthorizationOptionSound|UNAuthorizationOptionAlert;
+    [center requestAuthorizationWithOptions:options
                           completionHandler:^(BOOL granted, NSError *error) {
         NSLog(@"APNs granted: %u, error: %@", granted, error);
+        if (granted && !error) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                // query for device token
+                [application registerForRemoteNotifications];
+            });
+        }
     }];
-    // query for device token
-    [application registerForRemoteNotifications];
 
     return YES;
 }
