@@ -6,7 +6,11 @@ import 'package:dim_client/ok.dart';
 
 import '../../common/platform.dart';
 import '../../widgets/permissions.dart';
+
 import 'browser.dart';
+
+import 'device_base.dart';
+import 'device_stub.dart' if (dart.library.io) 'device_desktop.dart';
 
 class DeviceInfo with Logging {
   factory DeviceInfo() => _instance;
@@ -57,7 +61,7 @@ class DeviceInfo with Logging {
     systemVersion = info.browserVersion ?? '';
     // systemModel = info.appCodeName ?? '';
     systemModel = info.browserName.name;     // chrome / safari / firefox / edge
-    systemDevice = info.platform ?? '';      // MacIntel / Win32 / Android / iPhone
+    systemDevice = getWebPlatform(info);     // MacIntel / Win32 / Android / iPhone / iPadOS
     deviceBrand = info.product ?? '';        // Gecko / AppleWebKit
     deviceBoard = '';
     deviceManufacturer = info.vendor ?? '';  // Google / Apple / Mozilla
@@ -92,8 +96,8 @@ class DeviceInfo with Logging {
     // FIXME: model, device, brand, board, manufacturer
     systemVersion = info.versionId ?? info.version ?? info.versionCodename ?? '';
     systemModel = info.prettyName;           // "Ubuntu 24.04 LTS"
-    systemDevice = info.id;                  // "ubuntu"
-    deviceBrand = info.id;                   // "ubuntu";
+    systemDevice = readProductName(info);    // DMI product name, fallback: "ubuntu"
+    deviceBrand = info.id;                   // "ubuntu"
     deviceBoard = '';
     deviceManufacturer = info.name;          // "Canonical Ltd.";
   }
@@ -101,7 +105,7 @@ class DeviceInfo with Logging {
     // FIXME: model, device, brand, board
     systemVersion = '${info.majorVersion}.${info.minorVersion}.${info.buildNumber}';
     systemModel = info.productName;          // "Windows 11 Pro"
-    systemDevice = info.deviceId;
+    systemDevice = readProductName(info);    // SMBIOS product name, fallback: "Windows 11 Pro"
     deviceBrand = "Microsoft Windows";
     deviceBoard = '';
     deviceManufacturer = 'Microsoft Corporation';
