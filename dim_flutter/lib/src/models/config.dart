@@ -17,7 +17,11 @@ class Config with Logging {
 
   // TODO: start a bg-thread to query 'http://tarsier.dim.chat/config.json'
   //       for updating configurations
-  static const String entrance = 'http://tarsier.dim.chat/v1/config.json';
+  /// Remote config (stations / contacts / services), merged at start-up.
+  /// Build-time override: --dart-define=DIM_CONFIG_URL=<url>, or '' to disable the download
+  /// (private deployments). NOTE: the default is plain HTTP and unsigned.
+  static const String entrance = String.fromEnvironment('DIM_CONFIG_URL',
+      defaultValue: 'http://tarsier.dim.chat/v1/config.json');
 
   static const String assets = 'assets/config.json';
 
@@ -105,22 +109,24 @@ class Config with Logging {
       cnf ??= await loader.loadAssetsFile(assets);
       _info = cnf;
       //
-      //  3. download to update
+      //  3. download to update (skipped when built with DIM_CONFIG_URL='')
       //
-      loader.downloadConfig(entrance).then((dict) {
-        if (dict != null) {
-          // 3.1 update cache
-          _info = dict;
-          loader.saveConfig(dict);
-          // 3.2 refresh
-          _initWithConfig(this);
-          // 3.3 post notification
-          var nc = lnc.NotificationCenter();
-          nc.postNotification(NotificationNames.kConfigUpdated, loader, {
-            'config': dict,
-          });
-        }
-      });
+      if (entrance.isNotEmpty) {
+        loader.downloadConfig(entrance).then((dict) {
+          if (dict != null) {
+            // 3.1 update cache
+            _info = dict;
+            loader.saveConfig(dict);
+            // 3.2 refresh
+            _initWithConfig(this);
+            // 3.3 post notification
+            var nc = lnc.NotificationCenter();
+            nc.postNotification(NotificationNames.kConfigUpdated, loader, {
+              'config': dict,
+            });
+          }
+        });
+      }
     }
     _initWithConfig(this);
     return this;
