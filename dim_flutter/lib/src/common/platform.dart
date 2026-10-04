@@ -1,6 +1,9 @@
 import 'dart:io' show Platform;
 
 import 'package:flutter/foundation.dart';
+
+// Desktop SQLite: real FFI init on dart:ffi platforms, no-op stub elsewhere (web).
+import 'sqlite_ffi_stub.dart' if (dart.library.ffi) 'sqlite_ffi_io.dart' as sqlite_ffi;
 // import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 // import 'package:sqflite_common_ffi_web/sqflite_ffi_web.dart';
 // import 'package:fvp/fvp.dart';
@@ -36,15 +39,11 @@ class DevicePlatform {
     if (_sqlitePatched) {
       return;
     }
-    // if (isWeb) {
-    //   // Change default factory on the web
-    //   databaseFactory = databaseFactoryFfiWeb;
-    // } else if (isWindows || isLinux) {
-    //   // Initialize FFI
-    //   sqfliteFfiInit();
-    //   // Change the default factory
-    //   databaseFactory = databaseFactoryFfi;
-    // }
+    if (isWindows || isLinux) {
+      // plain `sqflite` only ships Android/iOS/macOS backends; without this every
+      // database call on Windows/Linux throws "databaseFactory not initialized"
+      sqlite_ffi.initDesktopSQLite();
+    }
     _sqlitePatched = true;
   }
   static bool _sqlitePatched = false;

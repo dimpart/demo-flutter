@@ -35,7 +35,7 @@ dependencies:
 #  sqflite_android: 2.4.3
 #  sqflite_darwin: 2.4.3
 #  sqflite_platform_interface: 2.4.1
-#  sqflite_common_ffi: 2.3.3
+  sqflite_common_ffi: ^2.3.3   # desktop (Windows/Linux) SQLite via FFI — needed since plain sqflite has no Windows/Linux backend
 #  sqflite_common_ffi_web: 0.4.2
 
 #  fvp: 0.16.1
