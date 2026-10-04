@@ -222,8 +222,29 @@ abstract class DBLogger {
 
   static final DefaultLogger logger = DefaultLogger();
 
-  static void output(String msg) =>
-      logger.output(msg, tag: kSqlTag, color: kSqlColor);
+  /// tables whose values must never be printed (private keys, message keys)
+  static const List<String> kSecretTables = ['t_private_key', 't_msg_key'];
+
+  /// SQL statements carry message contents and key material,
+  /// so only trace them when info logs are enabled (not in Log.RELEASE)
+  static bool get enabled => (Log.level & Log.INFO_FLAG) != 0;
+
+  static void output(String msg) {
+    if (enabled) {
+      logger.output(redact(msg), tag: kSqlTag, color: kSqlColor);
+    }
+  }
+
+  /// hide everything after the table name for secret tables
+  static String redact(String sql) {
+    for (String table in kSecretTables) {
+      int pos = sql.indexOf(table);
+      if (pos >= 0) {
+        return '${sql.substring(0, pos + table.length)} ... (values hidden)';
+      }
+    }
+    return sql;
+  }
 
 }
 
