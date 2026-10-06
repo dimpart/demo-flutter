@@ -29,14 +29,18 @@
  * =============================================================================
  */
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/foundation.dart' show compute;
 import 'package:flutter_image_compress/flutter_image_compress.dart';
+import 'package:image/image.dart' as img;
 
 import 'package:dim_client/sdk.dart';
 import 'package:dim_client/ok.dart';
 
+import '../common/platform.dart';
 import '../ui/icons.dart';
 
 
@@ -121,6 +125,17 @@ abstract class ImageUtils {
 
   static Future<Uint8List?> compress(Uint8List image,
       {required int minWidth, required int minHeight, int quality = 95}) async {
+    if (DevicePlatform.isWindows || DevicePlatform.isLinux) {
+      // flutter_image_compress has no Windows / Linux implementation (UnimplementedError), so
+      // desktop pictures went out without a thumbnail and large photos were not scaled down;
+      // use the pure-Dart 'image' package there, in a background isolate
+      try {
+        return await compute(_compressPureDart, _CompressJob(image, minWidth, minHeight, quality));
+      } catch (e, st) {
+        Log.error('[JPEG] failed to compress image (dart): $minWidth x $minHeight, q: $quality, $e, $st');
+        return null;
+      }
+    }
     try {
       return await FlutterImageCompress.compressWithList(image,
         minWidth: minWidth, minHeight: minHeight, quality: quality,);
@@ -130,6 +145,33 @@ abstract class ImageUtils {
     }
   }
 
+}
+
+class _CompressJob {
+  const _CompressJob(this.data, this.minWidth, this.minHeight, this.quality);
+  final Uint8List data;
+  final int minWidth;
+  final int minHeight;
+  final int quality;
+}
+
+/// Same sizing as flutter_image_compress: keep the aspect ratio and scale DOWN (never up)
+/// so that the result is still at least minWidth x minHeight; output JPEG.
+Uint8List? _compressPureDart(_CompressJob job) {
+  img.Image? src = img.decodeImage(job.data);
+  if (src == null) {
+    return null;
+  }
+  src = img.bakeOrientation(src);
+  double scale = max(job.minWidth / src.width, job.minHeight / src.height);
+  if (scale < 1.0) {
+    src = img.copyResize(src,
+      width: max(1, (src.width * scale).round()),
+      height: max(1, (src.height * scale).round()),
+      interpolation: img.Interpolation.average,
+    );
+  }
+  return img.encodeJpg(src, quality: job.quality);
 }
 
 Widget _noImage({double? width, double? height}) {

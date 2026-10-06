@@ -7,6 +7,8 @@ import 'package:image_picker/image_picker.dart';
 
 import 'package:dim_client/ok.dart';
 
+import '../common/platform.dart';
+
 import '../pnf/image.dart';
 import '../ui/icons.dart';
 
@@ -17,8 +19,15 @@ import 'permissions.dart';
 typedef OnImagePicked = void Function(String path);
 typedef OnImageRead = void Function(String path, Uint8List data);
 
-void openImagePicker(BuildContext context, {OnImagePicked? onPicked, required OnImageRead onRead}) =>
-    Alert.actionSheet(context, null, null,
+void openImagePicker(BuildContext context, {OnImagePicked? onPicked, required OnImageRead onRead}) {
+  if (DevicePlatform.isDesktop) {
+    // Windows / Linux / macOS: image_picker has no camera there, and the camera permission
+    // check cannot succeed either (Linux: no permission_handler -> "Permission Denied";
+    // Windows: "granted" -> image_picker throws "Camera Error"). Open the file dialog directly.
+    _openImagePicker(context, false, onPicked, onRead);
+    return;
+  }
+  Alert.actionSheet(context, null, null,
       Alert.action(AppIcons.cameraIcon, 'Camera'),
           () => PermissionCenter().requestCameraPermissions(context,
             onGranted: (context) => _openImagePicker(context, true, onPicked, onRead),
@@ -28,6 +37,7 @@ void openImagePicker(BuildContext context, {OnImagePicked? onPicked, required On
             onGranted: (context) => _openImagePicker(context, false, onPicked, onRead),
           ),
     );
+}
 
 void _openImagePicker(BuildContext context, bool camera, OnImagePicked? onPicked, OnImageRead onRead) =>
     ImagePicker().pickImage(source: camera ? ImageSource.camera : ImageSource.gallery).then((file) {
