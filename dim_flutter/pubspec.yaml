@@ -51,6 +51,7 @@ dependencies:
   image_gallery_saver: 2.0.3
   flutter_image_compress: 2.3.0
   image: ^4.3.0  # pure-Dart JPEG resize: flutter_image_compress has no Windows / Linux implementation
+  pasteboard: ^0.5.0  # desktop: paste images (screenshots) from the clipboard
   flutter_inappwebview: 6.1.5
 #  webview_windows: 0.4.0
   url_launcher: 6.3.0
