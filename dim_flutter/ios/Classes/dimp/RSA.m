@@ -67,7 +67,7 @@ static NSString *s_application_tag = @"chat.dim.rsa.private";
     NSString *pem = [info objectForKey:@"data"];
     NSData *data = [MKMSecKeyHelper privateKeyDataFromContent:pem algorithm:MKMAlgorithm_RSA];
     if ([data length] == 0) {
-        NSAssert(NO, @"private key data error: %@", info);
+        NSAssert(NO, @"private key data error, pem length: %lu", (unsigned long)[pem length]);
         return NO;
     }
     

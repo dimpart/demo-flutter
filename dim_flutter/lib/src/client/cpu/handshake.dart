@@ -1,5 +1,4 @@
 
-import 'package:dim_client/sdk.dart';
 import 'package:dim_client/common.dart';
 import 'package:dim_client/client.dart';
 import 'package:dim_client/cpu.dart';
@@ -78,18 +77,18 @@ class ClientHandshakeProcessor extends HandshakeCommandProcessor {
       logInfo('first handshake: ${session.remoteAddress}');
       return false;
     } else if (newKey != oldKey) {
-      logWarning('session key changed: $oldKey -> $newKey');
+      logWarning('session key changed: ${_maskSessionKey(oldKey)} -> ${_maskSessionKey(newKey)}');
       return false;
     }
     // Duplicated Condition
     // ~~~~~~~~~~~~~~~~~~~~
     //    1. session is ready
     //    2. new key == old key
-    logWarning('duplicated session key: $newKey, ${session.remoteAddress}');
+    logWarning('duplicated session key: ${_maskSessionKey(newKey)}, ${session.remoteAddress}');
     DateTime? now = DateTime.now();
     DateTime? lastTime = _lastDuplicatedTime;
     if (lastTime == null) {
-      logInfo('first duplicated, let it go: $newKey');
+      logInfo('first duplicated, let it go: ${_maskSessionKey(newKey)}');
     } else if (lastTime.add(_delta).isAfter(now)) {
       // now < last + 5s
       // FIXME: why this happen?
@@ -124,3 +123,5 @@ class ClientHandshakeProcessor extends HandshakeCommandProcessor {
   }
 
 }
+
+const _maskSessionKey = HandshakeCommandProcessor.maskSessionKey;

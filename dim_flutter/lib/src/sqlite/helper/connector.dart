@@ -222,8 +222,11 @@ abstract class DBLogger {
 
   static final DefaultLogger logger = DefaultLogger();
 
-  static void output(String msg) =>
+  static void output(String msg) {
+    if (Log.level != Log.RELEASE) {
       logger.output(msg, tag: kSqlTag, color: kSqlColor);
+    }
+  }
 
 }
 
@@ -255,28 +258,20 @@ class _Statement implements Statement {
   }
 
   @override
-  Future<ResultSet> executeQuery(String sql) async {
-    // DBLogger.output('executeQuery: $sql');
-    return _ResultSet(await database.rawQuery(sql));
-  }
+  Future<ResultSet> executeQuery(String sql) async =>
+      _ResultSet(await database.rawQuery(sql));
 
   @override
-  Future<int> executeInsert(String sql) async {
-    DBLogger.output('executeInsert: $sql');
-    return await database.rawInsert(sql);
-  }
+  Future<int> executeInsert(String sql) async =>
+      await database.rawInsert(sql);
 
   @override
-  Future<int> executeUpdate(String sql) async {
-    DBLogger.output('executeUpdate: $sql');
-    return await database.rawUpdate(sql);
-  }
+  Future<int> executeUpdate(String sql) async =>
+      await database.rawUpdate(sql);
 
   @override
-  Future<int> executeDelete(String sql) async {
-    DBLogger.output('executeDelete: $sql');
-    return await database.rawDelete(sql);
-  }
+  Future<int> executeDelete(String sql) async =>
+      await database.rawDelete(sql);
 
 }
 

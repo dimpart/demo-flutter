@@ -82,7 +82,7 @@ class DatabaseHandler<T> with Logging {
   Future<List<T>> executeQuery(String sql, OnDataRowExtractFn<T> extractRow) async {
     Statement? sta = await _connect();
     if (sta == null) {
-      logError('failed to get statement for "$sql"');
+      assert(false, 'failed to get statement for "$sql"');
       return [];
     }
     List<T> rows = [];
@@ -102,7 +102,7 @@ class DatabaseHandler<T> with Logging {
   Future<int> executeInsert(String sql) async {
     Statement? sta = await _connect();
     if (sta == null) {
-      logError('failed to get statement for "$sql"');
+      assert(false, 'failed to get statement for "$sql"');
       return -1;
     }
     return await sta.executeInsert(sql);
@@ -116,7 +116,7 @@ class DatabaseHandler<T> with Logging {
   Future<int> executeUpdate(String sql) async {
     Statement? sta = await _connect();
     if (sta == null) {
-      logError('failed to get statement for "$sql"');
+      assert(false, 'failed to get statement for "$sql"');
       return -1;
     }
     return await sta.executeUpdate(sql);
@@ -130,7 +130,7 @@ class DatabaseHandler<T> with Logging {
   Future<int> executeDelete(String sql) async {
     Statement? sta = await _connect();
     if (sta == null) {
-      logError('failed to get statement for "$sql"');
+      assert(false, 'failed to get statement for "$sql"');
       return -1;
     }
     return await sta.executeDelete(sql);
@@ -159,6 +159,7 @@ abstract class DataTableHandler<T> extends DatabaseHandler<T> {
     String sql = SQLBuilder.buildInsert(table,
       columns: columns, values: values,
     );
+    DBLogger.output('executeInsert: $sql');
     return await executeInsert(sql);
   }
 
@@ -175,6 +176,7 @@ abstract class DataTableHandler<T> extends DatabaseHandler<T> {
       groupBy: groupBy, having: having, orderBy: orderBy,
       offset: offset, limit: limit,
     );
+    // DBLogger.output('executeQuery: $sql');
     return await executeQuery(sql, onExtract);
   }
 
@@ -187,12 +189,14 @@ abstract class DataTableHandler<T> extends DatabaseHandler<T> {
       values: values,
       conditions: conditions,
     );
+    DBLogger.output('executeUpdate: $sql');
     return await executeUpdate(sql);
   }
 
   /// DELETE FROM table WHERE conditions
   Future<int> delete(String table, {required SQLConditions conditions}) async {
     String sql = SQLBuilder.buildDelete(table, conditions: conditions);
+    DBLogger.output('executeDelete: $sql');
     return await executeDelete(sql);
   }
 

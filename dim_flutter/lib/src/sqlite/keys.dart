@@ -1,6 +1,5 @@
 
 import 'package:dim_client/ok.dart';
-import 'package:dim_client/sdk.dart';
 import 'package:dim_client/common.dart';
 
 import '../channels/manager.dart';
@@ -122,7 +121,12 @@ class _PrivateKeyTable extends DataTableHandler<PrivateKey> implements PrivateKe
     // 1. save to database
     String json = JSON.encode(key.toMap());
     List values = [uid.toString(), json, type, sign, decrypt];
-    return await insert(_table, columns: _insertColumns, values: values) > 0;
+    // return await insert(_table, columns: _insertColumns, values: values) > 0;
+    String sql = SQLBuilder.buildInsert(_table,
+      columns: _insertColumns, values: values,
+    );
+    DBLogger.output('executeInsert: INSERT INTO $_table ($_insertColumns) VALUES ($uid, ...)');
+    return await executeInsert(sql) > 0;
   }
 
 }

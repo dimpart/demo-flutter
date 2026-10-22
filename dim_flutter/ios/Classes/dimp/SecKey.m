@@ -86,7 +86,7 @@ static inline SecKeyRef SecKeyRefFromData(NSData *data,
                                             (CFDictionaryRef)dict,
                                             &error);
     if (error) {
-        NSLog(@"failed to create sec key with data: %@, error: %@", data, error);
+        NSLog(@"failed to create sec key with data length: %lu, error: %@", (unsigned long)[data length], error);
         assert(keyRef == NULL); // the key ref should be empty when error
         assert(false);
         CFRelease(error);

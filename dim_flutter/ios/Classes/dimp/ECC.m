@@ -82,7 +82,7 @@ static NSString *s_application_tag = @"chat.dim.ecc.private";
         data = [MKMSecKeyHelper privateKeyDataFromContent:pem algorithm:MKMAlgorithm_ECC];
     }
     if ([data length] == 0) {
-        NSAssert(NO, @"private key data error: %@", info);
+        NSAssert(NO, @"private key data error, pem length: %lu", (unsigned long)[pem length]);
         return NO;
     }
     

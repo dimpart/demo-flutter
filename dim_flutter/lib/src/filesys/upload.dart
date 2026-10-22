@@ -33,7 +33,6 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 import 'package:dim_client/ok.dart';
-import 'package:dim_client/sdk.dart';
 import 'package:dim_client/common.dart';
 import 'package:pnf/pnf.dart';
 
@@ -111,7 +110,7 @@ class SharedFileUploader with Logging {
       return false;
     }
     var items = UploadServer.parseEnigmaItems(secrets);
-    logInfo('set enigma secrets: $secrets => $items');
+    logInfo('set enigma secrets: ${secrets.length} => ${items.length}');
     _enigma.update(items);
     return items.isNotEmpty;
   }
