@@ -234,8 +234,8 @@ final Map<String, String> intlJaJp = {
   'Message is rejected': 'メッセージが拒否されました',
   'Safely delivered': '安全に配信されました',
   'Safely delivered to @count members': '安全に @count 人のメンバーに配信されました',
-  'Message delivery timeout': 'メッセージの送信がタイムアウトしました。',
-  'Synchronized from @terminal': '@terminalから同期しました。',
+  'Message delivery timeout': 'メッセージの送信がタイムアウトしました',
+  'Synchronized from @terminal': '"@terminal"から同期しました',
 
   'Draft': '下書き',
   'Mentioned': 'あなたは言及されました',

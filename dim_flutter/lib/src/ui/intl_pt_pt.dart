@@ -234,8 +234,8 @@ final Map<String, String> intlPtPt = {
   'Message is rejected': 'Mensagem foi rejeitada',
   'Safely delivered': 'Entregue com segurança',
   'Safely delivered to @count members': 'Entregue com segurança a @count membro(s)',
-  'Message delivery timeout': 'Tempo limite de envio de mensagem esgotado.',
-  'Synchronized from @terminal': 'Sincronizado a partir de @terminal.',
+  'Message delivery timeout': 'Tempo limite de envio de mensagem esgotado',
+  'Synchronized from @terminal': 'Sincronizado a partir de "@terminal"',
 
   'Draft': 'Rasura',
   'Mentioned': 'Você foi mencionado',

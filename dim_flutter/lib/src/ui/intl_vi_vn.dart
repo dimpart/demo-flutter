@@ -234,8 +234,8 @@ final Map<String, String> intlViVN = {
   'Message is rejected': 'Tin nhắn bị từ chối',
   'Safely delivered': 'Giao hàng an toàn',
   'Safely delivered to @count members': 'Giao hàng an toàn cho @count thành viên',
-  'Message delivery timeout': 'Hết thời gian gửi tin nhắn.',
-  'Synchronized from @terminal': 'Đồng bộ từ @terminal.',
+  'Message delivery timeout': 'Hết thời gian gửi tin nhắn',
+  'Synchronized from @terminal': 'Đồng bộ từ "@terminal"',
 
   'Draft': 'Nháp',
   'Mentioned': 'Bạn đã được đề cập',

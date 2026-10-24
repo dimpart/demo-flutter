@@ -234,8 +234,8 @@ final Map<String, String> intlDeDe = {
   'Message is rejected': 'Nachricht wurde abgelehnt',
   'Safely delivered': 'Sicher zugestellt',
   'Safely delivered to @count members': 'Sicher an @count Mitglieder zugestellt',
-  'Message delivery timeout': 'Zeitüberschreitung beim Senden der Nachricht.',
-  'Synchronized from @terminal': 'Synchronisiert von @terminal.',
+  'Message delivery timeout': 'Zeitüberschreitung beim Senden der Nachricht',
+  'Synchronized from @terminal': 'Synchronisiert von "@terminal"',
 
   'Draft': 'Entwurf',
   'Mentioned': 'Du wurdest erwähnt',

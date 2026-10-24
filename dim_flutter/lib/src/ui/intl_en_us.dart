@@ -233,8 +233,8 @@ final Map<String, String> intlEnUs = {
   'Message is rejected': 'Message is rejected',
   'Safely delivered': 'Safely delivered',
   'Safely delivered to @count members': 'Safely delivered to @count member(s)',
-  'Message delivery timeout': 'Message delivery timeout.',
-  'Synchronized from @terminal': 'Synchronized from @terminal.',
+  'Message delivery timeout': 'Message delivery timeout',
+  'Synchronized from @terminal': 'Synchronized from "@terminal"',
 
   'Draft': 'Draft',
   'Mentioned': 'You were mentioned',

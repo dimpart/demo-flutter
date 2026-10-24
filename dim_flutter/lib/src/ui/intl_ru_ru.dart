@@ -234,8 +234,8 @@ final Map<String, String> intlRuRu = {
   'Message is rejected': 'Сообщение отклонено',
   'Safely delivered': 'Безопасно доставлено',
   'Safely delivered to @count members': 'Безопасно доставлено @count участникам',
-  'Message delivery timeout': 'Истекло время отправки сообщения.',
-  'Synchronized from @terminal': 'Синхронизировано из @terminal.',
+  'Message delivery timeout': 'Истекло время отправки сообщения',
+  'Synchronized from @terminal': 'Синхронизировано из "@terminal"',
 
   'Draft': 'Черновик',
   'Mentioned': 'Вас упомянули',

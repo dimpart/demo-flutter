@@ -234,8 +234,8 @@ final Map<String, String> intlAr = {
   'Message is rejected': 'تم رفض الرسالة',
   'Safely delivered': 'تم التوصيل بأمان',
   'Safely delivered to @count members': 'تم التوصيل بأمان لـ @count عضو',
-  'Message delivery timeout': 'انتهت مهلة إرسال الرسالة.',
-  'Synchronized from @terminal': 'تمت المزامنة من @terminal.',
+  'Message delivery timeout': 'انتهت مهلة إرسال الرسالة',
+  'Synchronized from @terminal': 'تمت المزامنة من "@terminal"',
 
   'Draft': 'مسودة',
   'Mentioned': 'تمت الإشارة إليك',

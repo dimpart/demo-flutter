@@ -232,8 +232,8 @@ final Map<String, String> intlZhTw = {
   'Message is rejected': '訊息被拒絕',
   'Safely delivered': '已安全送達',
   'Safely delivered to @count members': '已安全送達 @count 位成員',
-  'Message delivery timeout': '訊息傳送逾時。',
-  'Synchronized from @terminal': '同步來自@terminal。',
+  'Message delivery timeout': '訊息傳送逾時',
+  'Synchronized from @terminal': '同步來自 "@terminal"',
 
   'Draft': '草稿',
   'Mentioned': '有人@我',

@@ -234,8 +234,8 @@ final Map<String, String> intlFrFr = {
   'Message is rejected': 'Message rejeté',
   'Safely delivered': 'Livré en toute sécurité',
   'Safely delivered to @count members': 'Livré en toute sécurité à @count membre(s)',
-  'Message delivery timeout': 'Délai d\'envoi du message dépassé.',
-  'Synchronized from @terminal': 'Synchronisé depuis @terminal.',
+  'Message delivery timeout': 'Délai d\'envoi du message dépassé',
+  'Synchronized from @terminal': 'Synchronisé depuis "@terminal"',
 
   'Draft': 'Brouillon',
   'Mentioned': 'Tu as été mentionné',

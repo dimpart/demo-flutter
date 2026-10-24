@@ -235,7 +235,7 @@ final Map<String, String> intlBnBd = {
   'Safely delivered': 'নিরাপদে পৌঁছেছে',
   'Safely delivered to @count members': 'নিরাপদে @count সদস্যদের কাছে পৌঁছেছে',
   'Message delivery timeout': 'বার্তা পাঠানোর সময় শেষ হয়েছে।',
-  'Synchronized from @terminal': '@terminal থেকে সিঙ্ক করা হয়েছে।',
+  'Synchronized from @terminal': '"@terminal" থেকে সিঙ্ক করা হয়েছে।',
 
   'Draft': 'খসড়া',
   'Mentioned': 'তোমার উল্লেখ হয়েছে',

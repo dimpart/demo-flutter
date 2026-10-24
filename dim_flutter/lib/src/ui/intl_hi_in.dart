@@ -235,7 +235,7 @@ final Map<String, String> intlHiIn = {
   'Safely delivered': 'सुरक्षित रूप से डिलीवर किया गया',
   'Safely delivered to @count members': 'सुरक्षित रूप से @count सदस्यों को डिलीवर किया गया',
   'Message delivery timeout': 'संदेश भेजने का समय समाप्त हो गया।',
-  'Synchronized from @terminal': '@terminal से सिंक किया गया।',
+  'Synchronized from @terminal': '"@terminal" से सिंक किया गया।',
 
   'Draft': 'मसौदा',
   'Mentioned': 'आपका उल्लेख किया गया',

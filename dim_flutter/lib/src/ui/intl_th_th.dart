@@ -234,8 +234,8 @@ final Map<String, String> intlThTh = {
   'Message is rejected': 'ข้อความถูกปฏิเสธ',
   'Safely delivered': 'ส่งสำเร็จ',
   'Safely delivered to @count members': 'ส่งสำเร็จถึงสมาชิก @count คน',
-  'Message delivery timeout': 'หมดเวลาในการส่งข้อความ。',
-  'Synchronized from @terminal': 'ซิงค์จาก @terminal แล้ว。',
+  'Message delivery timeout': 'หมดเวลาในการส่งข้อความ',
+  'Synchronized from @terminal': 'ซิงค์จาก "@terminal" แล้ว',
 
   'Draft': 'ร่าง',
   'Mentioned': 'คุณถูกกล่าวถึง',

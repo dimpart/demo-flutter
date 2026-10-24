@@ -234,8 +234,8 @@ final Map<String, String> intlNlNl = {
   'Message is rejected': 'Bericht wordt afgewezen',
   'Safely delivered': 'Veilig afgeleverd',
   'Safely delivered to @count members': 'Veilig afgeleverd aan @count lid(den)',
-  'Message delivery timeout': 'Time-out bij het verzenden van bericht.',
-  'Synchronized from @terminal': 'Gesynchroniseerd vanaf @terminal.',
+  'Message delivery timeout': 'Time-out bij het verzenden van bericht',
+  'Synchronized from @terminal': 'Gesynchroniseerd vanaf "@terminal"',
 
   'Draft': 'Concept',
   'Mentioned': 'Je werd genoemd',

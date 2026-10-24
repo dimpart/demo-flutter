@@ -233,8 +233,8 @@ final Map<String, String> intlKoKr = {
   'Message is rejected': '메시지가 거부되었습니다',
   'Safely delivered': '안전하게 전달됨',
   'Safely delivered to @count members': '@count 명에게 안전하게 전달됨',
-  'Message delivery timeout': '메시지 전송 시간이 초과되었습니다.',
-  'Synchronized from @terminal': '@terminal에서 동기화되었습니다.',
+  'Message delivery timeout': '메시지 전송 시간이 초과되었습니다',
+  'Synchronized from @terminal': '"@terminal"에서 동기화되었습니다',
 
   'Draft': '초안',
   'Mentioned': '당신은 언급되었습니다',

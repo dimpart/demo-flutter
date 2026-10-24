@@ -234,8 +234,8 @@ final Map<String, String> intlIdId = {
   'Message is rejected': 'Pesan ditolak',
   'Safely delivered': 'Terkirim dengan aman',
   'Safely delivered to @count members': 'Terkirim dengan aman kepada @count anggota',
-  'Message delivery timeout': 'Waktu pengiriman pesan habis.',
-  'Synchronized from @terminal': 'Disinkronkan dari @terminal.',
+  'Message delivery timeout': 'Waktu pengiriman pesan habis',
+  'Synchronized from @terminal': 'Disinkronkan dari "@terminal"',
 
   'Draft': 'Draf',
   'Mentioned': 'Anda disebutkan',

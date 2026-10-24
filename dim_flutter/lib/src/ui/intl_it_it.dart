@@ -234,8 +234,8 @@ final Map<String, String> intlItIt = {
   'Message is rejected': 'Messaggio rifiutato',
   'Safely delivered': 'Consegnato in modo sicuro',
   'Safely delivered to @count members': 'Consegnato in modo sicuro a @count membri',
-  'Message delivery timeout': 'Timeout di invio del messaggio.',
-  'Synchronized from @terminal': 'Sincronizzato da @terminal.',
+  'Message delivery timeout': 'Timeout di invio del messaggio',
+  'Synchronized from @terminal': 'Sincronizzato da "@terminal"',
 
   'Draft': 'Bozza',
   'Mentioned': 'Sei stato menzionato',

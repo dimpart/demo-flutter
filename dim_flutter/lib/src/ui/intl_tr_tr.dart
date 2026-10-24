@@ -233,8 +233,8 @@ final Map<String, String> intlTrTr = {
   'Message is rejected': 'Mesaj reddedildi',
   'Safely delivered': 'Güvenli bir şekilde teslim edildi',
   'Safely delivered to @count members': '@count üye(ler)e güvenli bir şekilde teslim edildi',
-  'Message delivery timeout': 'Mesaj gönderme zaman aşımı.',
-  'Synchronized from @terminal': '@terminal\'den senkronize edildi.',
+  'Message delivery timeout': 'Mesaj gönderme zaman aşımı',
+  'Synchronized from @terminal': '"@terminal"\'den senkronize edildi',
 
   'Draft': 'Taslak',
   'Mentioned': 'Bahsedildiniz',

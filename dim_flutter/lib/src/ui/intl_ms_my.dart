@@ -234,8 +234,8 @@ final Map<String, String> intlMsMy = {
   'Message is rejected': 'Mesej ditolak',
   'Safely delivered': 'Berjaya dihantar',
   'Safely delivered to @count members': 'Berjaya dihantar kepada @count ahli',
-  'Message delivery timeout': 'Masa penghantaran mesej tamat.',
-  'Synchronized from @terminal': 'Disegerakkan dari @terminal.',
+  'Message delivery timeout': 'Masa penghantaran mesej tamat',
+  'Synchronized from @terminal': 'Disegerakkan dari "@terminal"',
 
   'Draft': 'Draf',
   'Mentioned': 'Anda telah disebutkan',

@@ -234,8 +234,8 @@ final Map<String, String> intlAfZa = {
   'Message is rejected': 'Boodskap word afgekeur',
   'Safely delivered': 'Veilig afgelewer',
   'Safely delivered to @count members': 'Veilig afgelewer aan @count lid/lidmate',
-  'Message delivery timeout': 'Tydverloop by boodskapaflewering.',
-  'Synchronized from @terminal': 'Gesinchroniseer vanaf @terminal.',
+  'Message delivery timeout': 'Tydverloop by boodskapaflewering',
+  'Synchronized from @terminal': 'Gesinchroniseer vanaf "@terminal"',
 
   'Draft': 'Konsep',
   'Mentioned': 'Jy is genoem',
