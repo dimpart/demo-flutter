@@ -26,8 +26,8 @@ class MessageDatabase extends DatabaseConnector {
         // message traces
         await DatabaseConnector.createTable(db, tTrace, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
-          "cid VARCHAR(64) NOT NULL",
-          "sender VARCHAR(64) NOT NULL",
+          "cid VARCHAR(96) NOT NULL",
+          "sender VARCHAR(96) NOT NULL",
           "sn INTEGER NOT NULL",
           "signature VARCHAR(8)",  // last 8 characters
           "trace TEXT NOT NULL",
@@ -52,8 +52,8 @@ class MessageDatabase extends DatabaseConnector {
   static Future<void> _createConversationTable(Database db) async {
     await DatabaseConnector.createTable(db, tChatBox, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "uid VARCHAR(64) NOT NULL",  // current user
-      "cid VARCHAR(64) NOT NULL",
+      "uid VARCHAR(96) NOT NULL",  // current user
+      "cid VARCHAR(96) NOT NULL",
       "unread INTEGER",            // count of unread messages
       "last VARCHAR(128)",         // desc of last message
       "time INTEGER",              // time of last message (seconds)
@@ -86,10 +86,10 @@ class MessageDatabase extends DatabaseConnector {
   static Future<void> _createInstantMessageTable(Database db) async {
     await DatabaseConnector.createTable(db, tInstantMessage, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "uid VARCHAR(64) NOT NULL",  // current user
-      "cid VARCHAR(64) NOT NULL",
-      "sender VARCHAR(64)",
-      // "receiver VARCHAR(64)",
+      "uid VARCHAR(96) NOT NULL",  // current user
+      "cid VARCHAR(96) NOT NULL",
+      "sender VARCHAR(96)",
+      // "receiver VARCHAR(96)",
       "time INTEGER NOT NULL",     // time of message (seconds)
       "type INTEGER",
       "sn INTEGER",

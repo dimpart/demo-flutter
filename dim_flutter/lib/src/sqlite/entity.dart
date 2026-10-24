@@ -50,7 +50,7 @@ class EntityDatabase extends DatabaseConnector {
   static Future<void> _createMetaTable(Database db) async {
     await DatabaseConnector.createTable(db, tMeta, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "did VARCHAR(64) NOT NULL UNIQUE",
+      "did VARCHAR(96) NOT NULL UNIQUE",
       "type INTEGER NOT NULL",
       "pub_key TEXT NOT NULL",
       "seed VARCHAR(32)",
@@ -64,7 +64,7 @@ class EntityDatabase extends DatabaseConnector {
   static Future<void> _createDocumentTable(Database db) async {
     await DatabaseConnector.createTable(db, tDocument, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "did VARCHAR(64) NOT NULL",
+      "did VARCHAR(96) NOT NULL",
       "type VARCHAR(16)",
       "data TEXT NOT NULL",
       "signature VARCHAR(172) NOT NULL",
@@ -78,7 +78,7 @@ class EntityDatabase extends DatabaseConnector {
   static Future<void> _createVisaTable(Database db) async {
     await DatabaseConnector.createTable(db, tVisa, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "did VARCHAR(64) NOT NULL",
+      "did VARCHAR(96) NOT NULL",
       "terminal VARCHAR(32)",
       "type VARCHAR(16)",
       "data TEXT NOT NULL",
@@ -107,7 +107,7 @@ class EntityDatabase extends DatabaseConnector {
   static Future<void> _createLocalUserTable(Database db) async {
     await DatabaseConnector.createTable(db, tLocalUser, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "uid VARCHAR(64) NOT NULL UNIQUE",
+      "uid VARCHAR(96) NOT NULL UNIQUE",
       "chosen BIT",
     ]);
   }
@@ -116,8 +116,8 @@ class EntityDatabase extends DatabaseConnector {
   static Future<void> _createContactTable(Database db) async {
     await DatabaseConnector.createTable(db, tContact, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "uid VARCHAR(64) NOT NULL",
-      "contact VARCHAR(64) NOT NULL",
+      "uid VARCHAR(96) NOT NULL",
+      "contact VARCHAR(96) NOT NULL",
     ]);
     await DatabaseConnector.createIndex(db, tContact,
       name: 'user_id_index', columns: ['uid'],
@@ -127,8 +127,8 @@ class EntityDatabase extends DatabaseConnector {
   static Future<void> _createRemarkTable(Database db) async {
     await DatabaseConnector.createTable(db, tRemark, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "uid VARCHAR(64) NOT NULL",
-      "contact VARCHAR(64) NOT NULL",
+      "uid VARCHAR(96) NOT NULL",
+      "contact VARCHAR(96) NOT NULL",
       "alias VARCHAR(32)",
       "description TEXT",
     ]);
@@ -141,8 +141,8 @@ class EntityDatabase extends DatabaseConnector {
   static Future<void> _createBlockedTable(Database db) async {
     await DatabaseConnector.createTable(db, tBlocked, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "uid VARCHAR(64) NOT NULL",
-      "blocked VARCHAR(64) NOT NULL",  // contact ID
+      "uid VARCHAR(96) NOT NULL",
+      "blocked VARCHAR(96) NOT NULL",  // contact ID
     ]);
     await DatabaseConnector.createIndex(db, tBlocked,
       name: 'user_id_index', columns: ['uid'],
@@ -152,8 +152,8 @@ class EntityDatabase extends DatabaseConnector {
   static Future<void> _createMutedTable(Database db) async {
     await DatabaseConnector.createTable(db, tMuted, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "uid VARCHAR(64) NOT NULL",
-      "muted VARCHAR(64) NOT NULL",  // contact ID
+      "uid VARCHAR(96) NOT NULL",
+      "muted VARCHAR(96) NOT NULL",  // contact ID
     ]);
     await DatabaseConnector.createIndex(db, tMuted,
       name: 'user_id_index', columns: ['uid'],
@@ -190,7 +190,7 @@ class GroupDatabase extends DatabaseConnector {
         // // reset group command
         // DatabaseConnector.createTable(db, tResetGroup, fields: [
         //   "id INTEGER PRIMARY KEY AUTOINCREMENT",
-        //   "gid VARCHAR(64) NOT NULL",
+        //   "gid VARCHAR(96) NOT NULL",
         //   "cmd TEXT NOT NULL",
         //   "msg TEXT NOT NULL",
         // ]);
@@ -214,8 +214,8 @@ class GroupDatabase extends DatabaseConnector {
   static Future<void> _createMemberTable(Database db) async {
     await DatabaseConnector.createTable(db, tMember, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "gid VARCHAR(64) NOT NULL",
-      "member VARCHAR(64) NOT NULL",
+      "gid VARCHAR(96) NOT NULL",
+      "member VARCHAR(96) NOT NULL",
     ]);
     await DatabaseConnector.createIndex(db, tMember,
       name: 'group_id_index', columns: ['gid'],
@@ -226,8 +226,8 @@ class GroupDatabase extends DatabaseConnector {
   static Future<void> _createAdminTable(Database db) async {
     await DatabaseConnector.createTable(db, tAdmin, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "gid VARCHAR(64) NOT NULL",
-      "admin VARCHAR(64) NOT NULL",
+      "gid VARCHAR(96) NOT NULL",
+      "admin VARCHAR(96) NOT NULL",
     ]);
     await DatabaseConnector.createIndex(db, tAdmin,
       name: 'group_id_index', columns: ['gid'],
@@ -238,7 +238,7 @@ class GroupDatabase extends DatabaseConnector {
   static Future<void> _createHistoryTable(Database db) async {
     await DatabaseConnector.createTable(db, tHistory, fields: [
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
-      "gid VARCHAR(64) NOT NULL",  // group id
+      "gid VARCHAR(96) NOT NULL",  // group id
       "cmd VARCHAR(32) NOT NULL",  // command name
       "time INTEGER NOT NULL",     // command time (seconds)
       "content TEXT NOT NULL",     // command info

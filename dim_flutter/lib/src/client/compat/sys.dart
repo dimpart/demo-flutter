@@ -3,7 +3,6 @@ import 'package:flutter/services.dart';
 
 import 'package:dim_client/common.dart';
 import 'package:dim_client/ok.dart';
-import 'package:dim_client/sdk.dart';
 
 import '../../ui/nav.dart';
 import 'device.dart';
@@ -44,9 +43,15 @@ class SysInfo with Logging {
 
 }
 
-String _normalizeDeviceName(String device) => _trimTerminal(
-    device.replaceAll(_terminalPattern, '_')
-);
+String _normalizeDeviceName(String device) {
+  String terminal = _trimTerminal(
+      device.replaceAll(_terminalPattern, '_')
+  );
+  if (terminal.length > 30) {
+    terminal = terminal.substring(0, 30);
+  }
+  return terminal;
+}
 
 final _terminalPattern = RegExp(r'[^A-Za-z0-9\-.]+');
 

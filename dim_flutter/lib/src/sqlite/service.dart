@@ -1,6 +1,5 @@
 
 import 'package:dim_client/ok.dart';
-import 'package:dim_client/sdk.dart';
 import 'package:dim_client/common.dart';
 
 import '../common/constants.dart';
@@ -21,13 +20,13 @@ class ServiceProviderDatabase extends DatabaseConnector {
         // provider
         await DatabaseConnector.createTable(db, tProvider, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
-          "pid VARCHAR(64) NOT NULL UNIQUE",
+          "pid VARCHAR(96) NOT NULL UNIQUE",
           "chosen INTEGER",
         ]);
         // station
         await DatabaseConnector.createTable(db, tStation, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
-          "pid VARCHAR(64) NOT NULL",    // provider ID
+          "pid VARCHAR(96) NOT NULL",    // provider ID
           "host VARCHAR(128) NOT NULL",  // station IP or domain name
           "port INTEGER NOT NULL",       // station port
           "chosen INTEGER",
@@ -52,7 +51,7 @@ class ServiceProviderDatabase extends DatabaseConnector {
       "id INTEGER PRIMARY KEY AUTOINCREMENT",
       "host VARCHAR(128) NOT NULL",  // station IP or domain name
       "port INTEGER NOT NULL",       // station port
-      "sid VARCHAR(64) NOT NULL",    // station ID
+      "sid VARCHAR(96) NOT NULL",    // station ID
       "time INTEGER NOT NULL",       // last test time (seconds)
       "duration REAL NOT NULL",      // respond time (seconds)
       "socket VARCHAR(32)",          // socket address

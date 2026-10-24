@@ -1,6 +1,5 @@
 
 import 'package:dim_client/ok.dart';
-import 'package:dim_client/sdk.dart';
 import 'package:dim_client/common.dart';
 
 import '../common/constants.dart';
@@ -21,7 +20,7 @@ class LoginDatabase extends DatabaseConnector {
         // login command
         await DatabaseConnector.createTable(db, tLogin, fields: [
           "id INTEGER PRIMARY KEY AUTOINCREMENT",
-          "uid VARCHAR(64) NOT NULL",
+          "uid VARCHAR(96) NOT NULL",
           "cmd TEXT NOT NULL",
           "msg TEXT NOT NULL",
         ]);
