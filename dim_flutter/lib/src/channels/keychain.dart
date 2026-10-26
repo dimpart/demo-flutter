@@ -1,6 +1,6 @@
 
-import 'package:dim_client/sdk.dart';
 import 'package:dim_client/common.dart';
+import 'package:dim_client/ok.dart';
 
 import 'manager.dart';
 
@@ -28,7 +28,7 @@ class KeychainChannel extends SafeChannel implements PrivateKeyDBI {
     Map? key = await invoke(ChannelMethods.privateKeyForSignature, {
       'user': user.toString(),
     });
-    return PrivateKey.parse(key);
+    return _parsePrivateKey(key);
   }
 
   @override
@@ -36,7 +36,7 @@ class KeychainChannel extends SafeChannel implements PrivateKeyDBI {
     Map? key = await invoke(ChannelMethods.privateKeyForVisaSignature, {
       'user': user.toString(),
     });
-    return PrivateKey.parse(key);
+    return _parsePrivateKey(key);
   }
 
   @override
@@ -50,7 +50,7 @@ class KeychainChannel extends SafeChannel implements PrivateKeyDBI {
     List<PrivateKey> privateKeys = [];
     PrivateKey? sk;
     for (var item in keys) {
-      sk = PrivateKey.parse(item);
+      sk = _parsePrivateKey(item);
       if (sk == null) {
         assert(false, 'private key error: $item');
         continue;
@@ -60,4 +60,22 @@ class KeychainChannel extends SafeChannel implements PrivateKeyDBI {
     return PrivateKeyDBI.convertDecryptKeys(privateKeys);
   }
 
+}
+
+
+PrivateKey? _parsePrivateKey(Object? key) {
+  if (key == null) {
+    return null;
+  }
+  try {
+    // MethodChannel decodes maps as Map<dynamic,dynamic>,
+    // which fails DIMP's Dictionary debug assertion (requires Map<String,dynamic>);
+    // convert the key map before parsing.
+    Map<String, dynamic> info = Map<String, dynamic>.from(key as Map);
+    return PrivateKey.parse(info);
+  } catch (e, st) {
+    Log.error('private key error: $key');
+    Log.error('private key error: $e, $st');
+    return null;
+  }
 }
