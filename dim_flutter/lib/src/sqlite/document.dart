@@ -1,6 +1,5 @@
 
 import 'package:dim_client/ok.dart';
-import 'package:dim_client/sdk.dart';
 import 'package:dim_client/common.dart';
 
 import '../common/constants.dart';
@@ -38,9 +37,31 @@ List<Document> _sortDocuments(List<Document> documents, ID entity) {
     DocumentUtils.sortDocuments(documents);
     // 2. Remove duplicated items by signature
     DocumentUtils.tidyDocuments(documents);
-    // TODO: remove expired document(s)
     if (documents.length > 8) {
       documents.length = 8;
+    }
+    // 3. remove visa documents expired over 30 days,
+    //    but always keep the newest one
+    int cnt = 0;
+    for (final doc in documents) {
+      if (doc is Visa) {
+        cnt += 1;
+      }
+    }
+    final DateTime expired = DateTime.now().subtract(const Duration(days: 30));
+    for (int i = documents.length - 1; i > 0 && cnt > 1; --i) {
+      final doc = documents[i];
+      if (doc is! Visa) {
+        // not a visa document
+        continue;
+      }
+      final time = doc.time;
+      if (time != null && time.isAfter(expired)) {
+        // not expired yet
+        break;
+      }
+      documents.removeAt(i);
+      cnt -= 1;
     }
   }
   int count = documents.length;

@@ -231,6 +231,15 @@ class _AutoAvatarState extends State<_AutoAvatarView> implements lnc.Observer {
   }
 
   @override
+  void initState() {
+    super.initState();
+    // the widget instance may be reused from the factory cache after the
+    // visa document changed while it was unmounted, so reload the avatar
+    // once to refresh the stale _Info
+    _reload();
+  }
+
+  @override
   void dispose() {
     var nc = lnc.NotificationCenter();
     nc.removeObserver(this, _kAutoAvatarUpdate);

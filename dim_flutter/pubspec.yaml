@@ -79,7 +79,7 @@ dependencies:
 #  bip39: 1.0.6
 
   object_key: 1.1.1
-  lnc: 1.2.2
+  lnc: 1.3.0
   pnf: 1.5.1
   startrek: 1.2.0
   stargate: 1.2.0

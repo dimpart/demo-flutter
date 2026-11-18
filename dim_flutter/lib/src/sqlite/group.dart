@@ -1,6 +1,5 @@
 
 import 'package:dim_client/ok.dart';
-import 'package:dim_client/sdk.dart';
 import 'package:dim_client/common.dart';
 
 import 'group_admin.dart';
@@ -16,14 +15,14 @@ class GroupCache with Logging implements GroupDBI {
   @override
   Future<ID?> getFounder({required ID group}) async {
     // TODO: implement getFounder
-    logWarning('implement getFounder: $group');
+    logInfo('implement getFounder: $group');
     return null;
   }
 
   @override
   Future<ID?> getOwner({required ID group}) async {
     // TODO: implement getOwner
-    logWarning('implement getOwner: $group');
+    logInfo('implement getOwner: $group');
     return null;
   }
 
@@ -57,7 +56,7 @@ class GroupCache with Logging implements GroupDBI {
 
   Future<bool> removeGroup({required ID group}) async {
     // TODO: implement removeGroup
-    logWarning('implement removeGroup: $group');
+    logInfo('implement removeGroup: $group');
     return false;
   }
 

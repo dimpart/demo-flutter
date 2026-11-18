@@ -105,8 +105,14 @@ abstract class AppIcons {
   static const IconData       devicesIcon = Icons.devices;
   static const IconData androidDeviceIcon = Icons.phone_android;
   static const IconData     iosDeviceIcon = Icons.phone_iphone;
-  static const IconData   macosDeviceIcon = Icons.desktop_mac;
+  // static const IconData androidDeviceIcon = Icons.android;
+  // static const IconData     iosDeviceIcon = Icons.apple;
+  // static const IconData   macosDeviceIcon = Icons.desktop_mac;
+  static const IconData   macosDeviceIcon = Icons.apple;
   static const IconData windowsDeviceIcon = Icons.desktop_windows;
+  // static const IconData windowsDeviceIcon = Icons.laptop_windows;
+  static const IconData   linuxDeviceIcon = Icons.computer;
+  // static const IconData   linuxDeviceIcon = Icons.terminal;
   static const IconData unknownDeviceIcon = Icons.device_unknown;
 
   static const IconData          burnIcon = CupertinoIcons.timer;
