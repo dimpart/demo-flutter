@@ -93,6 +93,7 @@ dependencies:
   dim_client: 1.7.1
 
   tvbox: 1.0.0
+  magpipe: 1.0.0
 
 dev_dependencies:
   flutter_test:
