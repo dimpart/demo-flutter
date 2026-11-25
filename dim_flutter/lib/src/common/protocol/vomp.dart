@@ -71,46 +71,52 @@ class VompContent extends AppCustomizedContent {
 
   /// 'dial' - the caller rings the callee: the meeting ID (a temporary
   /// Polylogue ID derived from the caller's meta.seed = 'call-xxxx'), the two
-  /// bare member IDs in order [initiator, receiver], and the caller's own
-  /// port info (signaling.md section 1).
+  /// bare member IDs in order [initiator, receiver], the caller's own
+  /// port info, and the PROPOSED audio params (local capability probe result;
+  /// signaling.md section 1).
   factory VompContent.dial(ID meeting, {
     required List<ID> members,
     required List<Map> bridges,
     required List<Map> sockets,
+    required Map media,
   }) {
     final content = VompContent.create(ACT_DIAL, meeting);
     content['members'] = ID.revert(members);
     content['magpie-bridges'] = bridges;
     content['magpie-sockets'] = sockets;
+    content['media'] = media;
     return content;
   }
 
-  /// 'accept' - the callee answers with its own port info (section 2).
+  /// 'accept' - the callee answers with its own port info and the CONFIRMED
+  /// audio params: the dial proposal intersected with the local capability
+  /// (either side without Opus => 'pcm16'); both sides follow it
+  /// (signaling.md section 2).
   factory VompContent.accept(ID meeting, {
     required List<Map> bridges,
     required List<Map> sockets,
+    required Map media,
   }) {
     final content = VompContent.create(ACT_ACCEPT, meeting);
     content['magpie-bridges'] = bridges;
     content['magpie-sockets'] = sockets;
+    content['media'] = media;
     return content;
   }
 
   /// 'start' - the caller receives 'accept' and starts the meeting: the
   /// numbered participants (both with terminal - the number is the media nonce's
-  /// senderId), the generated meeting key (32 bytes) and the optional initial
+  /// senderId), the generated meeting key (32 bytes) and the agreed initial
   /// media params {'codec', 'rate', 'channels'} (section 3).
   factory VompContent.start(ID meeting, {
     required Map participants,
     required TransportableData meetingKey,
-    Map? media,
+    required Map media,
   }) {
     final content = VompContent.create(ACT_START, meeting);
     content['participants'] = participants;
     content['meeting-key'] = meetingKey.serialize();
-    if (media != null) {
-      content['media'] = media;
-    }
+    content['media'] = media;
     return content;
   }
 
