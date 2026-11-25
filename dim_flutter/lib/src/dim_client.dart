@@ -1,4 +1,3 @@
-library dim_flutter;
 
 export 'client/compat/browser.dart';
 export 'client/compat/device.dart';
@@ -6,9 +5,10 @@ export 'client/compat/loader.dart';
 export 'client/compat/visa.dart';
 export 'client/compat/sys.dart';
 
+export 'client/cpu/app/translate.dart';
+export 'client/cpu/app/vomp.dart';
 export 'client/cpu/handshake.dart';
 export 'client/cpu/search.dart';
-export 'client/cpu/translate.dart';
 export 'client/cpu/text.dart';
 export 'client/cpu/any.dart';
 export 'client/cpu/creator.dart';

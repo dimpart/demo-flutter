@@ -2,10 +2,9 @@
 import 'package:dim_client/common.dart';
 import 'package:dim_client/cpu.dart';
 import 'package:dim_client/ok.dart';
-import 'package:dim_client/sdk.dart';
 
-import '../../common/constants.dart';
-import '../../ui/translation.dart';
+import '../../../common/constants.dart';
+import '../../../ui/translation.dart';
 
 
 class TranslateContentHandler with Logging implements CustomizedContentHandler {

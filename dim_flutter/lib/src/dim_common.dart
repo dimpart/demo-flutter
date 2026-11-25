@@ -1,6 +1,6 @@
-library dim_flutter;
 
 export 'common/protocol/search.dart';
+export 'common/protocol/vomp.dart';
 
 export 'common/dbi/app.dart';
 export 'common/dbi/contact.dart';

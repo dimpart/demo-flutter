@@ -1,6 +1,6 @@
 /* license: https://mit-license.org
  *
- *  Magpie Bridge
+ *  DIM-SDK : Decentralized Instant Messaging Software Development Kit
  *
  *                               Written in 2026 by Moky <albert.moky@gmail.com>
  *
@@ -28,33 +28,11 @@
  * SOFTWARE.
  * ==============================================================================
  */
-import 'dart:typed_data';
-
-import 'package:dim_client/common.dart' show Base64;
-import 'package:dim_client/common.dart' show ID;
-import 'package:dim_client/common.dart' show Content, AppCustomizedContent;
-
-import 'pipeline.dart';
-
-/// VoMP act names (vomp/signaling.md).
-abstract class VompAct {
-  static const String dial = 'dial';
-  static const String accept = 'accept';
-  static const String start = 'start';
-  static const String reject = 'reject';
-  static const String cancel = 'cancel';
-  static const String bye = 'bye';
-  static const String busy = 'busy';
-  static const String update = 'update';
-
-  static const Set<String> all = {
-    dial, accept, start, reject, cancel, bye, busy, update,
-  };
-}
+import 'package:dim_client/common.dart';
 
 /// VoMP signaling message: a DIMP CustomizedContent with the fixed envelope
 /// 'app' = 'chat.dim.telecon', 'mod' = 'vomp' and the 'act' of one of the
-/// [VompAct]s (vomp/signaling.md).
+/// ACT_* constants (vomp/signaling.md).
 ///
 /// Build me with the factory constructors ([VompContent.dial], [VompContent.accept],
 /// [VompContent.start], ...); wrap inbound content with [parse] - null when it is
@@ -63,45 +41,58 @@ abstract class VompAct {
 class VompContent extends AppCustomizedContent {
   VompContent(super.dict);
 
-  /// envelope
-  static const String app = 'chat.dim.telecon';
-  static const String mod = 'vomp';
+  // ignore_for_file: constant_identifier_names
+  static const String APP = 'chat.dim.telecon';
+  static const String MOD = 'vomp';
 
-  VompContent._from(String act, ID meeting)
-      : super.from(app: app, mod: mod, act: act) {
+  /// VoMP act names (vomp/signaling.md).
+  static const String ACT_DIAL   = 'dial';
+  static const String ACT_ACCEPT = 'accept';
+  static const String ACT_START  = 'start';
+  static const String ACT_REJECT = 'reject';
+  static const String ACT_CANCEL = 'cancel';
+  static const String ACT_BYE    = 'bye';
+  static const String ACT_BUSY   = 'busy';
+  static const String ACT_UPDATE = 'update';
+
+  static const Set<String> ACT_ALL = {
+    ACT_DIAL, ACT_ACCEPT, ACT_START, ACT_REJECT, ACT_CANCEL,
+    ACT_BYE, ACT_BUSY, ACT_UPDATE,
+  };
+
+  VompContent.create(String act, ID meeting)
+      : super.from(app: APP, mod: MOD, act: act) {
     this['meeting'] = meeting.toString();
   }
 
   //
-  //  Builders
+  //  Factories
   //
 
   /// 'dial' - the caller rings the callee: the meeting ID (a temporary
   /// Polylogue ID derived from the caller's meta.seed = 'call-xxxx'), the two
   /// bare member IDs in order [initiator, receiver], and the caller's own
   /// port info (signaling.md section 1).
-  factory VompContent.dial({
-    required ID meeting,
+  factory VompContent.dial(ID meeting, {
     required List<ID> members,
-    required List<BridgeEntry> bridges,
-    required List<SocketEntry> sockets,
+    required List<Map> bridges,
+    required List<Map> sockets,
   }) {
-    final content = VompContent._from(VompAct.dial, meeting);
-    content['members'] = members.map((id) => id.toString()).toList();
-    content['magpie-bridges'] = _bridges(bridges);
-    content['magpie-sockets'] = _sockets(sockets);
+    final content = VompContent.create(ACT_DIAL, meeting);
+    content['members'] = ID.revert(members);
+    content['magpie-bridges'] = bridges;
+    content['magpie-sockets'] = sockets;
     return content;
   }
 
   /// 'accept' - the callee answers with its own port info (section 2).
-  factory VompContent.accept({
-    required ID meeting,
-    required List<BridgeEntry> bridges,
-    required List<SocketEntry> sockets,
+  factory VompContent.accept(ID meeting, {
+    required List<Map> bridges,
+    required List<Map> sockets,
   }) {
-    final content = VompContent._from(VompAct.accept, meeting);
-    content['magpie-bridges'] = _bridges(bridges);
-    content['magpie-sockets'] = _sockets(sockets);
+    final content = VompContent.create(ACT_ACCEPT, meeting);
+    content['magpie-bridges'] = bridges;
+    content['magpie-sockets'] = sockets;
     return content;
   }
 
@@ -109,15 +100,14 @@ class VompContent extends AppCustomizedContent {
   /// numbered participants (both with terminal - the number is the media nonce's
   /// senderId), the generated meeting key (32 bytes) and the optional initial
   /// media params {'codec', 'rate', 'channels'} (section 3).
-  factory VompContent.start({
-    required ID meeting,
-    required Map<String, ID> participants,
-    required Uint8List meetingKey,
+  factory VompContent.start(ID meeting, {
+    required Map participants,
+    required TransportableData meetingKey,
     Map? media,
   }) {
-    final content = VompContent._from(VompAct.start, meeting);
-    content['participants'] = participants.map((key, id) => MapEntry(key, id.toString()));
-    content['meeting-key'] = Base64.encode(meetingKey);
+    final content = VompContent.create(ACT_START, meeting);
+    content['participants'] = participants;
+    content['meeting-key'] = meetingKey.serialize();
     if (media != null) {
       content['media'] = media;
     }
@@ -125,36 +115,35 @@ class VompContent extends AppCustomizedContent {
   }
 
   /// 'reject' - the callee declines the call (section 4).
-  factory VompContent.reject({required ID meeting}) =>
-      VompContent._from(VompAct.reject, meeting);
+  factory VompContent.reject(ID meeting) =>
+      VompContent.create(ACT_REJECT, meeting);
 
   /// 'cancel' - the caller aborts a still-ringing call (section 5).
-  factory VompContent.cancel({required ID meeting}) =>
-      VompContent._from(VompAct.cancel, meeting);
+  factory VompContent.cancel(ID meeting) =>
+      VompContent.create(ACT_CANCEL, meeting);
 
   /// 'bye' - hang up, with the sender-measured talk seconds ('accept' -> 'bye')
   /// so both chat records show the same duration (section 6).
-  factory VompContent.bye({required ID meeting, required num duration}) {
-    final content = VompContent._from(VompAct.bye, meeting);
+  factory VompContent.bye(ID meeting, {required num duration}) {
+    final content = VompContent.create(ACT_BYE, meeting);
     content['duration'] = duration;
     return content;
   }
 
   /// 'busy' - auto reply when the callee is waiting for or in another call
   /// (section 7).
-  factory VompContent.busy({required ID meeting}) =>
-      VompContent._from(VompAct.busy, meeting);
+  factory VompContent.busy(ID meeting) =>
+      VompContent.create(ACT_BUSY, meeting);
 
   /// 'update' - mid-call push of my fresh port info after my own re-handshake
   /// (onSelfUpdated, section 8).
-  factory VompContent.update({
-    required ID meeting,
-    required List<BridgeEntry> bridges,
-    required List<SocketEntry> sockets,
+  factory VompContent.update(ID meeting, {
+    required List<Map> bridges,
+    required List<Map> sockets,
   }) {
-    final content = VompContent._from(VompAct.update, meeting);
-    content['magpie-bridges'] = _bridges(bridges);
-    content['magpie-sockets'] = _sockets(sockets);
+    final content = VompContent.create(ACT_UPDATE, meeting);
+    content['magpie-bridges'] = bridges;
+    content['magpie-sockets'] = sockets;
     return content;
   }
 
@@ -166,25 +155,25 @@ class VompContent extends AppCustomizedContent {
   /// customized content of ours (wrong app/mod, unknown act, no meeting) -
   /// never throws.
   static VompContent? parse(Content content) {
-    if (content.getString('app') != app || content.getString('mod') != mod) {
+    if (content is VompContent) {
+      return content;
+    }
+    if (content.getString('app') != APP || content.getString('mod') != MOD) {
       return null;
     }
     final action = content.getString('act');
-    if (action == null || !VompAct.all.contains(action)) {
+    if (action == null || !ACT_ALL.contains(action)) {
       return null; // unknown act
     }
     if (content.getString('meeting') == null) {
       return null; // 'meeting' is required for every act
     }
-    return VompContent(content);
+    return VompContent(content.toMap());
   }
 
   //
   //  Getters
   //
-
-  /// act name
-  String get act => action;
 
   /// the meeting ID (a temporary Polylogue ID)
   ID? get meeting => ID.parse(getString('meeting'));
@@ -200,57 +189,29 @@ class VompContent extends AppCustomizedContent {
 
   /// 'start': the numbered participants (device IDs with terminal) - the
   /// number is the media nonce's senderId
-  Map<String, ID>? get participants {
-    final info = this['participants'];
-    if (info is! Map) {
-      return null;
-    }
-    final out = <String, ID>{};
-    info.forEach((key, value) {
-      final id = ID.parse(value);
-      if (id != null) {
-        out['$key'] = id;
-      }
-    });
-    return out;
-  }
+  Map? get participants => this['participants'];
 
   /// 'magpie-bridges': where the peer is registered
-  List<BridgeEntry> get magpieBridges =>
-      _parseList(this['magpie-bridges'], BridgeEntry.parse);
+  List<Map>? get magpieBridges => this['magpie-bridges'];
 
   /// 'magpie-sockets': the peer's NAT mappings
-  List<SocketEntry> get magpieSockets =>
-      _parseList(this['magpie-sockets'], SocketEntry.parse);
+  List<Map>? get magpieSockets => this['magpie-sockets'];
 
   /// 'start': the generated meeting key (32 bytes)
-  Uint8List? get meetingKey {
-    final string = getString('meeting-key');
-    return string == null ? null : Base64.decode(string);
+  TransportableData? get meetingKey {
+    var ted = _meetingKey;
+    if (ted == null) {
+      ted = TransportableData.parse(this['meeting-key']);
+      _meetingKey = ted;
+    }
+    return ted;
   }
+  TransportableData? _meetingKey;
 
   /// 'start': optional initial media params (codec / rate / channels)
-  Map? get media => this['media'] as Map?;
+  Map? get media => this['media'];
 
   /// 'bye': the sender-measured talk seconds
-  num? get duration => this['duration'] as num?;
+  double? get duration => getDouble('duration');
 
-  static List<T> _parseList<T>(dynamic raw, T? Function(Object?) factory) {
-    final out = <T>[];
-    if (raw is List) {
-      for (var item in raw) {
-        final entry = factory(item);
-        if (entry != null) {
-          out.add(entry);
-        }
-      }
-    }
-    return out;
-  }
-
-  static List<Map> _bridges(List<BridgeEntry> bridges) =>
-      bridges.map((entry) => entry.toJson()).toList();
-
-  static List<Map> _sockets(List<SocketEntry> sockets) =>
-      sockets.map((entry) => entry.toJson()).toList();
 }

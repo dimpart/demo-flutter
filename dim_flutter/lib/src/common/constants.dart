@@ -116,4 +116,9 @@ abstract class NotificationNames {
   //
   static const String kWebSitesUpdated = 'WebSitesUpdated';
 
+  //
+  //  VoMP
+  //
+  static const String kVompCommandArrived = 'VompCommandArrived';
+
 }

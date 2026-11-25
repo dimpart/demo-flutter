@@ -2,12 +2,13 @@
 import 'package:dim_client/compat.dart';
 import 'package:dim_client/common.dart';
 import 'package:dim_client/cpu.dart';
-import 'package:dim_client/plugins.dart';
 
 import '../../common/protocol/search.dart';
+import '../../common/protocol/vomp.dart';
 import '../../models/amanuensis.dart';
 import '../../ui/translation.dart';
-import '../cpu/translate.dart';
+import '../cpu/app/translate.dart';
+import '../cpu/app/vomp.dart';
 import '../cpu/text.dart';
 import '../database.dart';
 
@@ -71,12 +72,18 @@ class _CompatExtensionLoader extends ClientExtensionLoader {
   void registerCustomizedHandlers() {
     super.registerCustomizedHandlers();
 
-    var filter = sharedMessageExtensions.customizedFilter;
+    var filter = sharedMessageExtensions.customizedFilter as AppCustomizedFilter;
     // 'chat.dim.messenger:chat_history'
-    (filter as AppCustomizedFilter).setContentHandler(
+    filter.setContentHandler(
       app: SyncChatContent.APP,
       mod: SyncChatContent.MOD,
       handler: _ChatHistoryHandler(),
+    );
+    // 'chat.dim.telecon:vomp'
+    filter.setContentHandler(
+      app: VompContent.APP,
+      mod: VompContent.MOD,
+      handler: VompHandler(),
     );
   }
 
