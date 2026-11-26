@@ -1,4 +1,7 @@
 
+export 'package:magpipe/magpipe.dart' show HkdfSha256;
+export 'package:magpipe/magpipe.dart' show Packet, MagPipe, MagLink;
+
 export 'vomp/payload/codec.dart';
 export 'vomp/payload/format.dart';
 export 'vomp/payload/frame.dart';

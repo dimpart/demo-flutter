@@ -120,5 +120,6 @@ abstract class NotificationNames {
   //  VoMP
   //
   static const String kVompCommandArrived = 'VompCommandArrived';
+  static const String kMeetingDialClicked = 'MeetingDialClicked';
 
 }

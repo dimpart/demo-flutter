@@ -73,7 +73,7 @@ Future<bool> saveVompCommandAsMessage(VompContent content, Envelope envelope) as
       text = 'Call ended.';
       template = 'Call ended (\${duration}).';
       replacements = <String, Object>{
-        'duration': _formatDuration(content.duration),
+        'duration': formatMeetingDuration(content.duration),
       };
       break;
     default:
@@ -87,9 +87,8 @@ Future<bool> saveVompCommandAsMessage(VompContent content, Envelope envelope) as
     time: envelope.time,
   );
   // create body
-  final body = TextContent.create('_${text.trim()}_');
-  body['format'] = 'markdown';
-  body['template'] = '_${template.trim()}_';
+  final body = CallRecordContent.fromText(text: text);
+  body['template'] = template;
   body['replacements'] = replacements;
   body['time'] = content['time'];
   body['sn'] = content['sn'];
@@ -100,7 +99,7 @@ Future<bool> saveVompCommandAsMessage(VompContent content, Envelope envelope) as
 }
 
 /// format talk seconds: '45s' / '1m 3s' / '1h 2m'
-String _formatDuration(double? seconds) {
+String formatMeetingDuration(double? seconds) {
   if (seconds == null) {
     return '?';
   }

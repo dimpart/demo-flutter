@@ -30,6 +30,23 @@
  */
 import 'package:dim_client/common.dart';
 
+import 'app.dart';
+
+/// Voice call record: an AppContent (type 0xA0) carrying only the display
+/// text, so the chat box can render it with a phone icon to distinguish it
+/// from normal text messages.
+class CallRecordContent extends AppOnlyContent {
+  CallRecordContent(super.dict);
+
+  /// The 'app' field is fixed to [VompContent.APP] - the record belongs to
+  /// the same telecon application as the signaling.
+  CallRecordContent.fromText({required String text})
+      : super.from(app: VompContent.APP) {
+    this['text'] = text;
+  }
+
+}
+
 /// VoMP signaling message: a DIMP CustomizedContent with the fixed envelope
 /// 'app' = 'chat.dim.telecon', 'mod' = 'vomp' and the 'act' of one of the
 /// ACT_* constants (vomp/signaling.md).

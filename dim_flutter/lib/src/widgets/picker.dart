@@ -20,14 +20,23 @@ typedef OnImageRead = void Function(String path, Uint8List data);
 void openImagePicker(BuildContext context, {OnImagePicked? onPicked, required OnImageRead onRead}) =>
     Alert.actionSheet(context, null, null,
       Alert.action(AppIcons.cameraIcon, 'Camera'),
-          () => PermissionCenter().requestCameraPermissions(context,
-            onGranted: (context) => _openImagePicker(context, true, onPicked, onRead),
-          ),
+          () => openImagePickerWithSource(context, true, onPicked: onPicked, onRead: onRead),
       Alert.action(AppIcons.albumIcon, 'Album'),
-          () => PermissionCenter().requestPhotoReadingPermissions(context,
-            onGranted: (context) => _openImagePicker(context, false, onPicked, onRead),
-          ),
+          () => openImagePickerWithSource(context, false, onPicked: onPicked, onRead: onRead),
     );
+
+/// Open the image picker with the given source:
+/// true for camera, false for album/gallery.
+void openImagePickerWithSource(BuildContext context, bool camera,
+    {OnImagePicked? onPicked, required OnImageRead onRead}) {
+  if (camera) {
+    PermissionCenter().requestCameraPermissions(context,
+      onGranted: (context) => _openImagePicker(context, true, onPicked, onRead));
+  } else {
+    PermissionCenter().requestPhotoReadingPermissions(context,
+      onGranted: (context) => _openImagePicker(context, false, onPicked, onRead));
+  }
+}
 
 void _openImagePicker(BuildContext context, bool camera, OnImagePicked? onPicked, OnImageRead onRead) =>
     ImagePicker().pickImage(source: camera ? ImageSource.camera : ImageSource.gallery).then((file) {

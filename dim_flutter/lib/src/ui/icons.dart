@@ -34,6 +34,7 @@ abstract class AppIcons {
   static const IconData      noImageIcon = CupertinoIcons.photo;
   static const IconData       cameraIcon = CupertinoIcons.camera;
   static const IconData        albumIcon = CupertinoIcons.photo;
+  static const IconData  meetingDialIcon = CupertinoIcons.phone;
   static const IconData     saveFileIcon = CupertinoIcons.floppy_disk;
   static const IconData   encryptingIcon = CupertinoIcons.lock;
   static const IconData   decryptingIcon = CupertinoIcons.lock_open;

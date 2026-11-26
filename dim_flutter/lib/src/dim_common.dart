@@ -1,4 +1,5 @@
 
+export 'common/protocol/app.dart';
 export 'common/protocol/search.dart';
 export 'common/protocol/vomp.dart';
 
