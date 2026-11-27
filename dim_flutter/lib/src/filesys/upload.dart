@@ -36,6 +36,7 @@ import 'package:dim_client/ok.dart';
 import 'package:dim_client/common.dart';
 import 'package:pnf/pnf.dart';
 
+import '../client/compat/sys.dart';
 import '../client/shared.dart';
 import '../models/config.dart';
 import '../models/config_api.dart';
@@ -104,15 +105,12 @@ class SharedFileUploader with Logging {
     //
     //  2. load enigma secrets
     //
-    List secrets = SysEnv().enigmaSecrets;
-    if (secrets.isEmpty) {
-      logError('failed to update enigma secrets');
-      return false;
-    }
-    var items = UploadServer.parseEnigmaItems(secrets);
-    logInfo('set enigma secrets: ${secrets.length} => ${items.length}');
-    _enigma.update(items);
-    return items.isNotEmpty;
+    final sys = SysEnv();
+    var secrets = sys.enigmaItems;
+    logInfo('set enigma secrets: ${sys.enigmaSecrets.length} => ${secrets.length}');
+    assert(secrets.isNotEmpty, 'failed to update enigma secrets');
+    _enigma.update(secrets);
+    return secrets.isNotEmpty;
   }
 
   void initWithConfig(Config config) {

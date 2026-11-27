@@ -4,6 +4,7 @@ import 'package:dim_client/ok.dart' as lnc;
 
 import '../common/constants.dart';
 import '../filesys/upload.dart';
+import '../vomp/client.dart';
 
 import 'config_api.dart';
 import 'config_loader.dart';
@@ -48,28 +49,38 @@ class Config with Logging {
   }
 
   /// Service Bots
-  List get services {
+  List<Map> get services {
     var array = _info?['services'];
-    if (array is List) {
-      return array;
+    if (array is! List) {
+      assert(array == null, 'services error: $array');
+      return [];
     }
-    assert(array == null, 'services error: $array');
-    return [];
+    return array.whereType<Map>().toList();
   }
   // List get services => _info?['services'] ?? [];
 
   ID? get provider => _IDUtils.getIdentifier(_info);
 
   /// Base stations
-  List get stations {
+  List<Map> get stations {
     var array = _info?['stations'];
-    if (array is List) {
-      return array;
+    if (array is! List) {
+      assert(array == null, 'stations error: $array');
+      return [];
     }
-    assert(array == null, 'stations error: $array');
-    return [];
+    return array.whereType<Map>().toList();
   }
   // List get stations => _info?['stations'] ?? [];
+
+  /// Magpie bridges (voice call data plane)
+  List<Map> get bridges {
+    var array = _info?['magpie-bridges'];
+    if (array is! List) {
+      assert(array == null, 'magpie-bridges error: $array');
+      return [];
+    }
+    return array.whereType<Map>().toList();
+  }
 
   UploadServer? get uploadAvatarAPI => _UploadAPI(_info ?? {}).uploadAvatarAPI;
   UploadServer? get uploadFileAPI => _UploadAPI(_info ?? {}).uploadFileAPI;
@@ -132,6 +143,10 @@ void _initWithConfig(Config config) {
   // update file uploader
   var ftp = SharedFileUploader();
   ftp.initWithConfig(config);
+  // re-dial the magpie bridges with the fresh 'magpie-bridges' list
+  // (takes effect for the local cache, the assets, and the copy
+  // downloaded from the network as well)
+  MagpieClient.instance.connectBridges(config.bridges);
 }
 
 

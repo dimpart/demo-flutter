@@ -3,9 +3,48 @@ import 'package:flutter/services.dart';
 
 import 'package:dim_client/common.dart';
 import 'package:dim_client/ok.dart';
+import 'package:pnf/enigma.dart';
 
 import '../../ui/nav.dart';
+import '../../vomp/client.dart';
+
 import 'device.dart';
+
+
+extension EnigmaExtensions on SysEnv {
+
+  List<EnigmaItem> get enigmaItems {
+    final secrets = enigmaSecrets;
+    final items = <EnigmaItem>[];
+    EnigmaItem? enigma;
+    for (var sec in secrets) {
+      if (sec is EnigmaItem) {
+        enigma = sec;
+      } else if (sec is Map) {
+        enigma = EnigmaItem.parse(sec);
+      } else if (sec is! String) {
+        assert(false, 'enigma item error: $sec');
+        continue;
+      } else if (sec.length < 8) {
+        assert(sec.isEmpty, 'enigma item error: $sec');
+        continue;
+      } else {
+        // default: HEX encoding
+        enigma = EnigmaItem.parse(<String, dynamic>{
+          "index": sec.substring(0, 6),
+          "secret": 'hex,$sec',
+        });
+      }
+      if (enigma == null || enigma.isEmpty) {
+        assert(false, 'enigma item error: $sec');
+        continue;
+      }
+      items.add(enigma);
+    }
+    return items;
+  }
+
+}
 
 
 class SysInfo with Logging {
@@ -24,6 +63,10 @@ class SysInfo with Logging {
     sys.setAssetLoader(_AssetLoader());
     var text = await sys.loadString(sys.SETTINGS);
     logInfo('load settings: $text');
+    // prepare Magpie Client
+    MagpieClient client = MagpieClient.instance;
+    client.updateSecrets(sys.enigmaItems);
+    await client.bind();
     // Load device + package info
     bool ok1 = await deviceInfo.loadDeviceInfo();
     bool ok2 = await packageInfo.loadPackageInfo();

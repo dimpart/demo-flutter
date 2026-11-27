@@ -3,6 +3,7 @@ import 'package:dim_client/compat.dart';
 import 'package:dim_client/common.dart';
 import 'package:dim_client/cpu.dart';
 
+import '../../common/protocol/app.dart';
 import '../../common/protocol/search.dart';
 import '../../common/protocol/vomp.dart';
 import '../../models/amanuensis.dart';
@@ -66,6 +67,22 @@ class _CompatExtensionLoader extends ClientExtensionLoader {
     // Command.setFactory(StorageCommand.CONTACTS, StorageCommand::new);
     // Command.setFactory(StorageCommand.PRIVATE_KEY, StorageCommand::new);
 
+  }
+
+  @override
+  void registerCustomizedFactories() {
+    super.registerCustomizedFactories();
+
+    // Application only
+    ContentFactory factory = ContentParser((dict) {
+      // voice call record of the telecon application
+      if (dict['app'] == VompContent.APP) {
+        return CallRecordContent(dict);
+      }
+      return AppOnlyContent(dict);
+    });
+    setContentFactory(ContentType.APPLICATION, factory: factory);
+    setContentFactory('application', factory: factory);
   }
 
   @override

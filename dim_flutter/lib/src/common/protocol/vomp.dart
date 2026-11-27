@@ -205,6 +205,7 @@ class VompContent extends AppCustomizedContent {
   List<ID>? get members {
     final array = this['members'];
     if (array is! List) {
+      assert(array == null, 'members error: $array');
       return null;
     }
     return ID.convert(array);
@@ -215,10 +216,25 @@ class VompContent extends AppCustomizedContent {
   Map? get participants => this['participants'];
 
   /// 'magpie-bridges': where the peer is registered
-  List<Map>? get magpieBridges => this['magpie-bridges'];
+  List<Map>? get magpieBridges {
+    final array = this['magpie-bridges'];
+    if (array is! List) {
+      assert(array == null, 'magpie-bridges error: $array');
+      return null;
+    }
+    // JSON round-trip turns 'List<Map>' into 'List<dynamic>'
+    return array.whereType<Map>().toList();
+  }
 
   /// 'magpie-sockets': the peer's NAT mappings
-  List<Map>? get magpieSockets => this['magpie-sockets'];
+  List<Map>? get magpieSockets {
+    final array = this['magpie-sockets'];
+    if (array is! List) {
+      assert(array == null, 'magpie-sockets error: $array');
+      return null;
+    }
+    return array.whereType<Map>().toList();
+  }
 
   /// 'start': the generated meeting key (32 bytes)
   TransportableData? get meetingKey {

@@ -218,6 +218,13 @@ class PipeManager with PayloadMixIn {
       }
       final bid = entry.value.bid;
       _hub.getBridgeLink(remote)?.deny([bid]); // 'DENY' + drop local pipe
+      // the server-side permit is revoked with the DENY: the per-bridge
+      // bookkeeping must forget it, or the next call's '_reaccept' sees
+      // an unchanged bid set and never re-issues the ACPT
+      final state = _bridgeStates[remote];
+      if (state != null) {
+        state.accepted = null;
+      }
       _speedo.dropBridge(remote, bid);
     }
     _fallbacks.remove(did);

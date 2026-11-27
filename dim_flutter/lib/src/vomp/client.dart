@@ -32,7 +32,9 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:pnf/enigma.dart' show EnigmaItem;
 import 'package:dim_client/common.dart' show ID;
+import 'package:dim_client/ok.dart';
 import 'package:magpipe/magpipe.dart';
 
 import 'manager.dart';
@@ -72,7 +74,8 @@ abstract interface class MagpieClientDelegate {
 /// Usage:
 /// ```
 /// var client = MagpieClient();
-/// await client.init(secrets: {'MySecret': key});  // binds the socket,
+/// client.updateSecrets(myKeys);                   // pre-shared keys
+/// await client.bind();                            // binds the socket,
 ///                                                 //   starts the ticker
 /// client.connectBridges(myServers);               // my own registrations
 /// client.updatePipelines(did, bridges, sockets);  // from dial/accept
@@ -85,7 +88,7 @@ abstract interface class MagpieClientDelegate {
 ///
 /// See vomp/client.md for the design; the app drives everything with
 /// 'updatePipelines' (inbound port info) and 'send' (outbound data).
-class MagpieClient implements MagpieDelegate {
+class MagpieClient with Logging implements MagpieDelegate {
   MagpieClient._internal();
   static final MagpieClient _instance = MagpieClient._internal();
   static MagpieClient get instance => _instance;
@@ -134,9 +137,18 @@ class MagpieClient implements MagpieDelegate {
   /// per did reliable-data serial number
   final Map<ID, int> _sn = {};
 
+  /// link type of the last inbound custom-command packet (the peer's
+  /// send path): true = direct, false = bridged
+  bool? _inboundDirect;
+
+  /// cumulative wire bytes sent/received over every link since the
+  /// binding (for the call bandwidth display)
+  int _upBytes = 0;
+  int _downBytes = 0;
+
   String? _lastSelf;
 
-  /// whether init() has bound the shared socket
+  /// whether bind() has bound the shared socket
   bool get ready => _hub != null;
 
   /// Bind the shared UDP socket and create the internal hub, then start
@@ -144,28 +156,24 @@ class MagpieClient implements MagpieDelegate {
   /// drives the links itself. Idempotent: repeated/concurrent calls
   /// share the first binding.
   ///
-  /// [secrets] are the app secrets pre-shared with the bridges (for the
-  /// encrypted handshake). After init, call [connectBridges] to register
-  /// on my own bridges, so that myBridges / mySockets carry the port
-  /// info for the first dial.
-  Future<void> init({
-    Map<String, Uint8List> secrets = const {},
-    InternetAddress? host,
-    int port = 0,
-  }) {
+  /// Set the app secrets pre-shared with the bridges (for the encrypted
+  /// handshake) via [updateSecrets]. After bind, call [connectBridges]
+  /// to register on my own bridges, so that myBridges / mySockets carry
+  /// the port info for the first dial.
+  Future<void> bind({InternetAddress? host, int port = 0}) async {
     if (_hub != null) {
-      return Future.value(); // already bound
+      return; // already bound
     }
-    return _binding ??= _bind(secrets: secrets, host: host, port: port)
+    _binding ??= _bind(host: host, port: port)
         .whenComplete(() => _binding = null);
+    try {
+      await _binding;
+    } catch (e, st) {
+      logError('failed to bind ($host, $port) for magpie client: $e, $st');
+    }
   }
 
-  Future<void> _bind({
-    Map<String, Uint8List> secrets = const {},
-    InternetAddress? host,
-    int port = 0,
-  }) async {
-    _enigma.updateSecrets(secrets);
+  Future<void> _bind({InternetAddress? host, int port = 0}) async {
     final hub = await MagHub.create(
       host: host,
       port: port,
@@ -174,8 +182,9 @@ class MagpieClient implements MagpieDelegate {
       delegate: this,
     );
     _hub = hub;
-    _manager = PipeManager(hub: hub,
-        onPipelinesReady: (did) => delegate?.onPipelinesReady(did));
+    _manager = PipeManager(hub: hub, onPipelinesReady: (did) {
+      delegate?.onPipelinesReady(did);
+    });
     _timer = Timer.periodic(tickInterval, (_) => keepAlive());
   }
 
@@ -188,7 +197,25 @@ class MagpieClient implements MagpieDelegate {
     _manager?.close();
     _manager = null;
     _sn.clear();
+    _inboundDirect = null;
+    _upBytes = 0;
+    _downBytes = 0;
     _lastSelf = null;
+  }
+
+  /// Set the named keys pre-shared with the bridges (for the encrypted
+  /// handshake). Items with an empty key are skipped. Safe before
+  /// [bind] or anytime later: the hub shares this Enigma, so every
+  /// handshake dialed afterwards carries the fresh keys.
+  void updateSecrets(List<EnigmaItem> enigmaItems) {
+    final enigmaSecrets = <String, Uint8List>{};
+    for (var item in enigmaItems) {
+      Uint8List? ikm = item.secret;
+      if (ikm != null && ikm.isNotEmpty) {
+        enigmaSecrets[item.index] = ikm;
+      }
+    }
+    _enigma.updateSecrets(enigmaSecrets);
   }
 
   //
@@ -197,8 +224,24 @@ class MagpieClient implements MagpieDelegate {
 
   /// Register on my own bridge servers (from the config file): dial
   /// each of them so that myBridges / mySockets carry the port info for
-  /// the first dial. Idempotent per endpoint. Call after [init].
-  void connectBridges(List<SocketAddress> servers) {
+  /// the first dial. Idempotent per endpoint. Call after [bind].
+  void connectBridges(List bridges) {
+    List<SocketAddress> servers = [];
+    for (var item in bridges) {
+      if (item is SocketAddress) {
+        servers.add(item);
+        continue;
+      } else if (item is! Map) {
+        assert(item == null, 'magpie bridge error: $item');
+        continue;
+      }
+      var host = item['host'];
+      var port = item['port'];
+      if (host != null && port != null) {
+        servers.add((host: InternetAddress(host.toString()), port: port));
+      }
+    }
+    logWarning('trying to connect bridges: $bridges');
     _manager?.connectBridges(servers);
   }
 
@@ -229,6 +272,30 @@ class MagpieClient implements MagpieDelegate {
   /// The NAT mappings my bridges observed: entries of my 'magpie-sockets'
   /// list for dial/accept signaling (deduped, all-cone NAT shares one).
   List<SocketEntry> get mySockets => _manager?.mySockets ?? const [];
+
+  /// Whether the fastest ready pipe to the receiver runs over a direct
+  /// link: true = direct, false = bridged (relayed), null = no pipe is
+  /// ready. The path may change mid-call (fallback re-ranking), so poll
+  /// it for display instead of caching.
+  bool? isDirect(ID receiver) {
+    final pipe = _manager?.fastestPipe(receiver);
+    if (pipe == null) {
+      return null;
+    }
+    return pipe is! BridgePipe;
+  }
+
+  /// Link type of the last inbound custom-command packet: the path the
+  /// peer sends on (true = direct, false = bridged, null = nothing
+  /// received yet). System commands (probes/heartbeats) are not counted
+  /// - they may mirror my own path, not the peer's choice.
+  bool? get inboundDirect => _inboundDirect;
+
+  /// Cumulative wire bytes sent over every link since the binding.
+  int get uplinkBytes => _upBytes;
+
+  /// Cumulative wire bytes received over every link since the binding.
+  int get downlinkBytes => _downBytes;
 
   //
   //  Sending
@@ -333,6 +400,7 @@ class MagpieClient implements MagpieDelegate {
 
   @override
   void onPacketReceived(Packet packet, MagPipe? pipe, MagLink link) {
+    _downBytes += packet.pack().length;
     // the PONG closes the manager's PING probe (rtt), then the packet
     // resolves back to its owner did(s)
     final senders = _manager?.onPacketReceived(packet, link);
@@ -342,13 +410,16 @@ class MagpieClient implements MagpieDelegate {
     if (_isSystemCommand(packet.command)) {
       return; // link/pipe control: consumed internally already
     }
+    _inboundDirect = link is! BridgeLink;
     for (var sender in senders) {
       delegate?.onPacketReceived(packet, pipe, link, sender: sender);
     }
   }
 
   @override
-  void onPacketSent(Magpie packet, MagPipe? pipe, MagLink link) {}
+  void onPacketSent(Magpie packet, MagPipe? pipe, MagLink link) {
+    _upBytes += packet.pack().length;
+  }
 
   @override
   void onPacketFailed(Magpie packet, MagPipe? pipe, MagLink link) {
