@@ -9,6 +9,7 @@ import '../../ui/nav.dart';
 import '../../vomp/client.dart';
 
 import 'device.dart';
+import 'loader.dart';
 
 
 extension EnigmaExtensions on SysEnv {
@@ -56,6 +57,9 @@ class SysInfo with Logging {
   final AppPackageInfo packageInfo = AppPackageInfo();
 
   Future<bool> beforeLaunchApp() async {
+    // register all customized factories (JSON coder, ...) first: any
+    // JSON decoding below needs them
+    CompatLibraryLoader().run();
     // Check Brightness & Language
     await initFacade();
     // Load settings

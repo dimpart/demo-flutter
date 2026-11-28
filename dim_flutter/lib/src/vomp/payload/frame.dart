@@ -30,6 +30,8 @@
  */
 import 'dart:typed_data';
 
+import 'package:lnc/log.dart';
+import 'package:opus_codec/opus_flutter.dart' show load;
 import 'package:opus_codec_dart/opus_codec_dart.dart' as opus;
 
 import 'format.dart';
@@ -91,6 +93,35 @@ typedef OpusGatewayFactory = OpusGateway? Function({
   required int sampleRate,
   required int channels,
 });
+
+/// Whether the FFI bindings are initialized already.
+bool _opusInitialized = false;
+Future<bool>? _opusLoading;
+
+/// Load the native libopus and initialize the FFI bindings: the coders
+/// cannot be created before that ('late' global throws otherwise, and a
+/// silent catch turns that into 'no Opus' forever). Idempotent, retriable
+/// on failure. Returns whether the library is usable.
+Future<bool> loadOpusLibrary() {
+  if (_opusInitialized) {
+    return Future.value(true);
+  }
+  return _opusLoading ??= _loadOpusLibrary();
+}
+
+Future<bool> _loadOpusLibrary() async {
+  try {
+    opus.initOpus(await load());
+    _opusInitialized = true;
+    Log.info('[opus] native library loaded');
+    return true;
+  } catch (error) {
+    Log.warning('[opus] failed to load opus library: $error');
+    return false;
+  } finally {
+    _opusLoading = null; // allow a retry on the next call
+  }
+}
 
 OpusGateway? createNativeOpusGateway({required int sampleRate, required int channels}) {
   try {

@@ -119,9 +119,11 @@ abstract final class PayloadFormat {
     return sampleRate * frameMillis ~/ 1000 * channels * 2;
   }
 
-  /// the TOC config index 16..31 marks a stereo source (RFC 6716, 3.1)
+  /// the 's' bit of the TOC marks a stereo source (RFC 6716, 3.1):
+  /// the config index only selects the mode/bandwidth/duration, and a
+  /// mono CELT packet (restricted-lowdelay) sits in config 16-31 too
   static bool tocIsStereo(int toc) {
-    return (toc >> 3) >= 16;
+    return ((toc >> 2) & 0x01) != 0;
   }
 
   /// s16le byte stream -> samples (the wire order is little-endian)

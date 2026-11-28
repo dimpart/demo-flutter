@@ -38,34 +38,6 @@ class UploadServer with ClassNameMixIn {
         '</$clazz>';
   }
 
-  static List<EnigmaItem> parseEnigmaItems(Iterable secrets) {
-    List<EnigmaItem> items = [];
-    EnigmaItem? enigma;
-    for (var sec in secrets) {
-      if (sec is Map) {
-        enigma = EnigmaItem.parse(sec);
-      } else if (sec is! String) {
-        assert(false, 'enigma item error: $sec');
-        continue;
-      } else if (sec.length < 8) {
-        assert(sec.isEmpty, 'enigma item error: $sec');
-        continue;
-      } else {
-        // default: HEX encoding
-        enigma = EnigmaItem.parse(<String, dynamic>{
-          "index": sec.substring(0, 6),
-          "secret": 'hex,$sec',
-        });
-      }
-      if (enigma == null || enigma.isEmpty) {
-        assert(false, 'enigma item error: $sec');
-        continue;
-      }
-      items.add(enigma);
-    }
-    return items;
-  }
-
   //
   //  Conveniences
   //

@@ -21,6 +21,11 @@ class SharedContentProcessorCreator extends ClientContentProcessorCreator {
       case 'text':
         return TextContentProcessor(facebook!, messenger!);
 
+      // application only
+      case ContentType.APPLICATION:
+      case 'application':
+        return AnyContentProcessor(facebook!, messenger!);
+
       // default
       case ContentType.ANY:
       case 'any':

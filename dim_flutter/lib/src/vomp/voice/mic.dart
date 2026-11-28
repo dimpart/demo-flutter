@@ -33,6 +33,8 @@ import 'dart:typed_data';
 
 import 'package:record/record.dart';
 
+import 'package:lnc/log.dart';
+
 import '../payload/format.dart';
 
 /// Opens the native capture end; delivers raw s16le chunks.
@@ -54,7 +56,7 @@ typedef CaptureSource = Future<Stream<Uint8List>> Function(
 /// // ...
 /// await recorder.stop();
 /// ```
-class MicRecorder {
+class MicRecorder with Logging {
   MicRecorder({int? sampleRate, int? channels, CaptureSource? capture})
       : sampleRate = sampleRate ?? PayloadFormat.defaultSampleRate,
         channels = channels ?? PayloadFormat.defaultChannels {
@@ -113,6 +115,8 @@ class MicRecorder {
     _pending.clear();
     _pendingBytes = 0;
     _frames = 0;
+    _rateWindowStart = null;
+    _rateWindowBytes = 0;
     await _pluginRecorder?.stop();
   }
 
@@ -138,9 +142,37 @@ class MicRecorder {
     if (onFrame == null) {
       return; // nobody is listening, drop it
     }
+    _logCaptureRate(chunk);
     _pending.add(chunk);
     _pendingBytes += chunk.length;
     _slice();
+  }
+
+  /// [opus] capture-rate probe: the first chunk logs immediately, then one
+  /// line every 5s. The expected rate is sampleRate * channels * 2 B/s
+  /// (16kHz mono s16le = 32000 B/s); a doubled rate means the native end
+  /// captures stereo or at 32kHz (the frames then hold 10ms of audio each,
+  /// and the peer hears slowed-down playback).
+  static const _rateLogInterval = Duration(seconds: 5);
+  DateTime? _rateWindowStart;
+  int _rateWindowBytes = 0;
+
+  void _logCaptureRate(Uint8List chunk) {
+    final now = DateTime.now();
+    if (_rateWindowStart == null) {
+      _rateWindowStart = now;
+      logInfo('[opus] capture: first chunk ${chunk.length}B');
+      return;
+    }
+    _rateWindowBytes += chunk.length;
+    final elapsed = now.difference(_rateWindowStart!);
+    if (elapsed < _rateLogInterval) {
+      return;
+    }
+    final rate = _rateWindowBytes * 1000 ~/ elapsed.inMilliseconds;
+    logInfo('[opus] capture: ${rate}B/s (expect 32000B/s)');
+    _rateWindowStart = now;
+    _rateWindowBytes = 0;
   }
 
   /// Emit every complete frame buffered so far - usually zero or one per

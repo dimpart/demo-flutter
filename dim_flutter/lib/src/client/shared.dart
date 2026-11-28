@@ -29,8 +29,6 @@ class GlobalVariable {
     /// Step 6: set messenger
   }
 
-  late final CompatLibraryLoader libraryLoader;
-
   late final Config config;
   late final SharedDatabase database;
 
@@ -60,9 +58,6 @@ class GlobalVariable {
 
   /// Step 1: prepare
   Config createConfig() {
-    // register plugins
-    libraryLoader = CompatLibraryLoader();
-    libraryLoader.run();
     // create config
     Config config = Config();
     config.load();
@@ -76,7 +71,7 @@ class GlobalVariable {
     // purge expired contents
     ServiceContentHandler(db).clearExpiredContents();
     // register for services
-    libraryLoader.registerCustomizedHandlers(db);
+    CompatLibraryLoader().registerCustomizedHandlers(db);
     return db;
   }
 

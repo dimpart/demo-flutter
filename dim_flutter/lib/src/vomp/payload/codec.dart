@@ -32,8 +32,6 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:magpipe/magpipe.dart';
-import 'package:opus_codec/opus_flutter.dart' show load;
-import 'package:opus_codec_dart/opus_codec_dart.dart' as opus;
 
 import 'format.dart';
 import 'frame.dart';
@@ -103,6 +101,10 @@ class PayloadCodec {
   /// Whether the Opus path is active (false => PCM16 pass-through).
   bool get opusReady => _opusReady;
 
+  /// Whether the outbound frames are actually Opus-encoded (the mirror
+  /// policy included): false => PCM16 goes on the wire.
+  bool get sendingOpus => _opusReady && _peerOpusReady;
+
   /// Try to bring up the Opus path (native library + encoders); on any
   /// failure the call survives via the PCM16 pass-through (codec='P',
   /// codec.md section 3). Idempotent.
@@ -123,20 +125,7 @@ class PayloadCodec {
     return Future.value(_createEncoder(factory, true));
   }
 
-  Future<bool> _loadOpus() {
-    try {
-      return load().then((lib) {
-        try {
-          opus.initOpus(lib);
-          return true;
-        } catch (error) {
-          return false;
-        }
-      }).catchError((error) => false);
-    } catch (error) {
-      return Future.value(false);
-    }
-  }
+  Future<bool> _loadOpus() => loadOpusLibrary();
 
   bool _createEncoder(OpusGatewayFactory factory, bool loaded) {
     if (loaded) {
@@ -316,10 +305,13 @@ class PayloadCodec {
       if (gateway == null) {
         return _drop('no-opus');
       }
-      // the TOC is only read for checks (codec.md 4): the config index
-      // 16..31 marks a stereo source - it must match the AAD category
-      if (PayloadFormat.tocIsStereo(plaintext[0]) != (channels == 2)) {
-        return _drop('toc-mismatch');
+      // the TOC is only read for checks (codec.md 4): its stereo flag (the
+      // s bit) must match the channel count declared in the AAD
+      final toc = plaintext[0];
+      if (PayloadFormat.tocIsStereo(toc) != (channels == 2)) {
+        return _drop('toc-mismatch(toc=0x${toc.toRadixString(16).padLeft(2, '0')}'
+            ', toc-stereo=${PayloadFormat.tocIsStereo(toc)}'
+            ', aad-channels=$channels)');
       }
       final samples = gateway.decode(plaintext);
       if (samples == null) {
